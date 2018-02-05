@@ -12,31 +12,30 @@ class Window < Gosu::Window
     super(width, height)
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
-    @player = Player.new("assets/testchar.png",200,300)
-    @camera_x = @camera_y = 0
+    @players = [Player.new("assets/testchar.png",200,300)]
   end
 
   def update
 
     if (Gosu.button_down? Gosu::KB_LEFT)
-      if (@map.move?(@player.x/1200.0, @player.y/900.0, Direction::LEFT))
-        @player.move(-5,0)
+      if (@map.move?(@players[0].x/1200.0, @players[0].y/900.0, Direction::LEFT))
+        @players.each { |p| p.move(-5,0) }
       end
     elsif (Gosu.button_down? Gosu::KB_RIGHT)
-      if(@map.move?(@player.x/1200.0, @player.y/900.0, Direction::RIGHT))
-        @player.move(5,0)
+      if(@map.move?(@players[0].x/1200.0, @players[0].y/900.0, Direction::RIGHT))
+        @players.each { |p| p.move(5,0) }
       end
     end
 
-    @player.move(0,-5) if Gosu.button_down? Gosu::KB_UP
-    @player.move(0,5) if Gosu.button_down? Gosu::KB_DOWN
+    @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
+    @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
 
   end
 
   def draw
-    Gosu.translate(-@player.x+200, -@player.y+300) do
+    Gosu.translate(-@players[0].x+200, -@players[0].y+300) do
       @map.draw()
-      @player.draw()
+      @players.each { |p| p.draw() }
     end
   end
 

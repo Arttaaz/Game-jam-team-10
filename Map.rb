@@ -9,7 +9,7 @@ class Map
     @TILEWIDTH = 1200
     @TILEHEIGHT = 900
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
-    @tilemap = [[0, 1], [1, 0]]
+    @tilemap = [[0, 1, 2], [1, 2, 2], [2, 0, 2]]
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
   end
@@ -54,7 +54,7 @@ class Map
     @HEIGHT.times do |y|
       @WIDTH.times do |x|
         tile = @tilemap[x][y]
-        if tile
+        if tile < 2
           # Draw the tile with an offset (tile images have some overlap)
           # Scrolling is implemented here just as in the game objects.
           @tileset[tile].draw(x * @TILEWIDTH, y * @TILEHEIGHT, 0)
