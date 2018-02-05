@@ -20,16 +20,28 @@ class Map
     case(dir)
     when 0
     when 1
-      if ((x == @tilemap.size - 1) || @tilemap[x+1][y] > 1)
+      if ((x*1200+200)/1200 == @tilemap.size)
         return false
+      elsif (x+1 < @tilemap.size - 1)
+        if (((x+1)*1200) > (x*1200))
+          return true
+        else
+          return false
+        end
       else
         return true
       end
 
     when 2
     when 3
-      if ((x == 0) || @tilemap[x-1][y] > 1)
+      if (x == 0)
         return false
+      elsif  x-1 > 0
+        if (((x-1)*1200) < x*1200)
+          return true
+        else
+          return false
+        end
       else
         return true
       end

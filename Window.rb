@@ -19,11 +19,11 @@ class Window < Gosu::Window
   def update
 
     if (Gosu.button_down? Gosu::KB_LEFT)
-      if (@map.move?(@player.x/1200, @player.y/900, Direction::LEFT))
+      if (@map.move?(@player.x/1200.0, @player.y/900.0, Direction::LEFT))
         @player.move(-5,0)
       end
     elsif (Gosu.button_down? Gosu::KB_RIGHT)
-      if(@map.move?(@player.x/1200, @player.y/900, Direction::RIGHT))
+      if(@map.move?(@player.x/1200.0, @player.y/900.0, Direction::RIGHT))
         @player.move(5,0)
       end
     end
