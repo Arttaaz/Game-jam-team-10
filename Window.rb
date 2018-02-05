@@ -11,6 +11,7 @@ class Game < Gosu::Window
   end
 
   def draw
+    @player.draw()
   end
 
 end

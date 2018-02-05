@@ -10,4 +10,7 @@ class Player
     @health = 100
   end
 
+  def draw
+  end
+
 end
