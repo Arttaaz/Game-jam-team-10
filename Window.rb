@@ -1,5 +1,6 @@
 require 'gosu'
 load 'Map.rb'
+load 'Player.rb'
 
 class Window < Gosu::Window
 
@@ -7,6 +8,7 @@ class Window < Gosu::Window
     super(width, height)
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
+    @player = Player.new("assets/testchar.png",200,300)
     @camera_x = @camera_y = 0
   end
 
@@ -21,6 +23,7 @@ class Window < Gosu::Window
 
     Gosu.translate(-@camera_x, -@camera_y) do
       @map.draw()
+      @player.draw()
     end
   end
 
