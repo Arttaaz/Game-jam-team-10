@@ -3,6 +3,7 @@ require 'gosu'
 
 class Map
 
+
   @tilemap
 
   def initialize(tileset)
