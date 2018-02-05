@@ -1,8 +1,9 @@
 require 'gosu'
+load 'Map.rb'
 
 class Game < Gosu::Window
 
-  def initialize (width, height)
+  def initialize(width, height)
     super(width, height)
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
@@ -12,7 +13,8 @@ class Game < Gosu::Window
   end
 
   def draw
-    @player.draw()
+    #@player.draw()
+    @map.draw()
   end
 
 end
