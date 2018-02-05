@@ -1,7 +1,7 @@
 require 'gosu'
 load 'Map.rb'
 
-class Game < Gosu::Window
+class Window < Gosu::Window
 
   def initialize(width, height)
     super(width, height)

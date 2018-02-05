@@ -15,6 +15,7 @@ class Map
   end
 
   def draw
+    @tilemap
     @tilemap.each { |i| { x = 0 @tileset[i].draw(x*1600, 0) x = x+1 } }
   end
 
