@@ -15,10 +15,11 @@ module Effect
   SHIELD  = 1
   POWER   = 2
   POW_REN = 3
-  DAMAGE  = 4
-  PHY_DEF = 5
-  ENG_DEF = 6
-  SPEED   = 7
+  PHY_DMG = 4
+  ENG_DMG = 5
+  PHY_DEF = 6
+  ENG_DEF = 7
+  SPEED   = 8
 end
 
 module Who
