@@ -27,6 +27,10 @@ class Window < Gosu::Window
         @player.move(5,0)
       end
     end
+
+    @player.move(0,-5) if Gosu.button_down? Gosu::KB_UP
+    @player.move(0,5) if Gosu.button_down? Gosu::KB_DOWN
+
   end
 
   def draw

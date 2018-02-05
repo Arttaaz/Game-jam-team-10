@@ -31,6 +31,8 @@ end
 
 class Skill
 
+  attr_reader :type, :action, :effect, :who, :modifier
+
   def initialize(type, action, effect, who, modifier)
     @type = type
     @action = action
