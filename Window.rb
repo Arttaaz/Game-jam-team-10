@@ -2,6 +2,10 @@ require 'gosu'
 load 'Map.rb'
 load 'Player.rb'
 
+module Direction
+  UP,RIGHT,DOWN,LEFT = *0..3
+end
+
 class Window < Gosu::Window
 
   def initialize(width, height)
@@ -13,12 +17,20 @@ class Window < Gosu::Window
   end
 
   def update
-    @camera_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
-    @camera_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
+
+    if (Gosu.button_down? Gosu::KB_LEFT)
+      if (@map.move?(@player.x/1200, @player.y/900, Direction::LEFT))
+        @player.move(-5,0)
+      end
+    elsif (Gosu.button_down? Gosu::KB_RIGHT)
+      if(@map.move?(@player.x/1200, @player.y/900, Direction::RIGHT))
+        @player.move(5,0)
+      end
+    end
   end
 
   def draw
-    Gosu.translate(-@camera_x, -@camera_y) do
+    Gosu.translate(-@player.x+200, -@player.y+300) do
       @map.draw()
       @player.draw()
     end
