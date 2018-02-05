@@ -1,4 +1,7 @@
 require 'gosu'
 load 'Window.rb'
 
-Window.new(800,600).show()
+WindowWidth = 1600
+WindowHeight = 900
+
+Window.new(WindowWidth,WindowHeight).show()
