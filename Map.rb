@@ -15,11 +15,7 @@ class Map
   end
 
   def draw
-    @tilemap.size().times do |i|
-      x = 0
-      @tileset[i].draw(x*1600, 0)
-      x = x+1
-    end
+    @tilemap.each { |i| { x = 0 @tileset[i].draw(x*1600, 0) x = x+1 } }
   end
 
 end
