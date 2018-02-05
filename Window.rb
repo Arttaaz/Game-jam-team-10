@@ -12,7 +12,7 @@ class Window < Gosu::Window
     super(width, height)
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
-    @players = [Player.new("assets/testchar.png",200,300), Player.new('assets/testchar.png', 400, 300)]
+    @players = [Player.new("assets/testchar.png",200,150), Player.new('assets/testchar.png', 400, 150)]
   end
 
   def update
@@ -33,10 +33,10 @@ class Window < Gosu::Window
   end
 
   def draw
-    Gosu.translate(-@players[0].x+200, -@players[0].y+300) do
+    Gosu.translate(-@players[0].x+200, -@players[0].y+150) do
       @map.draw()
       @players.each { |p| p.draw() }
-      Gosu.draw_rect(0, 600, 1200, 300, Gosu::Color::GRAY, 0)
+      Gosu.draw_rect(@players[0].x-200, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)
     end
   end
 
