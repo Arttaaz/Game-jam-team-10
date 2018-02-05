@@ -10,6 +10,7 @@ class Player
     @x = x
     @y = y
     @health = 100
+    @power = 100
   end
 
   def move(x,y)

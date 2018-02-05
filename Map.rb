@@ -16,7 +16,6 @@ class Map
   end
 
   def move?(x,y,dir)
-    puts x
     case(dir)
     when 0
     when 1
