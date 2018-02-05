@@ -7,6 +7,7 @@ class Player
     @image = image
     @x = x
     @y = y
+    @health = 100
   end
 
 end
