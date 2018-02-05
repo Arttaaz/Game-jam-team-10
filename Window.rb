@@ -36,7 +36,7 @@ class Window < Gosu::Window
     Gosu.translate(-@players[0].x+200, -@players[0].y+150) do
       @map.draw()
       @players.each { |p| p.draw() }
-      Gosu.draw_rect(@players[0].x-200, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)
+      Gosu.draw_rect(@players[0].x-200, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)  # soon to be real IHM
     end
   end
 
