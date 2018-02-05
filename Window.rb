@@ -13,14 +13,11 @@ class Window < Gosu::Window
   end
 
   def update
-
+    @camera_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
+    @camera_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
   end
 
   def draw
-
-    @camera_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
-    @camera_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
-
     Gosu.translate(-@camera_x, -@camera_y) do
       @map.draw()
       @player.draw()
