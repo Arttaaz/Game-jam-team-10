@@ -12,7 +12,7 @@ class Map
     @TILEWIDTH = 1200
     @TILEHEIGHT = 900
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
-    @tilemap = [[2, 1, 0], [1, 2, 0], [0, 1, 0]]
+    @tilemap = [[1, 1, 0], [1, 1, 0], [1, 1, 0]]
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
   end
@@ -20,13 +20,14 @@ class Map
   def generate
   end
 
-  def move?(x,y,dir)
+  def move?(xleft, xright,y,dir)
+    puts xleft
     case(dir)
     when Direction::LEFT
-      if (x == 0)
+      if ((xleft*1200-100)/1200 == 0)
         return false
-      elsif  x-1 > 0
-        if (((x-1)*1200) < x*1200)
+      elsif  xleft-1 > 0
+        if (((xleft-1)*1200) < xleft*1200)
           return true
         else
           return false
@@ -35,10 +36,10 @@ class Map
         return true
       end
     when Direction::RIGHT
-      if ((x*@TILEWIDTH+200)/1200 == @WIDTH*1200)
+      if ((xright*@TILEWIDTH+200)/1200 == @WIDTH)
         return false
-      elsif (x+1 < @WIDTH - 1)
-        if (((x+1)*1200) > (x*1200))
+      elsif (xright+1 < @WIDTH - 1)
+        if (((xright+1)*1200) > (xright*1200))
           return true
         else
           return false
