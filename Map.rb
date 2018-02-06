@@ -4,6 +4,10 @@ module Direction
   LEFT,RIGHT = *0..1
 end
 
+module Event
+  ENCOUNTER,LOOT,FRIENDLY = *0..2
+end
+
 class Map
 
   attr_reader :tilemap
@@ -38,9 +42,9 @@ class Map
         else
           case(t)
           when "medbay"
-            @tilemap[x][y] = 3+rand(1)
+            @tilemap[x][y] = 3+rand(2)
           when "recreation"
-            @tilemap[x][y] = 3+rand(1)
+            @tilemap[x][y] = 3+rand(2)
           end
         end
       }
@@ -76,11 +80,11 @@ class Map
         return true
       end
     when Direction::RIGHT
-      if ((xright*@TILEWIDTH+200)/1200 == @WIDTH)
+      if ((xleft.to_i+1) == @WIDTH)
         return false
       elsif (xright+1 < @WIDTH - 1)
         if @tilemap[xright+1][y] == 0
-          if (((xright+1).to_i*1200) > (xright*1200+200).to_i)
+          if (((xright+1).to_i*1200) > ((xleft.to_i+1)*1200).to_i)
             return true
           else
             return false

@@ -1,6 +1,7 @@
 require 'gosu'
 load 'Map.rb'
 load 'Player.rb'
+load 'Enemy.rb'
 load 'IHM.rb'
 load 'Skill.rb'
 
@@ -11,36 +12,32 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
-    @yStart = 150+ 2*600
+    @yStart = 250+ 2*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-150,@players[0])
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250,@players[0])
     @fighting = false
     @moveRight = @moveLeft = false
   end
 
   def update
-    if @fighting == false
-      if @players[0].vel_x == 0
+    if @fighting == false #if not in a fight
+      if @players[0].vel_x == 0 #if not moving
         if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
           @moveLeft = true
-          #if (Gosu.button_down? Gosu::KB_LEFT)
-          #  @players.each { |p| p.move(-5,0) }
-          #end
         else
           @moveLeft = false
         end
 
         if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::RIGHT))
           @moveRight = true
-          #if (Gosu.button_down? Gosu::KB_RIGHT)
-          #  @players.each { |p| p.move(5,0) }
-          #end
         else
           @moveRight = false
         end
 
         @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
         @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
+      else
+        @moveLeft = @moveRight = false
       end
 
       @players.each { |p| p.update() }
@@ -49,10 +46,10 @@ class Window < Gosu::Window
   end
 
   def draw
-    Gosu.translate(-@players[0].x+100, -@players[0].y+150) do
+    Gosu.translate(-@players[0].x+100, -@players[0].y+250) do
       @map.draw()
       @players.each { |p| p.draw() }
-      Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)
+      Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-250, 1200, 300, Gosu::Color::GRAY, 0)
       @ihm.draw
       if @moveLeft
         Gosu::Image.new("assets/testarrow.png", :tileable => true).draw(@players[0].x-30, @players[0].y, 2, -1)
@@ -81,6 +78,22 @@ class Window < Gosu::Window
     else
       super
     end
+  end
+
+  def event
+
+    e = ["Encounter", "Loot"]
+    if(@players.size < 3)
+      e << "Friendly"
+    end
+    e.shuffle!
+    case(e.pop)
+    when "Encounter"
+      (rand(2)+1).times { @ennemies << Ennemy.new() }
+    when "Loot"
+    when "Friendly"
+    end
+
   end
 
   def needs_cursor?

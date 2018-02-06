@@ -51,10 +51,10 @@ class IHM < Gosu::Window
   def update(x,y)
     @x = x
     @y = y
-    @carte.update(@x-100, @y+450)
-    @stats.update(@x+35, @y+450)
-    @skills.update(@x+170, y+450)
-    @objects.update(@x+305, @y+450)
+    @carte.update(x-100, y+350)
+    @stats.update(x+35, y+350)
+    @skills.update(x+170, y+350)
+    @objects.update(x+305, y+350)
   end
 
   def click(x, y, xx, yy)
@@ -65,7 +65,6 @@ class IHM < Gosu::Window
   end
 
   def box
-
 =begin
     draw_rect(@x+100,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
     draw_rect(@x+190,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
@@ -78,7 +77,6 @@ class IHM < Gosu::Window
 
     @font.draw("Bouclier: " + @players[0].shield.to_s + "/" + @players[0].maxShield.to_s,  @x-90, @y+550, 1, 1.0, 1.0, Gosu::Color::CYAN)
     @font.draw("Santé: " + @players[0].health.to_s + "/" + @players[0].maxHealth.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::RED)
-
 =begin
     draw_rect(@x-100,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
     draw_rect(@x+35,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
