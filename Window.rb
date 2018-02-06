@@ -20,6 +20,11 @@ class Window < Gosu::Window
     @moveRight = @moveLeft = false
     @newTile = false
 
+    @@SkillList = [
+
+    ]
+
+
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
     case @enemyRace
     when "Human"
@@ -100,6 +105,10 @@ class Window < Gosu::Window
           @newTile = true
         end
       end
+      @players.each { |p| p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x)}
+      if @enemies != []
+        @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
+      end
     when Gosu::KB_LEFT
       if @moveLeft
           @players.each { |p| p.vel_x = -5 }
@@ -126,10 +135,20 @@ class Window < Gosu::Window
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       @fighting = true
+      self.fight
     when "Loot"
     when "Friendly"
     end
+  end
 
+  def fight
+    @turnOrder = []
+    @players.each { |p| @turnOrder << [p.speed, p]}
+    @enemies.each { |e| @turnOrder << [e.speed, e]}
+    @turnOrder.sort!.reverse!
+    @turnOrder << []
+    @currentTurn = 0
+    @currentActor = @turnOrder.first[1]
   end
 
   def needs_cursor?

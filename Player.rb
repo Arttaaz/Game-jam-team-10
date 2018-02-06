@@ -9,6 +9,7 @@ class Player
   attr_accessor :vel_x
 
   def initialize(image, x, y)
+    @skills = []
     @races = ["humain", "robot", "infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
@@ -24,6 +25,7 @@ class Player
     @race = @races[rand(0..2)]
     @class = @classes[rand(0..2)]
     redefStats(@race)
+    @color = 0xff_ffffff
   end
 
   def move(x,y)
@@ -32,7 +34,7 @@ class Player
   end
 
   def draw
-    @image.draw(@x,@y,1)
+    @image.draw(@x,@y,1, 1, 1, @color)
     Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 0)
     Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
@@ -42,6 +44,12 @@ class Player
   end
 
   def update
+    if @health == 0
+      @shield = 0
+      @power = 0
+      @color = Gosu::Color::GRAY
+    end
+
     if @vel_x != 0
       self.move(@vel_x, 0)
       @distance = @distance + @vel_x
@@ -87,9 +95,9 @@ class Player
     #todo
   end
 
-  def isClicked?(x, y)
-    if (x >= @x+100) && (y >= @y+150)
-      if (x <= @x+190) && (y <= @y+450)
+  def isClicked?(x, y, xx)
+    if (x >= @x-xx+100) && (y >= 150)
+      if (x <= @x-xx+190) && (y <= 450)
         return true
       else
         return false
