@@ -51,10 +51,10 @@ class IHM < Gosu::Window
   def update(x,y)
     @x = x
     @y = y
-    @carte.update(x-100, y+450)
-    @stats.update(x+35, y+450)
-    @skills.update(x+170, y+450)
-    @objects.update(x+305, y+450)
+    @carte.update(@x-100, @y+450)
+    @stats.update(@x+35, @y+450)
+    @skills.update(@x+170, y+450)
+    @objects.update(@x+305, @y+450)
   end
 
   def click(x, y, xx, yy)
