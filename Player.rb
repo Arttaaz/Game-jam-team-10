@@ -1,9 +1,10 @@
 require 'gosu'
+load 'Skill.rb'
 
 
 class Player
 
-  attr_reader :x, :y, :health
+  attr_reader :x, :y, :health, :maxHealth, :maxPower, :power, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills
 
   def initialize(image, x, y)
     @image = Gosu::Image.new(image, :tileable => true)
