@@ -53,7 +53,7 @@ class Map
       if x < 5
         @tilemap[x][2] = 0
       else
-        @tilemap[x][2] = 1+rand(1)
+        @tilemap[x][2] = 1+rand(2)
       end
     }
 
@@ -101,7 +101,9 @@ class Map
     @HEIGHT.times do |y|
       @WIDTH.times do |x|
         tile = @tilemap[x][y]
-        @tileset[tile].draw(x * @TILEWIDTH, y * @TILEHEIGHT, 0)
+        if tile != 0
+          @tileset[tile].draw(x * @TILEWIDTH, y * @TILEHEIGHT, 0)
+        end
       end
     end
   end
