@@ -36,7 +36,7 @@ class Player
     Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 0)
     Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::RED, 0)
+    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 0)
     Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 0)
   end
@@ -80,6 +80,20 @@ class Player
       @phy_def = rand(14..18)
       @eng_def = rand(10..14)
       @speed = rand(8..16)
+    end
+  end
+
+  def levelup
+    #todo
+  end
+
+  def isClicked?(x, y)
+    if (x >= @x+100) && (y >= @y+150)
+      if (x <= @x+190) && (y <= @y+450)
+        return true
+      else
+        return false
+      end
     end
   end
 
