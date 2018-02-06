@@ -13,45 +13,29 @@ class IHM < Gosu::Window
     self.box
   end
 
+  def update(x,y)
+    @x = x
+    @y = y
+  end
+
   def box
-=begin
-    draw_rect(560,605,610,290,Gosu::Color::BLACK, z=0, :default)
-    draw_rect(200,605,70,70,Gosu::Color::WHITE, z=0, :default)
-    draw_rect(290,605,70,70,Gosu::Color::WHITE, z=0, :default)
-    draw_rect(380,605,70,70,Gosu::Color::WHITE, z=0, :default)
-    draw_rect(470,605,70,70,Gosu::Color::WHITE, z=0, :default)
+    draw_rect(@x+465,@y+455,610,290,Gosu::Color::BLACK, z=0, :default)
+    draw_rect(@x+100,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
+    draw_rect(@x+190,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
+    draw_rect(@x+280,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
+    draw_rect(@x+370,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
 
-    @font.draw("Human",  10, 605, 1, 2.0, 2.0, Gosu::Color::BLUE)
-    @font.draw("Soldier",  10, 640, 1, 2.0, 2.0, Gosu::Color::BLUE)
+    @font.draw("Human",  @x-90, @y+455, 1, 2.0, 2.0, Gosu::Color::BLUE)
+    @font.draw("Soldier",  @x-90, @y+490, 1, 2.0, 2.0, Gosu::Color::BLUE)
 
-    @font.draw("Damage: 35",  10, 720, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Physical def: 8",  10, 750, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Energy def : 8",  10, 780, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Speed : 12",  10, 810, 1, 1.0, 1.0, Gosu::Color::GREEN)
+    @font.draw("Damage: 35",  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::GREEN)
+    @font.draw("Physical def: 8",  @x-90, @y+600, 1, 1.0, 1.0, Gosu::Color::GREEN)
+    @font.draw("Energy def : 8",  @x-90, @y+630, 1, 1.0, 1.0, Gosu::Color::GREEN)
+    @font.draw("Speed : 12",  @x-90, @y+660, 1, 1.0, 1.0, Gosu::Color::GREEN)
 
-    @font.draw("Item list",  300, 690, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
-=end
-
-    draw_rect(560,605,610,290,Gosu::Color::BLACK, z=0, :default)
-    draw_rect(200,605,70,70,Gosu::Color::WHITE, z=0, :default)
-    draw_rect(290,605,70,70,Gosu::Color::WHITE, z=0, :default)
-    draw_rect(380,605,70,70,Gosu::Color::WHITE, z=0, :default)
-    draw_rect(470,605,70,70,Gosu::Color::WHITE, z=0, :default)
-
-    @font.draw("Human",  -@x, -@y, 1, 2.0, 2.0, Gosu::Color::BLUE)
-    @font.draw("Soldier",  10, 640, 1, 2.0, 2.0, Gosu::Color::BLUE)
-
-    @font.draw("Damage: 35",  10, 720, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Physical def: 8",  10, 750, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Energy def : 8",  10, 780, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Speed : 12",  10, 810, 1, 1.0, 1.0, Gosu::Color::GREEN)
-
-    @font.draw("Item list",  300, 690, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
+    @font.draw("Item list",  @x+200, @y+540, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 
   end
 
 
 end
-
-# mettre @players dans variables x,y
-# pour les utiliser dans les fonctions draw d'IHM
