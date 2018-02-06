@@ -27,21 +27,31 @@ class IHM < Gosu::Window
     draw_rect(@x+280,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
     draw_rect(@x+370,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
 
-    @font.draw(@player.race,  @x-90, @y+455, 1, 2.0, 2.0, Gosu::Color::BLUE)
-    @font.draw(@player.class,  @x-90, @y+490, 1, 2.0, 2.0, Gosu::Color::BLUE)
+    @font.draw(@player.class,  @x-90, @y+455, 1, 2.0, 2.0, Gosu::Color::BLUE)
+    @font.draw(@player.race,  @x-90, @y+490, 1, 2.0, 2.0, Gosu::Color::BLUE)
 
-    @font.draw("Damage: " + @player.damage.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Physical def: " + @player.phy_def.to_s,  @x-90, @y+600, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Energy def : " + @player.eng_def.to_s,  @x-90, @y+630, 1, 1.0, 1.0, Gosu::Color::GREEN)
-    @font.draw("Speed : " + @player.speed.to_s,  @x-90, @y+660, 1, 1.0, 1.0, Gosu::Color::GREEN)
+    @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+550, 1, 1.0, 1.0, Gosu::Color::CYAN)
+    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::RED)
 
-    @font.draw("Item list",  @x+200, @y+540, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
+    @font.draw("Dégâts: " + @player.damage.to_s,  @x-90, @y+620, 1, 1.0, 1.0, Gosu::Color::BLACK)
+    @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x-90, @y+650, 1, 1.0, 1.0, Gosu::Color::BLACK)
+    @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x-90, @y+680, 1, 1.0, 1.0, Gosu::Color::BLACK)
+    @font.draw("Vitesse: " + @player.speed.to_s,  @x-90, @y+710, 1, 1.0, 1.0, Gosu::Color::BLACK)
+
+    @font.draw("Liste d'objets",  @x+200, @y+540, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 
   end
 
 
 end
 
-# selon race
-# enum dans player (trois races), constructer (param race, class?)
-# check les stats
+=begin
+4 onglets
+Carte:  - gauche: interface combat avec skills
+      - droite: mini mini-map
+stats:  stats des trois monsieurs placées coat à coat
+Capacités (grisés pour ceux qui sont pas débloqués): - gauche: skills
+                                                  - droite: passifs
+Objets:  - gauche: items portés actuellement par les personnages
+        - droite: inventaire
+=end

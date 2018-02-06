@@ -4,11 +4,12 @@ load 'Skill.rb'
 
 class Player
 
-  @races = ["Human", "Robot", "Infected"]
-  @classes = ["Soldier", "Scientist", "Engineer"]
+
   attr_reader :x, :y, :health, :maxHealth, :maxPower, :power, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race
 
   def initialize(image, x, y)
+    @races = ["humain", "robot", "infecté"]
+    @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
     @x = x
     @y = y
@@ -19,8 +20,8 @@ class Player
     @phy_def = 8
     @eng_def = 8
     @damage = 35
-    @race = "Infected"#@races[1]
-    @class = "Scientist"#@classes[1]
+    @race = @races[rand(0..2)]
+    @class = @classes[rand(0..2)]
     redefStats(@race)
   end
 
@@ -36,11 +37,11 @@ class Player
     Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+315, @health*100/@maxHealth, 10, Gosu::Color::RED, 0)
     Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+330, @power*100/@maxPower, 10, Gosu::Color::GREEN, 0)
+    Gosu.draw_rect(x, y+330, @power*100/@maxPower, 10, Gosu::Color::FUCHSIA, 0)
   end
 
   def redefStats(race)
-    if @race == "Human"#@races[0]
+    if @race == @races[0]
       @maxHealth = rand(100..200)
       @maxShield = rand(40..60)
       @maxPower = 100
@@ -48,7 +49,7 @@ class Player
       @phy_def = rand(8..12)
       @eng_def = rand(8..12)
       @speed = rand(12..18)
-    elsif @race == "Robot"#@races[1]
+    elsif @race == @races[1]
       @maxHealth = rand(70..90)
       @maxShield = rand(70..90)
       @maxPower = 120
@@ -56,7 +57,7 @@ class Player
       @phy_def = rand(4..8)
       @eng_def = rand(6..12)
       @speed = rand(14..20)
-    else #@race == "Infected" or @races[2]
+    else #@race == @races[2]
       @maxHealth = rand(140..180)
       @maxShield = 1000 #lààààààà c'est 000000
       @maxPower = 80
