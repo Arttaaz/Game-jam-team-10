@@ -10,10 +10,10 @@ class IHM < Gosu::Window
     @y = y
     @font = Gosu::Font.new(20)
     @player = player
-    @carte = Button.new("Carte", @x-100,@y+450,130,50,Gosu::Color::WHITE, @font)
-    @stats = Button.new("Stats", @x+35,@y+450,130,50,Gosu::Color::WHITE, @font)
-    @skills = Button.new("Capacites", @x+170,@y+450,130,50,Gosu::Color::WHITE, @font)
-    @objects = Button.new("Objets", @x+305,@y+450,130,50,Gosu::Color::WHITE, @font)
+    @carte = Button.new("Carte", @x-100,@y+350,130,50,Gosu::Color::WHITE, @font)
+    @stats = Button.new("Stats", @x+35,@y+350,130,50,Gosu::Color::WHITE, @font)
+    @skills = Button.new("Capacites", @x+170,@y+350,130,50,Gosu::Color::WHITE, @font)
+    @objects = Button.new("Objets", @x+305,@y+350,130,50,Gosu::Color::WHITE, @font)
   end
 
   def draw
@@ -23,21 +23,21 @@ class IHM < Gosu::Window
   def update(x,y)
     @x = x
     @y = y
-    @carte.update(x-100, y+450)
-    @stats.update(x+35, y+450)
-    @skills.update(x+170, y+450)
-    @objects.update(x+305, y+450)
+    @carte.update(x-100, y+350)
+    @stats.update(x+35, y+350)
+    @skills.update(x+170, y+350)
+    @objects.update(x+305, y+350)
   end
 
   def click(x, y, xx, yy)
-    @carte.isInside?(x, y, xx, yy)  
+    @carte.isInside?(x, y, xx, yy)
     @stats.isInside?(x, y, xx, yy)
     @skills.isInside?(x, y, xx, yy)
     @objects.isInside?(x, y, xx, yy)
   end
 
   def box
-    draw_rect(@x+465,@y+455,610,290,Gosu::Color::BLACK, z=0, :default)
+    draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default)
 =begin
     draw_rect(@x+100,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
     draw_rect(@x+190,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
@@ -48,8 +48,8 @@ class IHM < Gosu::Window
     @font.draw(@player.race,  @x-90, @y+490, 1, 2.0, 2.0, Gosu::Color::BLUE)
 =end
 
-    @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+550, 1, 1.0, 1.0, Gosu::Color::CYAN)
-    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::RED)
+    @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+450, 1, 1.0, 1.0, Gosu::Color::CYAN)
+    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::RED)
 =begin
     draw_rect(@x-100,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
     draw_rect(@x+35,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
