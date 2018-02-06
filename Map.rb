@@ -1,5 +1,8 @@
 require 'gosu'
 
+module Direction
+  LEFT,RIGHT = *0..1
+end
 
 class Map
 
@@ -9,7 +12,7 @@ class Map
     @TILEWIDTH = 1200
     @TILEHEIGHT = 900
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
-    @tilemap = [[0, 1, 2], [1, 2, 2], [2, 0, 2]]
+    @tilemap = [[1, 1, 0], [1, 1, 0], [1, 1, 0]]
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
   end
@@ -17,14 +20,14 @@ class Map
   def generate
   end
 
-  def move?(x,y,dir)
+  def move?(xleft, xright,y,dir)
+    puts xleft
     case(dir)
-    when 0
-    when 1
-      if ((x*1200+200)/1200 == @WIDTH)
+    when Direction::LEFT
+      if ((xleft*1200-100)/1200 == 0)
         return false
-      elsif (x+1 < @WIDTH - 1)
-        if (((x+1)*1200) > (x*1200))
+      elsif  xleft-1 > 0
+        if (((xleft-1)*1200) < xleft*1200)
           return true
         else
           return false
@@ -32,13 +35,11 @@ class Map
       else
         return true
       end
-
-    when 2
-    when 3
-      if (x == 0)
+    when Direction::RIGHT
+      if ((xright*@TILEWIDTH+200)/1200 == @WIDTH)
         return false
-      elsif  x-1 > 0
-        if (((x-1)*1200) < x*1200)
+      elsif (xright+1 < @WIDTH - 1)
+        if (((xright+1)*1200) > (xright*1200))
           return true
         else
           return false
@@ -54,7 +55,7 @@ class Map
     @HEIGHT.times do |y|
       @WIDTH.times do |x|
         tile = @tilemap[x][y]
-        if tile < 2
+        if tile != 0
           # Draw the tile with an offset (tile images have some overlap)
           # Scrolling is implemented here just as in the game objects.
           @tileset[tile].draw(x * @TILEWIDTH, y * @TILEHEIGHT, 0)
