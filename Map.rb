@@ -34,7 +34,6 @@ class Map
         l = 3 - rand(4)
       end
       l = l + (2-y)
-      puts l
       9.times { |x|
         if l > 0
           @tilemap[x][y] = 0
