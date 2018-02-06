@@ -11,9 +11,9 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
-    @yStart = 150+ 2*600
+    @yStart = 250+ 2*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-150,@players[0])
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250,@players[0])
     @fighting = false
     @moveRight = @moveLeft = false
   end
@@ -41,6 +41,8 @@ class Window < Gosu::Window
 
         @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
         @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
+      else
+        @moveLeft = @moveRight = false
       end
 
       @players.each { |p| p.update() }
@@ -49,10 +51,10 @@ class Window < Gosu::Window
   end
 
   def draw
-    Gosu.translate(-@players[0].x+100, -@players[0].y+150) do
+    Gosu.translate(-@players[0].x+100, -@players[0].y+250) do
       @map.draw()
       @players.each { |p| p.draw() }
-      Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)
+      Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-250, 1200, 300, Gosu::Color::GRAY, 0)
       @ihm.draw
       if @moveLeft
         Gosu::Image.new("assets/testarrow.png", :tileable => true).draw(@players[0].x-30, @players[0].y, 2, -1)

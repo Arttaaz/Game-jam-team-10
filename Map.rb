@@ -80,7 +80,7 @@ class Map
         return false
       elsif (xright+1 < @WIDTH - 1)
         if @tilemap[xright+1][y] == 0
-          if (((xright+1).to_i*1200) > (xright*1200+200).to_i)
+          if (((xright+1).to_i*1200) > ((xleft.to_i+1)*1200).to_i)
             return true
           else
             return false
