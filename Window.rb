@@ -10,7 +10,7 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
     @players = [Player.new("assets/testchar.png",100,150), Player.new('assets/testchar.png', 250, 150), Player.new('assets/testchar.png', 400, 150), Player.new('assets/testchar.png', 550, 150)]
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-150)
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-150,@players[0])
   end
 
   def update
