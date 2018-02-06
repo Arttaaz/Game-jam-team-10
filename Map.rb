@@ -12,6 +12,7 @@ class Map
     @TILEWIDTH = 1200
     @TILEHEIGHT = 600
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
+    puts @tileset.size
     @tilemap = [[1, 2, 1], [2, 0, 1], [1, 1, 0]]
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
@@ -21,16 +22,20 @@ class Map
   end
 
   def move?(xleft, xright,y,dir)
-    puts xleft
+    y = y+0.5
     case(dir)
     when Direction::LEFT
       if ((xleft*1200-100)/1200 == 0)
         return false
       elsif  xleft-1 > 0
-        if (((xleft-1)*1200) < xleft*1200)
-          return true
+        if @tilemap[xleft-1][y] == 0
+          if (((xleft-1).to_i*1200+1200) < (xleft*1200-100).to_i)
+            return true
+          else
+            return false
+          end
         else
-          return false
+          return true
         end
       else
         return true
@@ -39,10 +44,14 @@ class Map
       if ((xright*@TILEWIDTH+200)/1200 == @WIDTH)
         return false
       elsif (xright+1 < @WIDTH - 1)
-        if (((xright+1)*1200) > (xright*1200))
-          return true
+        if @tilemap[xright+1][y] == 0
+          if (((xright+1).to_i*1200) > (xright*1200+200).to_i)
+            return true
+          else
+            return false
+          end
         else
-          return false
+          return true
         end
       else
         return true
@@ -51,19 +60,12 @@ class Map
   end
 
   def draw
-
     @HEIGHT.times do |y|
       @WIDTH.times do |x|
         tile = @tilemap[x][y]
         @tileset[tile].draw(x * @TILEWIDTH, y * @TILEHEIGHT, 0)
       end
     end
-
-    #size = @tilemap.size
-    #x=0
-    #size.times do |i|
-    #  @tileset[i].draw(x*@WIDTH, 0, 0)
-    #   x = x+1
   end
 
 end

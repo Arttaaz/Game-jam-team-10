@@ -8,7 +8,7 @@ class Window < Gosu::Window
   def initialize(width, height)
     super(width, height)
     self.caption = "Rogue-like"
-    @map = Map.new("assets/test.png")
+    @map = Map.new("assets/TileSet.png")
     @players = [Player.new("assets/testchar.png",100,150), Player.new('assets/testchar.png', 250, 150), Player.new('assets/testchar.png', 400, 150)]
     @ihm = IHM.new(@players[0].x-100,@players[0].y-150)
   end
