@@ -10,8 +10,7 @@ class Player
     @image = Gosu::Image.new(image, :tileable => true)
     @x = x
     @y = y
-    @maxHealth = 100
-    @health = 80
+    @maxHealth = @health = 100
     @maxPower = 100
     @power = 100
     @maxShield = 100

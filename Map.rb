@@ -6,19 +6,34 @@ end
 
 class Map
 
-  #attr_reader :tilemap
+  attr_reader :tilemap
 
   def initialize(tileset)
     @TILEWIDTH = 1200
     @TILEHEIGHT = 600
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
-    puts @tileset.size
-    @tilemap = [[1, 2, 1], [2, 0, 1], [1, 1, 0]]
+    @tilemap = [[], [], [], [], []]
+    #@tilemap = [[1, 2, 1], [2, 0, 1], [1, 1, 0]]
+    self.generate
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
+
   end
 
   def generate
+    3.times { |y|
+      l = 3 - rand(4)
+      puts l
+      5.times { |x|
+        if l > 0
+          @tilemap[x][y] = 0
+          l = l-1
+        else
+          @tilemap[x][y] = 1+rand(2)
+        end
+      }
+    }
+
   end
 
   def move?(xleft, xright,y,dir)

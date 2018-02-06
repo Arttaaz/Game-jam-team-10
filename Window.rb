@@ -9,12 +9,13 @@ class Window < Gosu::Window
     super(width, height)
     self.caption = "Rogue-like"
     @map = Map.new("assets/TileSet.png")
-    @players = [Player.new("assets/testchar.png",100,150), Player.new('assets/testchar.png', 250, 150), Player.new('assets/testchar.png', 400, 150)]
+    @xStart = 100+4*1200
+    @yStart = 150+ 2*600
+    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
     @ihm = IHM.new(@players[0].x-100,@players[0].y-150)
   end
 
   def update
-
     if (Gosu.button_down? Gosu::KB_LEFT)
       if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
         @players.each { |p| p.move(-5,0) }
