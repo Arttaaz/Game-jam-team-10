@@ -23,6 +23,9 @@ class Skill
     if @duration != 0
       self.activate
       @duration = @duration - 1
+    elsif @temp == true
+      @modifier = -@modifier
+      self.activate
     end
   end
 
