@@ -17,6 +17,15 @@ class Window < Gosu::Window
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250,@players[0])
     @fighting = false
     @moveRight = @moveLeft = false
+
+    @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
+    case @enemyRace
+    when "Human"
+    when "Robot"
+    when "Infested"
+    end
+
+
   end
 
   def update
@@ -74,6 +83,14 @@ class Window < Gosu::Window
         if self.mouse_y >= 150 && self.mouse_y <= 450
           @players.each { |p| p.vel_x = 5 }
         end
+      end
+    when Gosu::KB_LEFT
+      if @moveLeft
+          @players.each { |p| p.vel_x = -5 }
+      end
+    when Gosu::KB_RIGHT
+      if @moveRight
+          @players.each { |p| p.vel_x = 5 }
       end
     else
       super
