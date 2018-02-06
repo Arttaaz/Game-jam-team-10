@@ -1,6 +1,7 @@
 require 'gosu'
 load 'Map.rb'
 load 'Player.rb'
+load 'Ennemy.rb'
 load 'IHM.rb'
 load 'Skill.rb'
 
@@ -19,22 +20,16 @@ class Window < Gosu::Window
   end
 
   def update
-    if @fighting == false
-      if @players[0].vel_x == 0
+    if @fighting == false #if not in a fight
+      if @players[0].vel_x == 0 #if not moving
         if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
           @moveLeft = true
-          #if (Gosu.button_down? Gosu::KB_LEFT)
-          #  @players.each { |p| p.move(-5,0) }
-          #end
         else
           @moveLeft = false
         end
 
         if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::RIGHT))
           @moveRight = true
-          #if (Gosu.button_down? Gosu::KB_RIGHT)
-          #  @players.each { |p| p.move(5,0) }
-          #end
         else
           @moveRight = false
         end
@@ -83,6 +78,22 @@ class Window < Gosu::Window
     else
       super
     end
+  end
+
+  def event
+
+    e = ["Encounter", "Loot"]
+    if(@players.size < 3)
+      e << "Friendly"
+    end
+    e.shuffle!
+    case(e.pop)
+    when "Encounter"
+      (rand(2)+1).times { @ennemies << Ennemy.new() }
+    when "Loot"
+    when "Friendly"
+    end
+
   end
 
   def needs_cursor?
