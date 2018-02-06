@@ -1,6 +1,7 @@
 require 'gosu'
 load 'Map.rb'
 load 'Player.rb'
+load 'IHM.rb'
 
 module Direction
   UP,RIGHT,DOWN,LEFT = *0..3
@@ -13,6 +14,7 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
     @players = [Player.new("assets/testchar.png",200,150), Player.new('assets/testchar.png', 400, 150)]
+    @ihm = IHM.new
   end
 
   def update
@@ -37,6 +39,7 @@ class Window < Gosu::Window
       @map.draw()
       @players.each { |p| p.draw() }
       Gosu.draw_rect(@players[0].x-200, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)
+      @ihm.draw
     end
   end
 
