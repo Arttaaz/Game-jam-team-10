@@ -5,13 +5,16 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :x, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_reader :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_accessor :vel_x
 
   def initialize(image, x, y)
     @races = ["humain", "robot", "infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
     @x = x
+    @vel_x = 0
+    @distance = 0 #distance moved
     @y = y
     @dmgReduc = 0 #%
     @exp = 0
@@ -36,6 +39,17 @@ class Player
     Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::RED, 0)
     Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 0)
+  end
+
+  def update
+    if @vel_x != 0
+      self.move(@vel_x, 0)
+      @distance = @distance + @vel_x
+      if @distance == 1200 || distance == -1200
+        @distance = 0
+        @vel_x = 0
+      end
+    end
   end
 
   def redefStats(race)
