@@ -27,4 +27,14 @@ class Enemy
     Gosu.draw_rect(x+90, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 0)
   end
 
+  def isClicked?(x, y, xx)
+    if (x >= @x-xx+600) && (y >= 150)
+      if (x <= @x-xx+790) && (y <= 450)
+        return true
+      else
+        return false
+      end
+    end
+  end
+
 end

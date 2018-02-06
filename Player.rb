@@ -9,6 +9,7 @@ class Player
   attr_accessor :vel_x
 
   def initialize(image, x, y)
+    @skills = []
     @races = ["humain", "robot", "infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
@@ -87,9 +88,9 @@ class Player
     #todo
   end
 
-  def isClicked?(x, y)
-    if (x >= @x+100) && (y >= @y+150)
-      if (x <= @x+190) && (y <= @y+450)
+  def isClicked?(x, y, xx)
+    if (x >= @x-xx+100) && (y >= 150)
+      if (x <= @x-xx+190) && (y <= 450)
         return true
       else
         return false
