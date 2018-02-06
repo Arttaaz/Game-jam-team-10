@@ -2,10 +2,6 @@ require 'gosu'
 load 'Map.rb'
 load 'Player.rb'
 
-module Direction
-  UP,RIGHT,DOWN,LEFT = *0..3
-end
-
 class Window < Gosu::Window
 
   def initialize(width, height)
