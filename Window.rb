@@ -1,6 +1,7 @@
 require 'gosu'
 load 'Map.rb'
 load 'Player.rb'
+load 'IHM.rb'
 
 class Window < Gosu::Window
 
@@ -9,6 +10,7 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/test.png")
     @players = [Player.new("assets/testchar.png",200,150), Player.new('assets/testchar.png', 400, 150)]
+    @ihm = IHM.new
   end
 
   def update
@@ -32,7 +34,8 @@ class Window < Gosu::Window
     Gosu.translate(-@players[0].x+200, -@players[0].y+150) do
       @map.draw()
       @players.each { |p| p.draw() }
-      Gosu.draw_rect(@players[0].x-200, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)  # soon to be real IHM
+      Gosu.draw_rect(@players[0].x-200, 600+@players[0].y-150, 1200, 300, Gosu::Color::GRAY, 0)
+      @ihm.draw
     end
   end
 
