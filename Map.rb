@@ -12,8 +12,7 @@ class Map
     @TILEWIDTH = 1200
     @TILEHEIGHT = 600
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
-    @tilemap = [[], [], [], [], []]
-    #@tilemap = [[1, 2, 1], [2, 0, 1], [1, 1, 0]]
+    @tilemap = [[], [], [], [], [], [], [], [], []]
     self.generate
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
@@ -21,17 +20,38 @@ class Map
   end
 
   def generate
-    3.times { |y|
-      l = 3 - rand(4)
+    2.times { |y|
+      theme = ["medbay", "recreation"].shuffle
+      t = theme.pop
+      case(t)
+      when "medbay"
+        l = 5 - rand(3)
+      when "recreation"
+        l = 3 - rand(4)
+      end
+      l = l + (2-y)
       puts l
-      5.times { |x|
+      9.times { |x|
         if l > 0
           @tilemap[x][y] = 0
           l = l-1
         else
-          @tilemap[x][y] = 1+rand(2)
+          case(t)
+          when "medbay"
+            @tilemap[x][y] = 3+rand(1)
+          when "recreation"
+            @tilemap[x][y] = 3+rand(1)
+          end
         end
       }
+    }
+
+    9.times { |x|
+      if x < 5
+        @tilemap[x][2] = 0
+      else
+        @tilemap[x][2] = 1+rand(1)
+      end
     }
 
   end
