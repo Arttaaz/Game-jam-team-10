@@ -9,10 +9,12 @@ class IHM < Gosu::Window
     @y = y
     @font = Gosu::Font.new(20)
     @player = player
+    @tabs = ["Carte", "Stats", "Capacités", "Objets"]
   end
 
   def draw
     self.box
+    self.tabContent(tabName)
   end
 
   def update(x,y)
@@ -21,7 +23,7 @@ class IHM < Gosu::Window
   end
 
   def box
-    draw_rect(@x+465,@y+455,610,290,Gosu::Color::BLACK, z=0, :default)
+
 =begin
     draw_rect(@x+100,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
     draw_rect(@x+190,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
@@ -32,8 +34,8 @@ class IHM < Gosu::Window
     @font.draw(@player.race,  @x-90, @y+490, 1, 2.0, 2.0, Gosu::Color::BLUE)
 =end
 
-    @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+550, 1, 1.0, 1.0, Gosu::Color::CYAN)
-    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::RED)
+    @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+550, 1, 1.0, 1.0, Gosu::Color::CYAN)
+    @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::RED)
 
     draw_rect(@x-100,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
     draw_rect(@x+35,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
@@ -53,6 +55,26 @@ class IHM < Gosu::Window
     @font.draw("Liste d'objets",  @x+200, @y+540, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 =end
 
+  end
+
+  def tabContent(tabName)
+    if (tabName == @tabs[0]) #carte
+      draw_rect(@x+465,@y+455,610,290,Gosu::Color::BLACK, z=0, :default) #carte
+
+      draw_rect(@x+100,@y+455,70,70,Gosu::Color::WHITE, z=0, :default) #skills
+      draw_rect(@x+190,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
+      draw_rect(@x+280,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
+      draw_rect(@x+370,@y+455,70,70,Gosu::Color::WHITE, z=0, :default)
+    elsif (tabName == @tabs[1])
+      @font.draw("Dégâts: " + @player.damage.to_s,  @x-90, @y+620, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x-90, @y+650, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x-90, @y+680, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Vitesse: " + @player.speed.to_s,  @x-90, @y+710, 1, 1.0, 1.0, Gosu::Color::BLACK)
+    elsif (tabName == @tabs[2])
+      
+    else
+
+    end
   end
 
 
