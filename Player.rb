@@ -5,7 +5,7 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :x, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race
+  attr_reader :x, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
 
   def initialize(image, x, y)
     @races = ["humain", "robot", "infecté"]
@@ -13,7 +13,11 @@ class Player
     @image = Gosu::Image.new(image, :tileable => true)
     @x = x
     @y = y
-    @dmgReduc = 0
+    @dmgReduc = 0 #%
+    @exp = 0
+    @expBonus = 0 #%
+    @money = 0
+    @moneyBonus = 0 #%
     @race = @races[rand(0..2)]
     @class = @classes[rand(0..2)]
     redefStats(@race)
@@ -35,7 +39,7 @@ class Player
   end
 
   def redefStats(race)
-    if @race == @races[0]
+    if @race == @races[0] #humain
       @maxHealth = @health = rand(100..200)
       @maxShield = @shield = rand(40..60)
       @maxPower = @power = 100
@@ -44,16 +48,16 @@ class Player
       @phy_def = rand(8..12)
       @eng_def = rand(8..12)
       @speed = rand(12..18)
-    elsif @race == @races[1]
+    elsif @race == @races[1] #robot
       @maxHealth = @health = rand(70..90)
       @maxShield = @shield = rand(70..90)
-      @maxPower = @maxPower = 120
+      @maxPower = @power = 120
       @powRegen = 12
       @damage = rand(45..60)
       @phy_def = rand(4..8)
       @eng_def = rand(6..12)
       @speed = rand(14..20)
-    else #@race == @races[2]
+    else #@race == @races[2]   infested
       @maxHealth = @health = rand(140..180)
       @maxShield = @shield = 1000 #lààààààà c'est 000000
       @maxPower = @power = 80
