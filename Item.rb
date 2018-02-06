@@ -3,10 +3,9 @@ require 'gosu'
 
 class Item
 
-  def initialize(name, image, consumable)
+  def initialize(name, image)
     @name = name
     @image = image
-    @consumable = consumable
   end
 
 end

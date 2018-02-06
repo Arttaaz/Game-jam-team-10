@@ -8,13 +8,20 @@ class Window < Gosu::Window
   def initialize(width, height)
     super(width, height)
     self.caption = "Rogue-like"
+<<<<<<< HEAD
     @map = Map.new("assets/test.png")
     @players = [Player.new("assets/testchar.png",100,150), Player.new('assets/testchar.png', 250, 150), Player.new('assets/testchar.png', 400, 150), Player.new('assets/testchar.png', 550, 150)]
-    @ihm = IHM.new
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-150,@players[0])
+=======
+    @map = Map.new("assets/TileSet.png")
+    @xStart = 100+4*1200
+    @yStart = 150+ 2*600
+    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-150)
+>>>>>>> e2203f7ebe0e594006baaa543627ea525f230f96
   end
 
   def update
-
     if (Gosu.button_down? Gosu::KB_LEFT)
       if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
         @players.each { |p| p.move(-5,0) }
@@ -27,7 +34,7 @@ class Window < Gosu::Window
 
     @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
     @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
-
+    @ihm.update(@players[0].x,@players[0].y)
   end
 
   def draw
