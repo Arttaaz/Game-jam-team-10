@@ -17,6 +17,15 @@ class Window < Gosu::Window
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250,@players[0])
     @fighting = false
     @moveRight = @moveLeft = false
+
+    @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
+    case @enemyRace
+    when "Human"
+    when "Robot"
+    when "Infested"
+    end
+
+
   end
 
   def update
