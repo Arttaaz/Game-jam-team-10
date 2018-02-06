@@ -21,7 +21,7 @@ class Window < Gosu::Window
     @newTile = false
 
     @@SkillList = [
-      
+
     ]
 
 
@@ -135,10 +135,20 @@ class Window < Gosu::Window
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       @fighting = true
+      self.fight
     when "Loot"
     when "Friendly"
     end
+  end
 
+  def fight
+    @turnOrder = []
+    @players.each { |p| @turnOrder << [p.speed, p]}
+    @enemies.each { |e| @turnOrder << [e.speed, e]}
+    @turnOrder.sort!.reverse!
+    @turnOrder << []
+    @currentTurn = 0
+    @currentActor = @turnOrder.first[1]
   end
 
   def needs_cursor?

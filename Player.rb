@@ -25,6 +25,7 @@ class Player
     @race = @races[rand(0..2)]
     @class = @classes[rand(0..2)]
     redefStats(@race)
+    @color = 0xff_ffffff
   end
 
   def move(x,y)
@@ -33,7 +34,7 @@ class Player
   end
 
   def draw
-    @image.draw(@x,@y,1)
+    @image.draw(@x,@y,1, 1, 1, @color)
     Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 0)
     Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
@@ -43,6 +44,12 @@ class Player
   end
 
   def update
+    if @health == 0
+      @shield = 0
+      @power = 0
+      @color = Gosu::Color::GRAY
+    end
+
     if @vel_x != 0
       self.move(@vel_x, 0)
       @distance = @distance + @vel_x
