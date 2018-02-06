@@ -1,5 +1,6 @@
 require 'gosu'
 load 'Player.rb'
+load 'Button.rb'
 
 
 class IHM < Gosu::Window
@@ -9,6 +10,10 @@ class IHM < Gosu::Window
     @y = y
     @font = Gosu::Font.new(20)
     @player = player
+    @carte = Button.new("Carte", @x-100,@y+450,130,50,Gosu::Color::WHITE, @font)
+    @stats = Button.new("Stats", @x+35,@y+450,130,50,Gosu::Color::WHITE, @font)
+    @skills = Button.new("Capacites", @x+170,@y+450,130,50,Gosu::Color::WHITE, @font)
+    @objects = Button.new("Objets", @x+305,@y+450,130,50,Gosu::Color::WHITE, @font)
   end
 
   def draw
@@ -34,7 +39,7 @@ class IHM < Gosu::Window
 
     @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+550, 1, 1.0, 1.0, Gosu::Color::CYAN)
     @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+570, 1, 1.0, 1.0, Gosu::Color::RED)
-
+=begin
     draw_rect(@x-100,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
     draw_rect(@x+35,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
     draw_rect(@x+170,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
@@ -44,6 +49,12 @@ class IHM < Gosu::Window
     @font.draw("Stats",@x+70,@y+460, 2, 1.5, 1.5 ,Gosu::Color::BLACK)
     @font.draw("Capacités",@x+175,@y+460, 2, 1.5, 1.5 ,Gosu::Color::BLACK)
     @font.draw("Objets",@x+325,@y+460, 2, 1.5, 1.5 ,Gosu::Color::BLACK)
+=end
+
+    @carte.draw
+    @stats.draw
+    @skills.draw
+    @objects.draw
 
 =begin
     @font.draw("Dégâts: " + @player.damage.to_s,  @x-90, @y+620, 1, 1.0, 1.0, Gosu::Color::BLACK)
