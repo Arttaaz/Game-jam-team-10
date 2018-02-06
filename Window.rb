@@ -44,6 +44,8 @@ class Window < Gosu::Window
     case(id)
     when Gosu::KB_ESCAPE
       close
+    when Gosu::MS_LEFT
+      @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+150)
     else
       super
     end
