@@ -5,10 +5,11 @@ load 'Button.rb'
 
 class IHM < Gosu::Window
 
-  def initialize(x,y, player)
+  def initialize(x,y, players, player)
     @x = x
     @y = y
     @font = Gosu::Font.new(20)
+    @players = players
     @player = player
     @carte = Button.new("Carte", @x-100,@y+350,130,50,Gosu::Color::WHITE, @font)
     @stats = Button.new("Stats", @x+35,@y+350,130,50,Gosu::Color::WHITE, @font)
@@ -24,9 +25,10 @@ class IHM < Gosu::Window
     self.box
   end
 
-  def update(x,y)
+  def update(x,y, player)
     @x = x
     @y = y
+    @player = player
     @carte.update(x-100, y+350)
     @stats.update(x+35, y+350)
     @skills.update(x+170, y+350)
@@ -62,7 +64,7 @@ class IHM < Gosu::Window
 
     case(@box)
     when 0 #carte
-      draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #carte
+      draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
 =begin # mode combat
       @font.draw("Sacha", @x, @y+440, 1, 1.5,1.5 , Gosu::Color::BLACK)
