@@ -12,12 +12,8 @@ class IHM < Gosu::Window
     @player = player
     @carte = Button.new("Carte", @x-100,@y+350,130,50,Gosu::Color::WHITE, @font)
     @stats = Button.new("Stats", @x+35,@y+350,130,50,Gosu::Color::WHITE, @font)
-<<<<<<< HEAD
-    @skills = Button.new("Capacités", @x+170,@y+350,130,50,Gosu::Color::WHITE, @font)
-=======
     @skills = Button.new("Capacites", @x+170,@y+350,130,50,Gosu::Color::WHITE, @font)
     @box = 0
->>>>>>> 1b2584533c5fcfc02dae8c20a467c55d52f58dfe
   end
 
   def draw
