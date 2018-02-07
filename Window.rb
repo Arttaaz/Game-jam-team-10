@@ -21,9 +21,12 @@ class Window < Gosu::Window
     @moveRight = @moveLeft = false
     @newTile = false
     @fighting = false
-
+#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil
     @@SkillList = [
-
+      [Type::PASSIVE, MaxPowerModif.new("Libre Arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Libre_arbitre.png")],
+      [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Concentration.png", 15, 2, true)]
+      [Type::PASSIVE, HealthModif.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Auto-reparateur.png")]
+      [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Taser.png", 17, 1, true)]
     ]
 
 

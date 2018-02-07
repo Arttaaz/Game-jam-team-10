@@ -4,12 +4,20 @@ module Type
   ACTIVE  = 1
 end
 
+module Who
+  SELF = 0
+  ALLY = 1
+  ALLIES = 2
+  ENEMY = 3
+  ENEMIES = 4
+end
+
 class Skill
 
   attr_reader :name, :type, :target
   attr_accessor :target
 
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, duration = 0, temp = false, cost = 0, target = nil)
     @name = name
     @type = type
     @target = target
@@ -49,7 +57,7 @@ class Skill
 end
 
 class HealthModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, target = nil)
     super(name, type, target, modifier, duration, cost)
   end
 
@@ -67,7 +75,7 @@ class HealthModif < Skill
 end
 
 class MaxHealthModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -83,7 +91,7 @@ class MaxHealthModif < Skill
 end
 
 class PowerModif< Skill
-  def initialize(name, type, target, modifier, duration = 0, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, target = nil)
     super(name, type, target, modifier, duration, cost)
   end
 
@@ -101,7 +109,7 @@ class PowerModif< Skill
 end
 
 class MaxPowerModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -117,7 +125,7 @@ class MaxPowerModif < Skill
 end
 
 class DmgModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -128,7 +136,7 @@ class DmgModif < Skill
 end
 
 class DmgReducModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -144,7 +152,7 @@ class DmgReducModif < Skill
 end
 
 class PowerRegenModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -155,7 +163,7 @@ class PowerRegenModif < Skill
 end
 
 class ResModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -167,7 +175,7 @@ class ResModif < Skill
 end
 
 class PhysDefModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -178,7 +186,7 @@ class PhysDefModif < Skill
 end
 
 class EngDefModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -189,7 +197,7 @@ class EngDefModif < Skill
 end
 
 class ExpModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -199,19 +207,8 @@ class ExpModif < Skill
   end
 end
 
-class MoneyModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
-    super(name, type, target, modifier, duration, temp, cost)
-  end
-
-  def activate
-    @target.moneyBonus = @target.moneyBonus + (@target.moneyBonus * @modifier)/100
-    super
-  end
-end
-
 class SpeedModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -222,7 +219,7 @@ class SpeedModif < Skill
 end
 
 class ShieldModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
@@ -240,7 +237,7 @@ class ShieldModif < Skill
 end
 
 class MaxShieldModif < Skill
-  def initialize(name, type, target, modifier, duration = 0, temp = false, cost = 0)
+  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
     super(name, type, target, modifier, duration, temp, cost)
   end
 
