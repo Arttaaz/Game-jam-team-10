@@ -4,13 +4,27 @@ load 'Player.rb'
 
 class Item
 
-  def initialize(name, image, type)
+  attr_reader :name
+
+  def initialize(name, image)
     @name = name
     @image = image
-    @player = player
-
+    @color = 0xff_ffffff
   end
 
+  def draw(x, y)
+    @image.draw(x, y, 1, 1, 1, @color)
+  end
+
+  def isClicked?(x, y, xx,yy)
+    if (x >= @x+xx) && (y >= @y+yy)
+      if (x <= @x+xx+@width) && (y <= @y+yy+@height)
+        return true
+      else
+        return false
+      end
+    end
+  end
 
 
 end

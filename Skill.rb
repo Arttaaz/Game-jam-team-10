@@ -50,7 +50,7 @@ class Skill
     @image.draw(x, y, 1, 1, 1, @color)
   end
 
-  def isClicked?(x, y, xx)
+  def isClicked?(x, y, xx, yy)
     if (x >= @x+xx) && (y >= @y+yy)
       if (x <= @x+xx+@width) && (y <= @y+yy+@height)
         return true
