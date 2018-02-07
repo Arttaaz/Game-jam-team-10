@@ -5,11 +5,11 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_reader :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
   attr_accessor :active, :vel_x, :health
 
   def initialize(image, x, y)
-    @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill name], [active/passive, skill name]]
+    @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE, "passive"],[Type::ACTIVE,"skill"],[Type::ACTIVE,"skill"],[Type::ACTIVE,"skill"],[Type::ACTIVE,"skill"]] #test; array is like [ [active/passive, skill name], [active/passive, skill name]]
     @races = ["Humain", "Robot", "Infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
@@ -21,8 +21,6 @@ class Player
     @dmgReduc = 0 #%
     @exp = 0
     @expBonus = 0 #%
-    @money = 0
-    @moneyBonus = 0 #%
     @race = @races[rand(0..2)]
     @class = @classes[rand(0..2)]
     redefStats(@race)
