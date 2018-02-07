@@ -114,12 +114,12 @@ class Window < Gosu::Window
       @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
       if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
         if self.mouse_y >= 150 && self.mouse_y <= 450
-          @players.each { |p| p.vel_x = -5 }
+          @players.each { |p| p.vel_x = -10 }
           @newTile = true
         end
       elsif @moveRight && self.mouse_x >= 1100 && self.mouse_x <= 1150
         if self.mouse_y >= 150 && self.mouse_y <= 450
-          @players.each { |p| p.vel_x = 5 }
+          @players.each { |p| p.vel_x = 10 }
           @newTile = true
         end
       end
@@ -129,12 +129,12 @@ class Window < Gosu::Window
       end
     when Gosu::KB_LEFT
       if @moveLeft
-          @players.each { |p| p.vel_x = -5 }
+          @players.each { |p| p.vel_x = -10 }
           @newTile = true
       end
     when Gosu::KB_RIGHT
       if @moveRight
-          @players.each { |p| p.vel_x = 5 }
+          @players.each { |p| p.vel_x = 10 }
           @newTile = true
       end
     else

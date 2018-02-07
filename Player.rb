@@ -5,7 +5,7 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :name, :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_reader :name, :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
   attr_accessor :active, :vel_x, :health
 
   def initialize(image, x, y, race = "d")
@@ -23,8 +23,6 @@ class Player
     @dmgReduc = 0 #%
     @exp = 0
     @expBonus = 0 #%
-    @money = 0
-    @moneyBonus = 0 #%
     @race = race
     @race = @races[rand(0..2)] if @race = "d"
     if @race = "Humain"
