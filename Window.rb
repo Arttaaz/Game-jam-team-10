@@ -12,7 +12,7 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
-    @yStart = 250+ 2*600
+    @yStart = 250+ 4*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
@@ -55,6 +55,18 @@ class Window < Gosu::Window
           @moveRight = true
         else
           @moveRight = false
+        end
+
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::UP))
+          @moveUp = true
+        else
+          @moveUp = false
+        end
+
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::DOWN))
+          @moveUp = true
+        else
+          @moveUp = false
         end
 
         @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
