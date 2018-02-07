@@ -24,7 +24,7 @@ class Window < Gosu::Window
     @fighting = false
     @hasKey = false
     @pToDelete = @eToDelete = []
-#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil
+#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
     @@SkillList = [
       [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/Libre_arbitre.png")],
@@ -32,10 +32,17 @@ class Window < Gosu::Window
       [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/Auto-reparateur.png")],
       [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/Taser.png", 17, 1, true)],
       [Type::PASSIVE, DmgModif.new("Volonte de fer", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Classes/Soldat/01-1_Volonte_de_fer.png")],
-      [Type::ACTIVE, Dmg.new("Tire puissant", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/01-2_Tire_puissant.png", 17, DmgType::PHYS)],
+      [Type::ACTIVE, Dmg.new("Tire puissant", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/01-2_Tire_puissant.png", 17, 0, false, DmgType::PHYS)],
       [Type::PASSIVE, DmgModif.new("Munition lourde", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-1_Munition_lourde.png")],
       [Type::PASSIVE, PowerRegenModif.new("Vigeur", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-2_Vigeur.png")],
-      [Type::ACTIVE, Dmg.new("Grenade militaire", Typr::ACTIVE, Who::ENEMIES, 70, "assets/Skills/Classes/Soldat/06-1_Grenade_militaire.png")]
+      [Type::ACTIVE, Dmg.new("Grenade militaire", Type::ACTIVE, Who::ENEMIES, 70, "assets/Skills/Classes/Soldat/06-1_Grenade_militaire.png", 22, 0, false, DmgType::PHYS)],
+      [Type::ACTIVE, Dmg.new("Grenade photonique", Type::ACTIVE, Who::ENEMIES, 70, "assets/Skills/Classes/Soldat/06-2_Grenade_photonique.png", 22, 0, false, DmgType::ENG)],
+      [Type::PASSIVE, DmgModif.new("Expert d'arme", Type::PASSIVE, Who::SELF, 20, "assets/Skills/Classes/Soldat/09-1_Expert_d'arme.png")],
+      [Type::PASSIVE, PowerRegenModif.new("Determination", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Classes/Soldat/09-2_Determination.png")],
+      [Type::ACTIVE, Dmg.new("Coutean militaire", Type::ACTIVE, Who::ENEMY, 40, "assets/Skills/Classes/Soldat/12-1_Couteau_militaire.png", 17, 3, true, DmgType::PHYS)],
+      [Type::ACTIVE, Dmg.new("Lame plasmique", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/12-2_Lame_plasmique.png", 17, 0, false, DmgType::ENG)],
+      [Type::PASSIVE, PhysDefModif.new("Vulnerabilite physique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-1_Vulnerabilite_physique.png")],
+      [Type::PASSIVE, EngDefModif.new("Vulnerabilite energetique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-2_Vulnerabilite_energetique.png")]
     ]
 
     @@ItemList =[
