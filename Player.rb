@@ -6,8 +6,8 @@ class Player
 
 
 
-  attr_reader :name, :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
-  attr_accessor :active, :vel_x, :health
+  attr_reader :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
+  attr_accessor :active, :vel_x, :vel_y, :health, :skills
 
   def initialize(image, x, y, race = "d")
     @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill object], [active/passive, skill object]]
@@ -21,6 +21,7 @@ class Player
     @vel_x = 0
     @distance = 0 #distance moved
     @y = y
+    @vel_y = 0
     @dmgReduc = 0 #%
     @exp = 0
     @expBonus = 0 #%
@@ -74,6 +75,13 @@ class Player
       if @distance == 1200 || distance == -1200
         @distance = 0
         @vel_x = 0
+      end
+    elsif @vel_y != 0
+      self.move(0,@vel_y)
+      @distance = @distance + @vel_y
+      if @distance == 600 ||distance == -600
+        @distance = 0
+        @vel_y = 0
       end
     end
   end
@@ -152,7 +160,7 @@ class Player
 
   def isClicked?(x, y, xx)
     if (x >= @x-xx+100) && (y >= 150)
-      if (x <= @x-xx+190) && (y <= 450)
+      if (x <= @x-xx+210) && (y <= 450)
         return true
       else
         return false

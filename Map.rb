@@ -16,16 +16,17 @@ class Map
     @TILEWIDTH = 1200
     @TILEHEIGHT = 600
     @tileset = Gosu::Image.load_tiles(tileset, @TILEWIDTH, @TILEHEIGHT, :tileable => true)
-    puts @tileset.size
     @tilemap = [[], [], [], [], [], [], [], [], []]
     self.generate
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
 
+    @tilemap.each { |c| puts c}
+
   end
 
   def generate
-    maxl = 0
+    maxl = 5
     theme = ["medbay", "recreation", "engine"].shuffle
     3.times { |y|
       t = theme.pop
@@ -37,8 +38,9 @@ class Map
       when "engine"
         l = 4+rand(3)
       end
-      l = l + (3-y)
-      if l > maxl
+      l = l + (y-3)
+      puts [maxl, 5].max
+      if l > 5
         maxl = l
       end
       9.times { |x|
@@ -81,13 +83,12 @@ class Map
   end
 
   def move?(xleft, xright,y,dir)
-    y = y+0.5
     case(dir)
     when Direction::LEFT
       if ((xleft*1200-100)/1200 == 0)
         return false
       elsif  xleft-1 >= 0
-        if @tilemap[xleft-1][y] == 0
+        if @tilemap[xleft-1][y.to_i] == 0
             return false
         else
           return true
@@ -97,17 +98,25 @@ class Map
       if ((xleft.to_i+1) == @WIDTH)
         return false
       elsif (xright+1 < @WIDTH - 1)
-        if @tilemap[xright+1][y] == 0
-          if (((xright+1).to_i*1200) > ((xleft.to_i+1)*1200).to_i)
-            return true
-          else
-            return false
-          end
+        if @tilemap[xright+1][y.to_i] == 0
+          return false
         else
           return true
         end
       else
         return true
+      end
+    when Direction::UP
+      if (tilemap[xleft.to_i][y.to_i] == 9) && (y > 1)
+        return true
+      else
+        return false
+      end
+    when Direction::DOWN
+      if tilemap[xleft.to_i][y.to_i] == 9 && y < 4
+        return true
+      else
+        return false
       end
     end
   end
