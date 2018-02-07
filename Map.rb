@@ -38,9 +38,9 @@ class Map
         else
           case(t)
           when "medbay"
-            @tilemap[x][y] = 3+rand(1)
+            @tilemap[x][y] = 3+rand(2)
           when "recreation"
-            @tilemap[x][y] = 3+rand(1)
+            @tilemap[x][y] = 3+rand(2)
           end
         end
       }

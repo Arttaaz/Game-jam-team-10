@@ -13,22 +13,25 @@ class Window < Gosu::Window
     @yStart = 150+ 2*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
     @ihm = IHM.new(@players[0].x-100,@players[0].y-150,@players[0])
+    @fighting = false
   end
 
   def update
-    if (Gosu.button_down? Gosu::KB_LEFT)
-      if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
-        @players.each { |p| p.move(-5,0) }
+    if @fighting == false
+      if (Gosu.button_down? Gosu::KB_LEFT)
+        if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
+          @players.each { |p| p.move(-5,0) }
+        end
+      elsif (Gosu.button_down? Gosu::KB_RIGHT)
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::RIGHT))
+          @players.each { |p| p.move(5,0) }
+        end
       end
-    elsif (Gosu.button_down? Gosu::KB_RIGHT)
-      if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::RIGHT))
-        @players.each { |p| p.move(5,0) }
-      end
-    end
 
-    @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
-    @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
-    @ihm.update(@players[0].x,@players[0].y)
+      @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
+      @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
+      @ihm.update(@players[0].x,@players[0].y)
+    end
   end
 
   def draw
