@@ -118,7 +118,7 @@ class IHM < Gosu::Window
       @font.draw("Bonus argent: " + @player.moneyBonus.to_s + "%",  @x+d+90, @y+490, 1, 1.0, 1.0, Gosu::Color::BLACK)
       @font.draw("Expérience: " + @player.exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
       @font.draw("Bonus exp: " + @player.expBonus.to_s + "%",  @x+d+90, @y+530, 1, 1.0, 1.0, Gosu::Color::BLACK)
-      @font.draw("Nom", @x+20, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
+      @font.draw("Nom", @x+d+20, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
       d=d+420
       end
     when 2 # skills
