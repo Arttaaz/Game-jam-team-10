@@ -5,13 +5,18 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :x, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_reader :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_accessor :active, :vel_x, :health
 
   def initialize(image, x, y)
-    @races = ["humain", "robot", "infecté"]
+    @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill name], [active/passive, skill name]]
+    @races = ["Humain", "Robot", "Infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
+    @active = false
     @x = x
+    @vel_x = 0
+    @distance = 0 #distance moved
     @y = y
     @dmgReduc = 0 #%
     @exp = 0
@@ -21,6 +26,7 @@ class Player
     @race = @races[rand(0..2)]
     @class = @classes[rand(0..2)]
     redefStats(@race)
+    @color = 0xff_ffffff
   end
 
   def move(x,y)
@@ -29,13 +35,30 @@ class Player
   end
 
   def draw
-    @image.draw(@x,@y,1)
+    @image.draw(@x,@y,1, 1, 1, @color)
     Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 0)
     Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::RED, 0)
+    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 0)
     Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 0)
     Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 0)
+  end
+
+  def update
+    if @health == 0
+      @shield = 0
+      @power = 0
+      @color = Gosu::Color::GRAY
+    end
+
+    if @vel_x != 0
+      self.move(@vel_x, 0)
+      @distance = @distance + @vel_x
+      if @distance == 1200 || distance == -1200
+        @distance = 0
+        @vel_x = 0
+      end
+    end
   end
 
   def redefStats(race)
@@ -66,6 +89,20 @@ class Player
       @phy_def = rand(14..18)
       @eng_def = rand(10..14)
       @speed = rand(8..16)
+    end
+  end
+
+  def levelup
+    #todo
+  end
+
+  def isClicked?(x, y, xx)
+    if (x >= @x-xx+100) && (y >= 150)
+      if (x <= @x-xx+190) && (y <= 450)
+        return true
+      else
+        return false
+      end
     end
   end
 
