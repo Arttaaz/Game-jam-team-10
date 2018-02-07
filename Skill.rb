@@ -55,12 +55,7 @@ class Skill
     @image.draw(x, y, 1, 1, 1, @color)
   end
 
-<<<<<<< HEAD
-  def isClicked?(x, y, xx, yy)
-=======
-  def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation
->>>>>>> 5a322565055ce3bf4427fac10bc20803b9082d5c
-    if (x >= @x+xx) && (y >= @y+yy)
+  def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation    if (x >= @x+xx) && (y >= @y+yy)
       if (x <= @x+xx+60) && (y <= @y+yy+60)
         return true
       else
