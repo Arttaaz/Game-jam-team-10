@@ -76,7 +76,6 @@ class Window < Gosu::Window
         end
         @currentActor.active = true                     #actor can use skills
         if @currentActor.instance_of?(Player)           #if actor is player then set current player
-          puts "hey"
           @currentPlayer = @currentActor
         else                                            # else start enemy ai
           @currentActor.ai(@players)
@@ -146,12 +145,19 @@ class Window < Gosu::Window
 
   def event
 
-    e = ["Encounter", "Loot"]
-    if(@players.size < 3)
-      e << "Friendly"
+    p = rand(100)+1
+    case p
+    when 1..10
+      e = "Friendly"
+    when 11..55
+      e = "Encounter"
+    when 56..75
+      e = "Loot"
+    when 76..100
+      e = "Nothing"
     end
-    e.shuffle!
-    case(e.pop)
+
+    case(e)
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       self.fight

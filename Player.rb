@@ -12,8 +12,8 @@ class Player
   def initialize(image, x, y, race = "d")
     @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill object], [active/passive, skill object]]
     @races = ["Humain", "Robot"]
-    @humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung"]
-    @robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja"]
+    @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung"]
+    @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
     @active = false
@@ -27,13 +27,13 @@ class Player
     @race = race
     @race = @races[rand(0..1)] if @race == "d"
     if @race == "Humain"
-      index = rand(@humanNames.size)
-      @name = @humanNames[index]
-      @humanNames.delete_at(index)
+      index = rand(@@humanNames.size)
+      @name = @@humanNames[index]
+      @@humanNames.delete_at(index)
     else
-      index = rand(@robotNames.size)
-      @name = @robotNames[index]
-      @robotNames.delete_at(index)
+      index = rand(@@robotNames.size)
+      @name = @@robotNames[index]
+      @@robotNames.delete_at(index)
     end
     @class = @classes[rand(0..2)]
     redefStats(@race)
