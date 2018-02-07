@@ -154,7 +154,6 @@ class Window < Gosu::Window
     case(e.pop)
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
-      @fighting = true
       self.fight
     when "Loot"
     when "Friendly"
@@ -169,12 +168,13 @@ class Window < Gosu::Window
 
     @turnOrder.sort!{ |a, b| a[0] <=> b[0]}.reverse!
     @turnOrder << []
+
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]
-
+    @fighting = true
+    @currentActor.active = true   #actor can use skills
 
     if @currentActor.instance_of?(Player)           #if actor is player then set current player
-      @currentActor.active = true                   #actor can use skills
       @currentPlayer = @currentActor
     else                                            # else start enemy ai
       @currentActor.ai(@players)

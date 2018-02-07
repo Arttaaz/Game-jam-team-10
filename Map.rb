@@ -32,12 +32,14 @@ class Map
         l = 5 - rand(3)
       when "recreation"
         l = 3 - rand(4)
+      when "engine"
+        l = 4+rand(3)
       end
       l = l + (2-y)
       9.times { |x|
         if l > 0
           @tilemap[x][y] = 0
-          l = l-1
+          l -= 1
         else
           case(t)
           when "medbay"
