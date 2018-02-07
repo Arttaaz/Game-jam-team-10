@@ -13,7 +13,7 @@ class Window < Gosu::Window
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
     @yStart = 250+ 2*600
-    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
+    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
     @currentPlayer = @players[0]
@@ -156,6 +156,7 @@ class Window < Gosu::Window
       self.fight
     when "Loot"
     when "Friendly"
+      @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
     end
   end
 
