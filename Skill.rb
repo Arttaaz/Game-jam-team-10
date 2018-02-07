@@ -56,13 +56,13 @@ class Skill
   end
 
   def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation    if (x >= @x+xx) && (y >= @y+yy)
-      if (x <= @x+xx+60) && (y <= @y+yy+60)
-        return true
-      else
-        return false
-      end
+    if (x <= @x+xx+60) && (y <= @y+yy+60)
+      return true
+    else
+      return false
+    end
   end
-  
+
 end
 
 class HealthModif < Skill
