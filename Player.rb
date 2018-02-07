@@ -5,12 +5,14 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_reader :name, :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
   attr_accessor :active, :vel_x, :health
 
-  def initialize(image, x, y)
-    @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill name], [active/passive, skill name]]
-    @races = ["Humain", "Robot", "Infecté"]
+  def initialize(image, x, y, race = "d")
+    @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill object], [active/passive, skill object]]
+    @races = ["Humain", "Robot"]
+    @humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung"]
+    @robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
     @active = false
@@ -23,7 +25,18 @@ class Player
     @expBonus = 0 #%
     @money = 0
     @moneyBonus = 0 #%
-    @race = @races[rand(0..2)]
+    @race = race
+    @race = @races[rand(0..2)] if @race = "d"
+    if @race = "Humain"
+      index = rand(@humanNames.size)
+      @name = @humanNames[index]
+      @humanNames.delete_at(index)
+    else
+      index = rand(@robotNames.size)
+      @name = @robotNames[index]
+      @robotNames.delete_at(index)
+    end
+
     @class = @classes[rand(0..2)]
     redefStats(@race)
     @color = 0xff_ffffff

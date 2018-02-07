@@ -35,7 +35,7 @@ class IHM < Gosu::Window
   end
 
   def click(x, y, xx, yy)
-    @box = 0 if @carte.isClicked?(x, y, xx, yy) == true
+    @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
     @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
     @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
   end
@@ -92,7 +92,7 @@ sinon à droite
 =end
         dx=dy=0
         @players.size.times do |n|
-          @font.draw("Nom", @x-90, @y+dy+440, 1, 1.7,1.7 , Gosu::Color::BLUE)
+          @font.draw(@players[n].name, @x-90, @y+dy+440, 1, 1.7,1.7 , Gosu::Color::BLUE)
           @players[n].skills.each do |skill|
             case(skill[n])
             when Type::ACTIVE
