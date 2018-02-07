@@ -66,7 +66,7 @@ class Window < Gosu::Window
         @currentActor.active = true           #actor can use skills
         @currentPlayer = @currentActor
       else                                    # else start enemy ai
-        @currentActor.ai
+        @currentActor.ai(@players)
       end
 
       #player does stuff
