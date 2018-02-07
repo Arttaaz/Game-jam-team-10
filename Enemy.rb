@@ -1,6 +1,7 @@
 require 'gosu'
+load 'Player.rb'
 
-class Enemy
+class Enemy < Player
 
   attr_reader :x, :y, :race, :speed
   attr_accessor :active
