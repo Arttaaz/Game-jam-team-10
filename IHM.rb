@@ -106,6 +106,7 @@ class IHM < Gosu::Window
         @player.skills.each do |skill|
           if skill[0]==Type::ACTIVE
             draw_rect(@x+dx-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
+            skill[1].draw(@x+dx-90, @y+550)
             dx=dx+75
           end
         end

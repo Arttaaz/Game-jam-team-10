@@ -25,10 +25,10 @@ class Window < Gosu::Window
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil
 
     @@SkillList = [
-      [Type::PASSIVE, MaxPowerModif.new("Libre Arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Libre_arbitre.png")],
-      [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Concentration.png", 15, 2, true)]
-      [Type::PASSIVE, HealthModif.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Auto-reparateur.png")]
-      [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Taser.png", 17, 1, true)]
+      [Type::PASSIVE, MaxPowerModif.new("Libre Arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
+      [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
+      [Type::PASSIVE, HealthModif.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
+      [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/2_Taser.png", 17, 1, true)]
     ]
 
 
