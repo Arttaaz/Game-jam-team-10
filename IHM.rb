@@ -62,7 +62,7 @@ class IHM < Gosu::Window
 
     case(@box)
     when 0 #carte
-      draw_rect(@x+465,@y+455,610,290,Gosu::Color::BLACK, z=0, :default) #carte
+      draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #carte
 
       draw_rect(@x+90,@y+430,60,60,Gosu::Color::WHITE, z=0, :default) #skills
       draw_rect(@x+165,@y+430,60,60,Gosu::Color::WHITE, z=0, :default)
