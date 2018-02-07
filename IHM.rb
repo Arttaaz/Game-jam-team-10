@@ -5,10 +5,11 @@ load 'Button.rb'
 
 class IHM < Gosu::Window
 
-  def initialize(x,y, players, player, fighting)
+  def initialize(x,y, players, enemies, player, fighting)
     @x = x
     @y = y
     @font = Gosu::Font.new(20)
+    @enemies = enemies
     @players = players
     @player = player
     @personnage = Button.new("Personnage", @x-100,@y+350,160,50,Gosu::Color::WHITE, @font)
@@ -16,6 +17,7 @@ class IHM < Gosu::Window
     @skills = Button.new("Capacités", @x+275,@y+350,150,50,Gosu::Color::WHITE, @font)
     @box = 0
     @fighting = fighting
+    @waitTarget = false
   end
 
   def draw
@@ -26,10 +28,12 @@ class IHM < Gosu::Window
     self.box
   end
 
-  def update(x,y, player, fighting)
+  def update(x,y, player, players, enemies, fighting)
     @x = x
     @y = y
     @player = player
+    @players = players
+    @enemies = enemies
     @personnage.update(x-100, y+350)
     @stats.update(x+70, y+350)
     @skills.update(x+230, y+350)
@@ -40,6 +44,37 @@ class IHM < Gosu::Window
     @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
     @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
     @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
+    if @waitTarget
+      if @pendingSkill[0] == Type::SELF
+        @pendingSkill[1].target = @player
+        @player.power -= @pendingSkill[1].activate
+      elsif @pendingSkill[0] == Type::ALLIES
+        @pendingSkill[1].target = @players
+        @player.power -= @pendingSkill[1].activate
+      elsif @pendingSkill[0] == Type::ENEMIES
+        @pendingSkill[1].target = @enemies
+        @player.power -= @pendingSkill[1].activate
+      else
+        @players.each { |p|
+          if p.isClicked?(x, y, xx)
+            case @pendingSkill[0]
+            when Type::ALLY
+              @pendingSkill[1].target = p
+              @player.power -= @pendingSkill[1].activate
+            end
+          end
+        }
+        @enemies.each { |e|
+          if e.isClicked?(x, y, xx)
+            case @pendingSkill[0]
+            when Type::ENEMY
+              @pendingSkill[1].target = e
+              @player.power -= @pendingSkill[1].activate
+            end
+          end
+        }
+      end
+    end
   end
 
   def dispSkills

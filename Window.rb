@@ -15,7 +15,7 @@ class Window < Gosu::Window
     @yStart = 250+ 4*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
     @personnage = false
     @moveRight = @moveLeft = false
@@ -97,7 +97,7 @@ class Window < Gosu::Window
       @enemies.each { |e| e.update() }                #update enemies state
     end
     @players.each { |p| p.update() }
-    @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @fighting)
+    @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @players, @enemies, @fighting)
 
   end
 
@@ -108,10 +108,10 @@ class Window < Gosu::Window
       Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-250, 1200, 300, Gosu::Color::GRAY, 0)
       @ihm.draw
       if @moveLeft
-        Gosu::Image.new("assets/testarrow.png", :tileable => true).draw(@players[0].x-30, @players[0].y, 2, -1)
+        Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x-30, @players[0].y, 2, -1)
       end
       if @moveRight
-        Gosu::Image.new("assets/testarrow.png", :tileable => true).draw(@players[0].x+1000, @players[0].y, 2)
+        Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x+1000, @players[0].y, 2)
       end
       if @fighting == true
         @enemies.each { |e| e.draw() }
@@ -160,9 +160,13 @@ class Window < Gosu::Window
     p = rand(100)+1
     case p
     when 1..10
-      e = "Friendly"
+      if(@players.size < 3)
+        e = "Friendly"
+      else
+        e = "Nothing"
+      end
     when 11..55
-      e = "Encounter"
+        e = "Encounter"
     when 56..75
       e = "Loot"
     when 76..100
@@ -170,9 +174,9 @@ class Window < Gosu::Window
     end
 
     case(e)
-    when "Encounter"
-      (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
-      self.fight
+    #when "Encounter"
+    #  (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+    #  self.fight
     when "Loot"
     when "Friendly"
       @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
