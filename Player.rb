@@ -62,6 +62,11 @@ class Player
       @color = Gosu::Color::GRAY
     end
 
+    if @exp == 10
+      self.levelup
+      @exp = 0
+    end
+
     if @vel_x != 0
       self.move(@vel_x, 0)
       @distance = @distance + @vel_x
@@ -104,7 +109,19 @@ class Player
   end
 
   def levelup
-    #todo
+    case(@race)
+    when "Humain"
+      @health += @health
+      @maxHealth += 20
+      @shield += 5
+      @maxShield +=5
+      @power += 10
+      @maxPower += 10
+      @powRegen += 2
+      @damage += 5
+    when "Robot"
+    else
+    end
   end
 
   def isClicked?(x, y, xx)
