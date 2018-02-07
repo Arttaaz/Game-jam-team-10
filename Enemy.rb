@@ -36,6 +36,7 @@ class Enemy
   def isClicked?(x, y, xx)
     if (x >= @x-xx+600) && (y >= 150)
       if (x <= @x-xx+790) && (y <= 450)
+        puts "hey"
         return true
       else
         return false
