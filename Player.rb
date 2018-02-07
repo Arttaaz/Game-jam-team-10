@@ -112,7 +112,7 @@ class Player
   def levelup
     case(@race)
     when "Humain"
-      @health += @health
+      @health += 20
       @maxHealth += 20
       @shield += 5
       @maxShield +=5
@@ -120,8 +120,33 @@ class Player
       @maxPower += 10
       @powRegen += 2
       @damage += 5
+      @phy_def += 2
+      @eng_def += 2
+      @speed += 1
     when "Robot"
+      @health += 5
+      @maxHealth += 5
+      @shield += 20
+      @maxShield += 20
+      @power += 15
+      @maxPower += 15
+      @powRegen += 4
+      @damage += 7
+      @phy_def += 1
+      @eng_def += 2
+      @speed += 2
     else
+      @health += 25
+      @maxHealth += 25
+      @shield += 0
+      @maxShield += 0
+      @power += 5
+      @maxPower += 5
+      @powRegen += 3
+      @damage += 4
+      @phy_def += 5
+      @eng_def += 3
+      @speed += 1
     end
   end
 
