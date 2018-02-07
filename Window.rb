@@ -20,6 +20,7 @@ class Window < Gosu::Window
     @personnage = false
     @moveRight = @moveLeft = false
     @newTile = false
+    @fighting = false
 
     @@SkillList = [
 
@@ -152,7 +153,6 @@ class Window < Gosu::Window
     case(e.pop)
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
-      @fighting = true
       self.fight
     when "Loot"
     when "Friendly"
@@ -169,7 +169,7 @@ class Window < Gosu::Window
     @turnOrder << []
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]
-
+    @fighting = true
 
     if @currentActor.instance_of?(Player)           #if actor is player then set current player
       @currentActor.active = true                   #actor can use skills
