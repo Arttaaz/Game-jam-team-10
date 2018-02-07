@@ -1,4 +1,4 @@
-
+require 'gosu'
 module Type
   PASSIVE = 0
   ACTIVE  = 1
@@ -15,10 +15,11 @@ end
 class Skill
 
   attr_reader :name, :type, :target
-  attr_accessor :target
+  attr_accessor :target, :color
 
-  def initialize(name, type, who, modifier, duration = 0, temp = false, cost = 0, target = nil)
+  def initialize(name, type, who, modifier, image, duration = 0, temp = false, cost = 0, target = nil)
     @name = name
+    @image = Gosu::Image.new(image, :tileable => true)
     @type = type
     @target = target
     @modifier = modifier
@@ -26,6 +27,7 @@ class Skill
     @temp = temp
     @cost = cost
     @activated = false
+    @color = 0xff_ffffff
   end
 
   def activate
@@ -44,6 +46,10 @@ class Skill
     end
   end
 
+  def draw(x, y)
+    @image.draw(x, y, 1, 1, 1, @color)
+  end
+
   def isClicked?(x, y, xx)
     if (x >= @x+xx) && (y >= @y+yy)
       if (x <= @x+xx+@width) && (y <= @y+yy+@height)
@@ -58,7 +64,7 @@ end
 
 class HealthModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, target = nil)
-    super(name, type, target, modifier, duration, cost)
+    super(name, type, target, modifier, image, duration, cost)
   end
 
   def activate
@@ -76,7 +82,7 @@ end
 
 class MaxHealthModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -92,7 +98,7 @@ end
 
 class PowerModif< Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, target = nil)
-    super(name, type, target, modifier, duration, cost)
+    super(name, type, target, modifier, image, duration, cost)
   end
 
   def activate
@@ -110,7 +116,7 @@ end
 
 class MaxPowerModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activite
@@ -126,7 +132,7 @@ end
 
 class DmgModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -137,7 +143,7 @@ end
 
 class DmgReducModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -153,7 +159,7 @@ end
 
 class PowerRegenModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -164,7 +170,7 @@ end
 
 class ResModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -176,7 +182,7 @@ end
 
 class PhysDefModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -187,7 +193,7 @@ end
 
 class EngDefModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -198,7 +204,7 @@ end
 
 class ExpModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -209,7 +215,7 @@ end
 
 class SpeedModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -220,7 +226,7 @@ end
 
 class ShieldModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activate
@@ -238,7 +244,7 @@ end
 
 class MaxShieldModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, target, modifier, image, duration, temp, cost)
   end
 
   def activiate
