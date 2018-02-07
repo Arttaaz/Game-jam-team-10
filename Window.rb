@@ -19,7 +19,7 @@ class Window < Gosu::Window
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
     @personnage = false
-    @moveRight = @moveLeft = false
+    @moveRight = @moveLeft = @moveUp = @moveDown = false
     @newTile = false
     @fighting = false
 
@@ -55,6 +55,10 @@ class Window < Gosu::Window
       Item.new("Yeux de perception","assets/Items/Yeux_de_perception.png")
     ]
 
+    @players.each { |p|
+      p.skills[0][1] = @@SkillList[1][1]
+      p.skills[1][1] = @@SkillList[0][1]
+    }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
     case @enemyRace
@@ -69,42 +73,39 @@ class Window < Gosu::Window
 
   def update
     if @fighting == false #if not in a fight
-      if @players[0].vel_x == 0 #if not moving
+      if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
           self.event
           @newTile = false
         end
-        if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
+        if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/600.0, Direction::LEFT))
           @moveLeft = true
         else
           @moveLeft = false
         end
 
-        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::RIGHT))
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/600.0, Direction::RIGHT))
           @moveRight = true
         else
           @moveRight = false
         end
 
-        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::UP))
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/600.0, Direction::UP))
           @moveUp = true
         else
           @moveUp = false
         end
 
-        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::DOWN))
-          @moveUp = true
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/600.0, Direction::DOWN))
+          @moveDown = true
         else
-          @moveUp = false
+          @moveDown = false
         end
-
-        @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
-        @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
       else
-        @moveLeft = @moveRight = false
+        @moveLeft = @moveRight = @moveUp = @moveDown = false
       end
     else                                    #########FIGHT#########
-      @moveLeft = @moveRight = false                  # can't move
+      @moveLeft = @moveRight = @moveUp = @moveDown = false                  # can't move
 
       #player does stuff
 
@@ -142,6 +143,12 @@ class Window < Gosu::Window
       if @moveRight
         Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x+1000, @players[0].y, 2)
       end
+      if @moveUp
+        Gosu::Image.new("assets/Arrow2.png", :tileable => true).draw(@players[0].x+323, @players[0].y-180, 2, 1, -1)
+      end
+      if @moveDown
+        Gosu::Image.new("assets/Arrow2.png", :tileable => true).draw(@players[0].x+323, @players[0].y+270, 2)
+      end
       if @fighting == true
         @enemies.each { |e| e.draw() }
       end
@@ -153,31 +160,52 @@ class Window < Gosu::Window
     when Gosu::KB_ESCAPE
       close
     when Gosu::MS_LEFT
+      puts self.mouse_x, self.mouse_y
       @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
       if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
-        if self.mouse_y >= 150 && self.mouse_y <= 450
+        if self.mouse_y >= 250 && self.mouse_y <= 550
           @players.each { |p| p.vel_x = -10 }
           @newTile = true
         end
       elsif @moveRight && self.mouse_x >= 1100 && self.mouse_x <= 1150
-        if self.mouse_y >= 150 && self.mouse_y <= 450
+        if self.mouse_y >= 250 && self.mouse_y <= 550
           @players.each { |p| p.vel_x = 10 }
           @newTile = true
         end
+      elsif @moveUp && self.mouse_y >= 30 && self.mouse_y <= 70
+        if self.mouse_x >= 433 && self.mouse_x <= 733
+          @players.each { |p| p.vel_y = -10 }
+          @newTile = true
+        end
+      elsif @moveDown && self.mouse_y >= 526 && self.mouse_y <= 556
+        if self.mouse_x >= 433 && self.mouse_x <= 733
+          @players.each { |p| p.vel_y = 10 }
+          @newTile = true
+        end
       end
-      @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x)}
+      @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
       if @enemies != []
         @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
       end
     when Gosu::KB_LEFT
       if @moveLeft
-          @players.each { |p| p.vel_x = -10 }
-          @newTile = true
+        @players.each { |p| p.vel_x = -10 }
+        @newTile = true
       end
     when Gosu::KB_RIGHT
       if @moveRight
-          @players.each { |p| p.vel_x = 10 }
-          @newTile = true
+        @players.each { |p| p.vel_x = 10 }
+        @newTile = true
+      end
+    when Gosu::KB_UP
+      if @moveUp
+        @players.each { |p| p.vel_y = -10 }
+        @newTile = true
+      end
+    when Gosu::KB_DOWN
+      if @moveDown
+        @players.each { |p| p.vel_y = 10 }
+        @newTile = true
       end
     else
       super

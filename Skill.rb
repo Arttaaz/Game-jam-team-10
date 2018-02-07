@@ -1,4 +1,5 @@
 require 'gosu'
+
 module Type
   PASSIVE = 0
   ACTIVE  = 1
@@ -14,13 +15,15 @@ end
 
 class Skill
 
-  attr_reader :name, :type, :target
+  attr_reader :name, :type, :target, :who
   attr_accessor :target, :color
 
   def initialize(name, type, who, modifier, image, duration = 0, temp = false, cost = 0, target = nil)
     @name = name
     @image = Gosu::Image.new(image, :tileable => true)
     @type = type
+    @x = 0
+    @y = 0
     @target = target
     @modifier = modifier
     @duration = duration
@@ -30,7 +33,7 @@ class Skill
     @color = 0xff_ffffff
   end
 
-  def activate
+  def activate(caster)
     @activated = true
     return @cost
   end
@@ -47,12 +50,18 @@ class Skill
   end
 
   def draw(x, y)
+    @x = x
+    @y = y
     @image.draw(x, y, 1, 1, 1, @color)
   end
 
+<<<<<<< HEAD
   def isClicked?(x, y, xx, yy)
+=======
+  def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation
+>>>>>>> 5a322565055ce3bf4427fac10bc20803b9082d5c
     if (x >= @x+xx) && (y >= @y+yy)
-      if (x <= @x+xx+@width) && (y <= @y+yy+@height)
+      if (x <= @x+xx+60) && (y <= @y+yy+60)
         return true
       else
         return false
@@ -67,7 +76,7 @@ class HealthModif < Skill
     super(name, type, target, modifier, image, duration, cost)
   end
 
-  def activate
+  def activate(caster)
     healthCheck = @target.health + (@target.health * @modifier)/100
     if healthCheck > @target.maxHealth
       @target.health = @target.maxHealth
@@ -85,7 +94,7 @@ class MaxHealthModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     maxHealthCheck = @target.maxHealth + (@target.maxHealth * @modifier)/100
     if maxHealthCheck < 0
       @target.maxHealth = 0
@@ -101,7 +110,7 @@ class PowerModif< Skill
     super(name, type, target, modifier, image, duration, cost)
   end
 
-  def activate
+  def activate(caster)
     powerCheck = @target.power + (@target.power * @modifier)/100
     if powerCheck > @target.maxPower
       @target.power = @target.maxPower
@@ -119,7 +128,7 @@ class MaxPowerModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activite
+  def activite(caster)
     maxPowerCheck = @target.maxPower + (@target.maxPower * @modifier)/100
     if maxPowerCheck < 0
       @target.maxPower = 0
@@ -135,7 +144,7 @@ class DmgModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.damage = @target.damage + (@target.damage * @modifier)/100
     super
   end
@@ -146,7 +155,7 @@ class DmgReducModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     dmgReducCheck = @target.dmgReduc + (@target.dmgReduc * @modifier)/100
     if dmgReduc > 100
       @target.dmgReduc = 100
@@ -162,7 +171,7 @@ class PowerRegenModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.powRegen = @target.powRegen + (@target.powerRegen * @modifier)/100
     super
   end
@@ -173,7 +182,7 @@ class ResModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.phy_def = @target.phy_def + (@target.phy_def * @modifier)/100
     @target.eng_def = @target.eng_def + (@target.eng_def * @modifier)/100
     super
@@ -185,7 +194,7 @@ class PhysDefModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.phy_def = @target.phy_def + (@target.phy_def * @modifier)/100
     super
   end
@@ -196,7 +205,7 @@ class EngDefModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.eng_def = @target.eng_def + (@target.eng_def * @modifier)/100
     super
   end
@@ -207,7 +216,7 @@ class ExpModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.expBonus = @target.expBonus + (@target.expBonus * @modifier)/100
     super
   end
@@ -218,7 +227,7 @@ class SpeedModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     @target.speed = @target.speed + @modifier
     super
   end
@@ -229,7 +238,7 @@ class ShieldModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activate(caster)
     shieldCheck = @target.shield + (@target.shield * @modifier)/100
     if shieldCheck > @target.maxShield
       @target.shield = @target.maxShield
@@ -247,7 +256,7 @@ class MaxShieldModif < Skill
     super(name, type, target, modifier, image, duration, temp, cost)
   end
 
-  def activate
+  def activiate(caster)
     maxShieldCheck = @target.maxShield + (@target.maxShield * @modifier)/100
     if maxShieldCheck < 0
       @target.maxShield = 0
