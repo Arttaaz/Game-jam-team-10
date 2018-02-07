@@ -1,7 +1,7 @@
 require 'gosu'
 
 module Direction
-  LEFT,RIGHT = *0..1
+  LEFT, RIGHT, UP, DOWN = *0..3
 end
 
 module Event
@@ -24,7 +24,8 @@ class Map
   end
 
   def generate
-    2.times { |y|
+    maxl = 0
+    3.times { |y|
       theme = ["medbay", "recreation", "engine"].shuffle
       t = theme.pop
       case(t)
@@ -35,31 +36,46 @@ class Map
       when "engine"
         l = 4+rand(3)
       end
-      l = l + (2-y)
+      l = l + (3-y)
+      if l > maxl
+        maxl = l
+      end
       9.times { |x|
         if l > 0
-          @tilemap[x][y] = 0
+          @tilemap[x][y+1] = 0
           l -= 1
         else
           case(t)
           when "medbay"
-            @tilemap[x][y] = 5+rand(2)
+            @tilemap[x][y+1] = 5+rand(2)
           when "recreation"
-            @tilemap[x][y] = 3+rand(2)
+            @tilemap[x][y+1] = 3+rand(2)
           when "engine"
-            @tilemap[x][y] = 7+rand(2)
+            @tilemap[x][y+1] = 7+rand(2)
           end
         end
       }
     }
 
     9.times { |x|
+      @tilemap[x][0] = 0
       if x < 5
-        @tilemap[x][2] = 0
+        @tilemap[x][4] = 0
       else
-        @tilemap[x][2] = 1+rand(2)
+        @tilemap[x][4] = 1+rand(2)
       end
     }
+
+    a = maxl + rand(3)
+    if a >= 8
+      a = 7
+    end
+
+    5.times { |y|
+      @tilemap[a][y] = 9
+    }
+
+    @tilemap[a-1][0] = 10
 
   end
 

@@ -12,7 +12,7 @@ class Window < Gosu::Window
     self.caption = "Rogue-like"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
-    @yStart = 250+ 2*600
+    @yStart = 250+ 4*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
@@ -60,6 +60,18 @@ class Window < Gosu::Window
           @moveRight = false
         end
 
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::UP))
+          @moveUp = true
+        else
+          @moveUp = false
+        end
+
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::DOWN))
+          @moveUp = true
+        else
+          @moveUp = false
+        end
+
         @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
         @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
       else
@@ -79,7 +91,6 @@ class Window < Gosu::Window
         end
         @currentActor.active = true                     #actor can use skills
         if @currentActor.instance_of?(Player)           #if actor is player then set current player
-          puts "hey"
           @currentPlayer = @currentActor
         else                                            # else start enemy ai
           @currentActor.ai(@players)
@@ -149,12 +160,19 @@ class Window < Gosu::Window
 
   def event
 
-    e = ["Encounter", "Loot"]
-    if(@players.size < 3)
-      e << "Friendly"
+    p = rand(100)+1
+    case p
+    when 1..10
+      e = "Friendly"
+    when 11..55
+      e = "Encounter"
+    when 56..75
+      e = "Loot"
+    when 76..100
+      e = "Nothing"
     end
-    e.shuffle!
-    case(e.pop)
+
+    case(e)
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       self.fight
