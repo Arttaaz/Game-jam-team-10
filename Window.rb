@@ -15,9 +15,9 @@ class Window < Gosu::Window
     @yStart = 250+ 2*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0])
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
     @currentPlayer = @players[0]
-    @fighting = false
+    @personnage = false
     @moveRight = @moveLeft = false
     @newTile = false
 
@@ -66,7 +66,7 @@ class Window < Gosu::Window
 
       #player does stuff
 
-      if @currentActor.active = false
+      if @currentActor.active == false
         @CurrentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
         if @currentActor == []                          #if actor is nil it's a new turn
           @currentTurn = @currentTurn + 1
@@ -84,7 +84,7 @@ class Window < Gosu::Window
       @enemies.each { |e| e.update() }                #update enemies state
     end
     @players.each { |p| p.update() }
-    @ihm.update(@players[0].x,@players[0].y, @currentPlayer)
+    @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @fighting)
 
   end
 
