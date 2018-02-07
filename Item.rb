@@ -4,7 +4,7 @@ load 'Player.rb'
 
 class Item
 
-  def initialize(name, image)
+  def initialize(name, image, type)
     @name = name
     @image = image
     @player = player

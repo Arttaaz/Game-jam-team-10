@@ -12,8 +12,8 @@ class Window < Gosu::Window
     self.caption = "Ascencsion-3"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
-    @yStart = 250+ 2*600
-    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart),]
+    @yStart = 250+ 4*600
+    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
     @currentPlayer = @players[0]
@@ -21,10 +21,17 @@ class Window < Gosu::Window
     @moveRight = @moveLeft = false
     @newTile = false
     @fighting = false
+<<<<<<< HEAD
 
 
+=======
+#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil
+>>>>>>> 3f1c1e94672eae7b3009add8bcdc75240ec51634
     @@SkillList = [
-
+      [Type::PASSIVE, MaxPowerModif.new("Libre Arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Libre_arbitre.png")],
+      [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Concentration.png", 15, 2, true)]
+      [Type::PASSIVE, HealthModif.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Auto-reparateur.png")]
+      [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Taser.png", 17, 1, true)]
     ]
 
 
@@ -56,6 +63,18 @@ class Window < Gosu::Window
           @moveRight = true
         else
           @moveRight = false
+        end
+
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::UP))
+          @moveUp = true
+        else
+          @moveUp = false
+        end
+
+        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::DOWN))
+          @moveUp = true
+        else
+          @moveUp = false
         end
 
         @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
@@ -146,12 +165,19 @@ class Window < Gosu::Window
 
   def event
 
-    e = ["Encounter", "Loot"]
-    if(@players.size < 3)
-      e << "Friendly"
+    p = rand(100)+1
+    case p
+    when 1..10
+      e = "Friendly"
+    when 11..55
+      e = "Encounter"
+    when 56..75
+      e = "Loot"
+    when 76..100
+      e = "Nothing"
     end
-    e.shuffle!
-    case(e.pop)
+
+    case(e)
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       self.fight
