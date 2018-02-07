@@ -48,8 +48,7 @@ class IHM < Gosu::Window
     @font.draw(@player.race,  @x-90, @y+490, 1, 2.0, 2.0, Gosu::Color::BLUE)
 =end
 
-    @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+450, 1, 1.0, 1.0, Gosu::Color::CYAN)
-    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::RED)
+
 
 
 
@@ -64,6 +63,9 @@ class IHM < Gosu::Window
     case(@box)
     when 0 #carte
       draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #carte
+
+=begin # mode combat
+      @font.draw("Sacha", @x, @y+440, 1, 1.5,1.5 , Gosu::Color::BLACK)
 
       draw_rect(@x+90,@y+430,60,60,Gosu::Color::WHITE, z=0, :default) #skills
       draw_rect(@x+165,@y+430,60,60,Gosu::Color::WHITE, z=0, :default)
@@ -82,10 +84,45 @@ class IHM < Gosu::Window
       draw_rect(@x+240,@y+580,60,60,Gosu::Color::WHITE, z=0, :default)
       draw_rect(@x+315,@y+580,60,60,Gosu::Color::WHITE, z=0, :default)
       draw_rect(@x+390,@y+580,60,60,Gosu::Color::WHITE, z=0, :default)
-    when 1 # skills
+=end
+      @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
+      @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
+
+      @font.draw("Dégâts: " + @player.damage.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Vitesse: " + @player.speed.to_s,  @x-90, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
+
+      draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
+      @font.draw("Objet 1", @x+20, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+      draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
+      @font.draw("Objet 2", @x+290, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+
+    when 1 # stats
+      d=0
+      3.times do
+      @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x+d-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
+      @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x+d-90, @y+430, 1, 1.0, 1.0, Gosu::Color::CYAN)
+      @font.draw("Pouvoir: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x+d-90, @y+450, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
+      @font.draw("Régén. pouvoir: " + @player.powRegen.to_s,  @x+d-90, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Classe: " + @player.class,  @x+d+90, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Race: " + @player.race,  @x+d+90, @y+430, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Dégâts: " + @player.damage.to_s,  @x+d-90, @y+490, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Réduc. dégâts: " + @player.dmgReduc.to_s + "%",  @x+d-90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+d-90, @y+530, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+d-90, @y+550, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Vitesse: " + @player.speed.to_s,  @x+d+90, @y+450, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Argent: " + @player.money.to_s,  @x+d+90, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Bonus argent: " + @player.moneyBonus.to_s + "%",  @x+d+90, @y+490, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Expérience: " + @player.exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Bonus exp: " + @player.expBonus.to_s + "%",  @x+d+90, @y+530, 1, 1.0, 1.0, Gosu::Color::BLACK)
+      @font.draw("Nom", @x+20, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
+      d=d+420
+      end
+    when 2 # skills
       @font.draw("Acvtives",  @x+258, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
 
-      draw_rect(@x+120,@y+430,60,60,Gosu::Color::WHITE, z=0, :default) #skills
+      draw_rect(@x+120,@y+430,60,60,Gosu::Color::WHITE, z=0, :default)
       draw_rect(@x+195,@y+430,60,60,Gosu::Color::WHITE, z=0, :default)
       draw_rect(@x+270,@y+430,60,60,Gosu::Color::WHITE, z=0, :default)
       draw_rect(@x+345,@y+430,60,60,Gosu::Color::WHITE, z=0, :default)
