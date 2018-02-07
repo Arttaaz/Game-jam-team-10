@@ -42,6 +42,7 @@ class Window < Gosu::Window
       if @players[0].vel_x == 0 #if not moving
         if @newTile == true
           self.event
+          @newTile = false
         end
         if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
           @moveLeft = true
@@ -60,27 +61,24 @@ class Window < Gosu::Window
       else
         @moveLeft = @moveRight = false
       end
-    else
-      @moveLeft = @moveRight = false        # can't move
-      if @currentActor.instance_of?(Player)   #if actor is player then set current player
-        @currentActor.active = true           #actor can use skills
-        @currentPlayer = @currentActor
-      else                                    # else start enemy ai
-        @currentActor.ai(@players)
-      end
+    else                                    #########FIGHT#########
+      @moveLeft = @moveRight = false                  # can't move
 
       #player does stuff
 
-      #when did something
-      if @currentActor.instance_of?(Player)           #actor can't do anything anymore
-        @currentActor.active = false
-      end
-      @CurrentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
-
-
-      if @currentActor == []                          #if actor is nil it's a new turn
-        @currentTurn = @currentTurn + 1
-        @currentActor = @turnOrder.rotate!.first[1]
+      if @currentActor.active = false
+        @CurrentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
+        if @currentActor == []                          #if actor is nil it's a new turn
+          @currentTurn = @currentTurn + 1
+          @players.each { |p| p.skills.each { |s| s.update }}
+          @currentActor = @turnOrder.rotate!.first[1]
+        end
+        @currentActor.active = true                     #actor can use skills
+        if @currentActor.instance_of?(Player)           #if actor is player then set current player
+          @currentPlayer = @currentActor
+        else                                            # else start enemy ai
+          @currentActor.ai(@players)
+        end
       end
 
       @enemies.each { |e| e.update() }                #update enemies state
@@ -170,6 +168,14 @@ class Window < Gosu::Window
     @turnOrder << []
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]
+
+
+    if @currentActor.instance_of?(Player)           #if actor is player then set current player
+      @currentActor.active = true                   #actor can use skills
+      @currentPlayer = @currentActor
+    else                                            # else start enemy ai
+      @currentActor.ai(@players)
+    end
   end
 
   def needs_cursor?

@@ -12,7 +12,7 @@ class Button
     @font = font
   end
 
-  def isInside?(x, y, xx, yy) #xx is x camera translation yy is y camera translation
+  def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation
     if (x >= @x+xx) && (y >= @y+yy)
       if (x <= @x+xx+@width) && (y <= @y+yy+@height)
         return true

@@ -3,12 +3,14 @@ require 'gosu'
 class Enemy
 
   attr_reader :x, :y, :race, :speed
+  attr_accessor :active
 
   def initialize(image, x, y, race)
     @image = Gosu::Image.new(image, :tileable => true)
     @x = x
     @y = y
-    @speed = 11
+    @speed = 42
+    @active = false
     @race = race
     @maxHealth = @health = 100
     @shield = @maxShield = 100
@@ -16,6 +18,9 @@ class Enemy
   end
 
   def ai(targets)
+    target = rand(targets.size)
+    targets[target].health = targets[target].health - 10
+    @active = false
   end
 
   def update

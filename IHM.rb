@@ -35,9 +35,9 @@ class IHM < Gosu::Window
   end
 
   def click(x, y, xx, yy)
-    @box = 0 if @carte.isInside?(x, y, xx, yy) == true
-    @box = 1 if @stats.isInside?(x, y, xx, yy) == true
-    @box = 2 if @skills.isInside?(x, y, xx, yy) == true
+    @box = 0 if @carte.isClicked?(x, y, xx, yy) == true
+    @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
+    @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
   end
 
   def box

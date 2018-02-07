@@ -6,7 +6,7 @@ class Player
 
 
   attr_reader :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
-  attr_accessor :active, :vel_x
+  attr_accessor :active, :vel_x, :health
 
   def initialize(image, x, y)
     @skills = []
