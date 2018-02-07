@@ -61,9 +61,8 @@ class Skill
       else
         return false
       end
-    end
   end
-
+  
 end
 
 class HealthModif < Skill
