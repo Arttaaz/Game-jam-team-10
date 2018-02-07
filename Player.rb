@@ -5,6 +5,7 @@ load 'Skill.rb'
 class Player
 
 
+
   attr_reader :name, :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
   attr_accessor :active, :vel_x, :health
 
@@ -24,8 +25,8 @@ class Player
     @exp = 0
     @expBonus = 0 #%
     @race = race
-    @race = @races[rand(0..2)] if @race = "d"
-    if @race = "Humain"
+    @race = @races[rand(0..1)] if @race == "d"
+    if @race == "Humain"
       index = rand(@humanNames.size)
       @name = @humanNames[index]
       @humanNames.delete_at(index)
@@ -34,7 +35,6 @@ class Player
       @name = @robotNames[index]
       @robotNames.delete_at(index)
     end
-
     @class = @classes[rand(0..2)]
     redefStats(@race)
     @color = 0xff_ffffff
