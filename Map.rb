@@ -20,9 +20,6 @@ class Map
     self.generate
     @WIDTH = @tilemap.size
     @HEIGHT = @tilemap[0].size
-
-    @tilemap.each { |c| puts c}
-
   end
 
   def generate
@@ -39,7 +36,6 @@ class Map
         l = 4+rand(3)
       end
       l = l + (y-3)
-      puts [maxl, 5].max
       if l > 5
         maxl = l
       end
@@ -69,7 +65,7 @@ class Map
       end
     }
 
-    a = maxl + rand(2)
+    a = maxl + rand(4)
     if a >= 8
       a = 7
     end
