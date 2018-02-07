@@ -1,3 +1,4 @@
+require 'gosu'
 
 module Type
   PASSIVE = 0
@@ -19,12 +20,15 @@ end
 
 class Skill
 
-  attr_reader :name, :type, :target
-  attr_accessor :target
+  attr_reader :name, :type, :target, :who
+  attr_accessor :target, :color
 
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
     @name = name
+    @image = Gosu::Image.new(image, :tileable => true)
     @type = type
+    @x = 0
+    @y = 0
     @target = target
     @modifier = modifier
     @duration = duration
@@ -33,6 +37,7 @@ class Skill
     @activated = false
     @who = who
     @dmgType = dmgType
+    @color = 0xff_ffffff
   end
 
   def activate(caster)
@@ -51,9 +56,14 @@ class Skill
     end
   end
 
-  def isClicked?(x, y, xx)
-    if (x >= @x+xx) && (y >= @y+yy)
-      if (x <= @x+xx+@width) && (y <= @y+yy+@height)
+  def draw(x, y)
+    @x = x
+    @y = y
+    @image.draw(x, y, 1, 1, 1, @color)
+  end
+
+  def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation    if (x >= @x+xx) && (y >= @y+yy)
+      if (x <= @x+xx+60) && (y <= @y+yy+60)
         return true
       else
         return false

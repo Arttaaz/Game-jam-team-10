@@ -1,14 +1,16 @@
 require 'gosu'
 load 'Player.rb'
 load 'Button.rb'
+load 'Skill.rb'
 
 
 class IHM < Gosu::Window
 
-  def initialize(x,y, players, player, fighting)
+  def initialize(x,y, players, enemies, player, fighting)
     @x = x
     @y = y
     @font = Gosu::Font.new(20)
+    @enemies = enemies
     @players = players
     @player = player
     @personnage = Button.new("Personnage", @x-100,@y+350,160,50,Gosu::Color::WHITE, @font)
@@ -16,6 +18,7 @@ class IHM < Gosu::Window
     @skills = Button.new("Capacités", @x+275,@y+350,150,50,Gosu::Color::WHITE, @font)
     @box = 0
     @fighting = fighting
+    @waitTarget = false
   end
 
   def draw
@@ -26,10 +29,12 @@ class IHM < Gosu::Window
     self.box
   end
 
-  def update(x,y, player, fighting)
+  def update(x,y, player, players, enemies, fighting)
     @x = x
     @y = y
     @player = player
+    @players = players
+    @enemies = enemies
     @personnage.update(x-100, y+350)
     @stats.update(x+70, y+350)
     @skills.update(x+230, y+350)
@@ -37,9 +42,55 @@ class IHM < Gosu::Window
   end
 
   def click(x, y, xx, yy)
-    @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
-    @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
-    @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
+
+    if @waitTarget
+      if @pendingSkill[0] == Who::SELF
+        @pendingSkill[1].target = @player
+        @player.power -= @pendingSkill[1].activate
+        @waitTarget = false
+      elsif @pendingSkill[0] == Who::ALLIES
+        @pendingSkill[1].target = @players
+        @player.power -= @pendingSkill[1].activate
+        @waitTarget = false
+      elsif @pendingSkill[0] == Who::ENEMIES
+        @pendingSkill[1].target = @enemies
+        @player.power -= @pendingSkill[1].activate
+        @waitTarget = false
+      else
+        @players.each { |p|
+          if p.isClicked?(x, y, xx)
+            case @pendingSkill[0]
+            when Who::ALLY
+              @pendingSkill[1].target = p
+              @player.power -= @pendingSkill[1].activate
+              @waitTarget = false
+            end
+          end
+        }
+        @enemies.each { |e|
+          if e.isClicked?(x, y, xx)
+            case @pendingSkill[0]
+            when Who::ENEMY
+              @pendingSkill[1].target = e
+              @player.power -= @pendingSkill[1].activate
+              @waitTarget = false
+            end
+          end
+        }
+      end
+    else
+      @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
+      @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
+      @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
+      #@player.skills.each { |s|
+      #  if s[0] == Type::ACTIVE
+      #    if s[1].isClicked?(x, y, xx, yy)
+      #      @pendingSkill = [s[1].who, s[1]]
+      #      @waitTarget = true
+      #    end
+      #  end
+      #}
+    end
   end
 
   def dispSkills
@@ -71,6 +122,7 @@ class IHM < Gosu::Window
         @player.skills.each do |skill|
           if skill[0]==Type::ACTIVE
             draw_rect(@x+dx-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
+            skill[1].draw(@x+dx-90, @y+550)
             dx=dx+75
           end
         end
@@ -120,7 +172,7 @@ class IHM < Gosu::Window
         dy=0
         @players.size.times do |n|
           dxa=dxp=0
-          @font.draw(@players[n].name, @x-90, @y+dy+440, 1, 1.7,1.7 , Gosu::Color::BLUE)
+          @font.draw(@players[n].name, @x-90, @y+dy+445, 1, 1.3,1.3 , Gosu::Color::BLUE)
           @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE
