@@ -172,7 +172,7 @@ class IHM < Gosu::Window
         dy=0
         @players.size.times do |n|
           dxa=dxp=0
-          @font.draw(@players[n].name, @x-90, @y+dy+440, 1, 1.7,1.7 , Gosu::Color::BLUE)
+          @font.draw(@players[n].name, @x-90, @y+dy+445, 1, 1.3,1.3 , Gosu::Color::BLUE)
           @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE

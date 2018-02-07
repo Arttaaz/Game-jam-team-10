@@ -107,7 +107,7 @@ class Player
       @speed = rand(14..20)
     else #@race == @races[2]   infested
       @maxHealth = @health = rand(140..180)
-      @maxShield = @shield = 1000 #lààààààà c'est 000000
+      @maxShield = @shield = 0 #lààààààà c'est 000000
       @maxPower = @power = 80
       @powRegen = 8
       @damage = rand(20..30)
@@ -166,6 +166,106 @@ class Player
         return false
       end
     end
+  end
+
+  def useItem(name)
+    case(name)
+    when "Armure regenerante"
+      @health+=10
+      @speed+=5
+      @power+=8
+      @phy_def+=3
+      @eng_def+=3
+    when "Armure vivante"
+      @health+=15
+      @phy_def+=15
+      @eng_def-=5
+      @speed+=2
+      @powRegen-=2
+    when "BFK"
+      @damage+=16
+      @phy_def-=2
+      @eng_def-=2
+    when "Bouclier energetique"
+      @eng_def+=16
+      @phy_def+=6
+      @speed-=1
+      @shield+=5
+    when "Chalumeau"
+      @damage+=6
+      @power+=10
+    when "Cheveu divin"
+      @power+=15
+      @powRegen+=3
+      @damage+=5
+      @speed+=2
+      @shield+=5
+    when "Combinaison spatiale"
+      @health+=30
+      @speed-=5
+      @power+=15
+    when "Couteau mortel"
+      @damage+=15
+      @speed+=5
+      @powRegen+=3
+      @power-=10
+      @health-=10
+      @shield-=5
+    when "Cyber-cerveau"
+      @power+=15
+      @powRegen+=5
+      @eng_def+=5
+    when "Epee plasmique"
+      @damage+=20
+      @power-10
+      @powRegen-=2
+    when "Gilet pare-balle"
+      @phy_def+=15
+      @eng_def+=8
+      @speed-=4
+    when "Katana"
+      @damage+=12
+      @powRegen+=4
+      @shield+=10
+      @speed-=2
+    when "Lampe bleue"
+      @health+=25
+      @powRegen+=5
+      @damage+=3
+    when "Magnum 50mm"
+      @damage+=7
+      @powRegen+=2
+      @speed+=3
+    when "Pistolet laser"
+      @damage+=4
+      @powRegen+=3
+      @power+=5
+    when "Pistolet sonique"
+      @damage+=4
+      @speed+=4
+    when "Tablier de cuisine"
+      @phy_def+=2
+      @eng_def-=2
+      @power+=20
+      @powRegen+=2
+    when "Tournevis sonique"
+      @power+=8
+      @powRegen+=3
+      @eng_def+=6
+      @phy_def-=5
+    when "Uniforme de pilote"
+      @health+=15
+      @phy_def+=5
+      @eng_def-=1
+      @speed+=3
+    when "Yeux de perception"
+      @power+=12
+      @speed+=5
+      @damage+=2
+      @phy_def-=3
+      @eng_def-=3
+    end
+
   end
 
 end

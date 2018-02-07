@@ -4,12 +4,13 @@ load 'Player.rb'
 load 'Enemy.rb'
 load 'IHM.rb'
 load 'Skill.rb'
+load 'Item.rb'
 
 class Window < Gosu::Window
 
   def initialize(width, height)
     super(width, height)
-    self.caption = "Rogue-like"
+    self.caption = "Ascension-3"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
     @yStart = 250+ 4*600
@@ -24,11 +25,35 @@ class Window < Gosu::Window
     @hasKey = false
     @pToDelete = @eToDelete = []
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, target = nil
+
     @@SkillList = [
       [Type::PASSIVE, MaxPowerModif.new("Libre Arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
       [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
       [Type::PASSIVE, HealthModif.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
       [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/2_Taser.png", 17, 1, true)]
+    ]
+
+    @@ItemList =[
+      Item.new("Armure regenerante", "assets/Items/Armure_regenerante.png"),
+      Item.new("Armure vivante", "assets/Items/Armure_vivante.png"),
+      Item.new("BFK","assets/Items/BFK.png"),
+      Item.new("Bouclier energetique","assets/Items/Bouclier_energetique.png"),
+      Item.new("Chalumeau","assets/Items/Chalumeau.png"),
+      Item.new("Cheveu divin","assets/Items/Cheveu_divin.png"),
+      Item.new("Combinaison spatiale","assets/Items/Combinaison_spatiale.png"),
+      Item.new("Couteau mortel","assets/Items/Couteau_mortel.png"),
+      Item.new("Cyber-cerveau","assets/Items/Cyber-cerveau.png"),
+      Item.new("Epee plasmique","assets/Items/Epee_plasmique.png"),
+      Item.new("Gilet pare-balle","assets/Items/Gilet_pare-balle.png"),
+      Item.new("Katana","assets/Items/Katana.png"),
+      Item.new("Lampe blue","assets/Items/Lampe_bleue.png"),
+      Item.new("Magnum 50mm","assets/Items/Magnum_50mm.png"),
+      Item.new("Pistolet laser","assets/Items/Pistolet_laser.png"),
+      Item.new("Pistolet sonique","assets/Items/Pistolet_sonique.png"),
+      Item.new("Tablier de cuisine","assets/Items/Tablier_de_cuisine.png"),
+      Item.new("Tournevis sonique","assets/Items/Tournevis_sonique.png"),
+      Item.new("Uniforme de pilote","assets/Items/Uniforme_de_pilote.png"),
+      Item.new("Yeux de perception","assets/Items/Yeux_de_perception.png")
     ]
 
     @players.each { |p|
