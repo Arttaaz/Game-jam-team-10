@@ -9,8 +9,8 @@ class Player
   attr_accessor :active, :vel_x
 
   def initialize(image, x, y)
-    @skills = []
-    @races = ["humain", "robot", "infecté"]
+    @skills = [ [Type::ACTIVE,"skill"] , [Type::PASSIVE,"passive"] ] #array is like [ [active/passive, skill name], [active/passive, skill name]]
+    @races = ["Humain", "Robot", "Infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
     @active = false
