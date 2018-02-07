@@ -20,6 +20,8 @@ class Window < Gosu::Window
     @personnage = false
     @moveRight = @moveLeft = false
     @newTile = false
+    @fighting = false
+
 
     @@SkillList = [
 
@@ -67,7 +69,7 @@ class Window < Gosu::Window
       #player does stuff
 
       if @currentActor.active == false
-        @CurrentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
+        @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
         if @currentActor == []                          #if actor is nil it's a new turn
           @currentTurn = @currentTurn + 1
           @players.each { |p| p.skills.each { |s| s.update }}
