@@ -244,7 +244,7 @@ class MaxShieldModif < Skill
     super(name, type, target, modifier, duration, temp, cost)
   end
 
-  def activiate
+  def activate
     maxShieldCheck = @target.maxShield + (@target.maxShield * @modifier)/100
     if maxShieldCheck < 0
       @target.maxShield = 0

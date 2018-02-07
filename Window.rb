@@ -9,11 +9,11 @@ class Window < Gosu::Window
 
   def initialize(width, height)
     super(width, height)
-    self.caption = "Rogue-like"
+    self.caption = "Ascencsion-3"
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
     @yStart = 250+ 2*600
-    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
+    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart),]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
     @currentPlayer = @players[0]

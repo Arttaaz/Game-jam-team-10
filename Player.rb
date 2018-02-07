@@ -99,7 +99,7 @@ class Player
       @speed = rand(14..20)
     else #@race == @races[2]   infested
       @maxHealth = @health = rand(140..180)
-      @maxShield = @shield = 1000 #lààààààà c'est 000000
+      @maxShield = @shield = 0 #lààààààà c'est 000000
       @maxPower = @power = 80
       @powRegen = 8
       @damage = rand(20..30)
