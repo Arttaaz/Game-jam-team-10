@@ -12,7 +12,7 @@ class IHM < Gosu::Window
     @player = player
     @carte = Button.new("Carte", @x-100,@y+350,130,50,Gosu::Color::WHITE, @font)
     @stats = Button.new("Stats", @x+35,@y+350,130,50,Gosu::Color::WHITE, @font)
-    @skills = Button.new("Capacites", @x+170,@y+350,130,50,Gosu::Color::WHITE, @font)
+    @skills = Button.new("Capacités", @x+170,@y+350,130,50,Gosu::Color::WHITE, @font)
   end
 
   def draw
@@ -45,7 +45,7 @@ class IHM < Gosu::Window
 =end
 
     @font.draw("Bouclier: " + @player.shield.to_s,  @x-90, @y+450, 1, 1.0, 1.0, Gosu::Color::CYAN)
-    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::RED)
+    @font.draw("Santé: " + @player.health.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::GREEN)
 =begin
     draw_rect(@x-100,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
     draw_rect(@x+35,@y+450,130,50,Gosu::Color::WHITE, 0, :default)
