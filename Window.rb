@@ -27,10 +27,10 @@ class Window < Gosu::Window
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
     @@SkillList = [
-      [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/Libre_arbitre.png")],
-      [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/Concentration.png", 15, 2, true)],
-      [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/Auto-reparateur.png")],
-      [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/Taser.png", 17, 1, true)],
+      [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
+      [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
+      [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-reparateur.png")],
+      [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/2_Taser.png", 17, 1, true)],
       [Type::PASSIVE, DmgModif.new("Volonte de fer", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Classes/Soldat/01-1_Volonte_de_fer.png")],
       [Type::ACTIVE, Dmg.new("Tire puissant", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/01-2_Tire_puissant.png", 17, 0, false, DmgType::PHYS)],
       [Type::PASSIVE, DmgModif.new("Munition lourde", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-1_Munition_lourde.png")],
@@ -69,8 +69,8 @@ class Window < Gosu::Window
     ]
 
     @players.each { |p|
-      p.skills[0][1] = @@SkillList[1][1]
-      p.skills[1][1] = @@SkillList[0][1]
+      p.skills[0] = @@SkillList[1]
+      p.skills[1] = @@SkillList[0]
     }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first

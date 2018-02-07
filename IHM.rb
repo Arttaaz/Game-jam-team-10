@@ -42,8 +42,8 @@ class IHM < Gosu::Window
   end
 
   def click(x, y, xx, yy)
-    puts @waitTarget
     if @waitTarget
+      puts @pendingSkill[0]
       if @pendingSkill[0] == Who::SELF
         @pendingSkill[1].target = @player
         @player.power -= @pendingSkill[1].activate
@@ -82,14 +82,15 @@ class IHM < Gosu::Window
       @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
       @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
       @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
-      #@player.skills.each { |s|
-      #  if s[0] == Type::ACTIVE
-      #    if s[1].isClicked?(x, y, xx, yy)
-      #      @pendingSkill = [s[1].who, s[1]]
-      #      @waitTarget = true
-      #    end
-      #  end
-      #}
+      @player.skills.each { |s|
+        if s[0] == Type::ACTIVE
+          if s[1].isClicked?(x, y, xx, yy)
+            puts s[1].who
+            @pendingSkill = [s[1].who, s[1]]
+            @waitTarget = true
+          end
+        end
+      }
     end
   end
 
