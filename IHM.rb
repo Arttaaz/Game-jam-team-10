@@ -107,18 +107,4 @@ sinon à droite
 
       end
     end
-  end
-
-
-=begin
-regarder le nombre d'éléments dans playerS
-  @players.size.times do |o|
-afficher en fonction
-
-Skill Type::ACTIVE/PASSIVE
-
-parcourir les différents arrays contenus dans l'array skills
-regarder le Type genre @players[n].skills[i][0]
-si Type::ACTIVE faire affichage à gauche
-sinon à droite
-=end
+end

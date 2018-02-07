@@ -15,7 +15,7 @@ class Enemy
     @color = 0xff_ffffff
   end
 
-  def ai
+  def ai(targets)
   end
 
   def update
