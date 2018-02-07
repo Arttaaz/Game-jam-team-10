@@ -13,35 +13,14 @@ class Window < Gosu::Window
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
     @yStart = 250+ 2*600
-    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
-<<<<<<< HEAD
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-150,@players[0])
-    @fighting = false
-  end
-
-  def update
-    if @fighting == false
-      if (Gosu.button_down? Gosu::KB_LEFT)
-        if (@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::LEFT))
-          @players.each { |p| p.move(-5,0) }
-        end
-      elsif (Gosu.button_down? Gosu::KB_RIGHT)
-        if(@map.move?(@players[0].x/1200.0, @players.last.x/1200.0, @players[0].y/900.0, Direction::RIGHT))
-          @players.each { |p| p.move(5,0) }
-        end
-      end
-
-      @players.each { |p| p.move(0,-5) } if Gosu.button_down? Gosu::KB_UP
-      @players.each { |p| p.move(0,5) } if Gosu.button_down? Gosu::KB_DOWN
-      @ihm.update(@players[0].x,@players[0].y)
-    end
-=======
+    @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart)]
     @enemies = []
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0])
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0], @fighting)
     @currentPlayer = @players[0]
-    @fighting = false
+    @personnage = false
     @moveRight = @moveLeft = false
     @newTile = false
+    @fighting = false
 
     @@SkillList = [
 
@@ -88,8 +67,8 @@ class Window < Gosu::Window
 
       #player does stuff
 
-      if @currentActor.active = false
-        @CurrentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
+      if @currentActor.active == false
+        @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
         if @currentActor == []                          #if actor is nil it's a new turn
           @currentTurn = @currentTurn + 1
           @players.each { |p| p.skills.each { |s| s.update }}
@@ -97,6 +76,7 @@ class Window < Gosu::Window
         end
         @currentActor.active = true                     #actor can use skills
         if @currentActor.instance_of?(Player)           #if actor is player then set current player
+          puts "hey"
           @currentPlayer = @currentActor
         else                                            # else start enemy ai
           @currentActor.ai(@players)
@@ -106,9 +86,8 @@ class Window < Gosu::Window
       @enemies.each { |e| e.update() }                #update enemies state
     end
     @players.each { |p| p.update() }
-    @ihm.update(@players[0].x,@players[0].y, @currentPlayer)
+    @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @fighting)
 
->>>>>>> 0f65312a5ab88fa81123a1414ae5c4e5c37d1a92
   end
 
   def draw
@@ -137,12 +116,12 @@ class Window < Gosu::Window
       @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
       if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
         if self.mouse_y >= 150 && self.mouse_y <= 450
-          @players.each { |p| p.vel_x = -5 }
+          @players.each { |p| p.vel_x = -10 }
           @newTile = true
         end
       elsif @moveRight && self.mouse_x >= 1100 && self.mouse_x <= 1150
         if self.mouse_y >= 150 && self.mouse_y <= 450
-          @players.each { |p| p.vel_x = 5 }
+          @players.each { |p| p.vel_x = 10 }
           @newTile = true
         end
       end
@@ -152,12 +131,12 @@ class Window < Gosu::Window
       end
     when Gosu::KB_LEFT
       if @moveLeft
-          @players.each { |p| p.vel_x = -5 }
+          @players.each { |p| p.vel_x = -10 }
           @newTile = true
       end
     when Gosu::KB_RIGHT
       if @moveRight
-          @players.each { |p| p.vel_x = 5 }
+          @players.each { |p| p.vel_x = 10 }
           @newTile = true
       end
     else
@@ -175,10 +154,10 @@ class Window < Gosu::Window
     case(e.pop)
     when "Encounter"
       (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
-      @fighting = true
       self.fight
     when "Loot"
     when "Friendly"
+      @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
     end
   end
 
@@ -189,12 +168,13 @@ class Window < Gosu::Window
 
     @turnOrder.sort!{ |a, b| a[0] <=> b[0]}.reverse!
     @turnOrder << []
+
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]
-
+    @fighting = true
+    @currentActor.active = true   #actor can use skills
 
     if @currentActor.instance_of?(Player)           #if actor is player then set current player
-      @currentActor.active = true                   #actor can use skills
       @currentPlayer = @currentActor
     else                                            # else start enemy ai
       @currentActor.ai(@players)

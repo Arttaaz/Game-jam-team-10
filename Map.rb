@@ -25,25 +25,29 @@ class Map
 
   def generate
     2.times { |y|
-      theme = ["medbay", "recreation"].shuffle
+      theme = ["medbay", "recreation", "engine"].shuffle
       t = theme.pop
       case(t)
       when "medbay"
         l = 5 - rand(3)
       when "recreation"
         l = 3 - rand(4)
+      when "engine"
+        l = 4+rand(3)
       end
       l = l + (2-y)
       9.times { |x|
         if l > 0
           @tilemap[x][y] = 0
-          l = l-1
+          l -= 1
         else
           case(t)
           when "medbay"
-            @tilemap[x][y] = 3+rand(2)
+            @tilemap[x][y] = 5+rand(2)
           when "recreation"
             @tilemap[x][y] = 3+rand(2)
+          when "engine"
+            @tilemap[x][y] = 7+rand(2)
           end
         end
       }
