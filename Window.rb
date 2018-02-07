@@ -15,7 +15,8 @@ class Window < Gosu::Window
     @yStart = 250+ 2*600
     @players = [Player.new("assets/testchar.png",@xStart,@yStart), Player.new('assets/testchar.png', @xStart+150, @yStart), Player.new('assets/testchar.png', @xStart+300, @yStart)]
     @enemies = []
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-250,@players[0])
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @players[0])
+    @currentPlayer = @players[0]
     @fighting = false
     @moveRight = @moveLeft = false
     @newTile = false
@@ -60,13 +61,32 @@ class Window < Gosu::Window
         @moveLeft = @moveRight = false
       end
     else
-      @moveLeft = @moveRight = false
+      @moveLeft = @moveRight = false        # can't move
+      if @currentActor.instance_of?(Player)   #if actor is player then set current player
+        @currentActor.active = true           #actor can use skills
+        @currentPlayer = @currentActor
+      else                                    # else start enemy ai
+        @currentActor.ai
+      end
+
+      #player does stuff
+
+      #when did something
+      if @currentActor.instance_of?(Player)           #actor can't do anything anymore
+        @currentActor.active = false
+      end
+      @CurrentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
 
 
-      @enemies.each { |e| e.update() }
+      if @currentActor == []                          #if actor is nil it's a new turn
+        @currentTurn = @currentTurn + 1
+        @currentActor = @turnOrder.rotate!.first[1]
+      end
+
+      @enemies.each { |e| e.update() }                #update enemies state
     end
     @players.each { |p| p.update() }
-    @ihm.update(@players[0].x,@players[0].y)
+    @ihm.update(@players[0].x,@players[0].y, @currentPlayer)
 
   end
 
@@ -105,7 +125,7 @@ class Window < Gosu::Window
           @newTile = true
         end
       end
-      @players.each { |p| p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x)}
+      @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x)}
       if @enemies != []
         @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
       end
@@ -145,7 +165,8 @@ class Window < Gosu::Window
     @turnOrder = []
     @players.each { |p| @turnOrder << [p.speed, p]}
     @enemies.each { |e| @turnOrder << [e.speed, e]}
-    @turnOrder.sort!.reverse!
+
+    @turnOrder.sort!{ |a, b| a[0] <=> b[0]}.reverse!
     @turnOrder << []
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]

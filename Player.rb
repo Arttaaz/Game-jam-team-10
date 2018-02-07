@@ -5,14 +5,15 @@ load 'Skill.rb'
 class Player
 
 
-  attr_reader :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
-  attr_accessor :vel_x
+  attr_reader :active, :x, :vel_x, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus, :money, :moneyBonus
+  attr_accessor :active, :vel_x
 
   def initialize(image, x, y)
     @skills = []
     @races = ["humain", "robot", "infecté"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
+    @active = false
     @x = x
     @vel_x = 0
     @distance = 0 #distance moved
