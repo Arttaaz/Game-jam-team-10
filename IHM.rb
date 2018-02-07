@@ -5,7 +5,7 @@ load 'Button.rb'
 
 class IHM < Gosu::Window
 
-  def initialize(x,y, players, player)
+  def initialize(x,y, players, player, fighting)
     @x = x
     @y = y
     @font = Gosu::Font.new(20)
@@ -15,6 +15,7 @@ class IHM < Gosu::Window
     @stats = Button.new("Stats", @x+70,@y+350,150,50,Gosu::Color::WHITE, @font)
     @skills = Button.new("Capacités", @x+275,@y+350,150,50,Gosu::Color::WHITE, @font)
     @box = 0
+    @fighting = fighting
   end
 
   def draw
@@ -25,13 +26,14 @@ class IHM < Gosu::Window
     self.box
   end
 
-  def update(x,y, player)
+  def update(x,y, player, fighting)
     @x = x
     @y = y
     @player = player
     @personnage.update(x-100, y+350)
     @stats.update(x+70, y+350)
     @skills.update(x+230, y+350)
+    @fighting = fighting
   end
 
   def click(x, y, xx, yy)
@@ -48,27 +50,7 @@ class IHM < Gosu::Window
 
     case(@box)
       when 0 #personnage
-=begin
-        draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
-
-        @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
-        @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
-        @font.draw("Power: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
-
-        @font.draw("Dégâts: " + @player.damage.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+100, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Vitesse: " + @player.speed.to_s,  @x+100, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
-
-        draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 1", @x+20, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
-        draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 2", @x+290, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
-
-        @font.draw("Nom", @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
-=end
-
-# mode combato
+      if @fighting==true
         draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
@@ -93,9 +75,26 @@ class IHM < Gosu::Window
           end
         end
 
+        @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
+      else
+        draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
+
+        @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
+        @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
+        @font.draw("Power: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
+
+        @font.draw("Dégâts: " + @player.damage.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+100, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Vitesse: " + @player.speed.to_s,  @x+100, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
+
+        draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
+        @font.draw("Objet 1", @x+20, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
+        @font.draw("Objet 2", @x+290, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
 
         @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
-
+      end
       when 1 # stats
         d=0
         @players.size.times do |n|
