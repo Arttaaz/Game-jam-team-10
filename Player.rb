@@ -56,7 +56,8 @@ class Player
   end
 
   def update
-    if @health == 0
+    if @health <= 0
+      @health = 0
       @shield = 0
       @power = 0
       @color = Gosu::Color::GRAY
