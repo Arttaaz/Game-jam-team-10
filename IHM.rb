@@ -42,7 +42,7 @@ class IHM < Gosu::Window
   end
 
   def click(x, y, xx, yy)
-
+    puts @waitTarget
     if @waitTarget
       if @pendingSkill[0] == Who::SELF
         @pendingSkill[1].target = @player
