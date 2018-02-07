@@ -93,7 +93,7 @@ class Window < Gosu::Window
     when Gosu::KB_ESCAPE
       close
     when Gosu::MS_LEFT
-      @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+150)
+      @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
       if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
         if self.mouse_y >= 150 && self.mouse_y <= 450
           @players.each { |p| p.vel_x = -5 }
