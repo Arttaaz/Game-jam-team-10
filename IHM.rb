@@ -94,7 +94,7 @@ class IHM < Gosu::Window
         end
 
 
-        @font.draw("Nom", @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
+        @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
 
       when 1 # stats
         d=0
@@ -112,7 +112,7 @@ class IHM < Gosu::Window
           @font.draw("Vitesse: " + @players[n].speed.to_s,  @x+d+90, @y+485, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Expérience: " + @players[n].exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Bonus exp: " + @players[n].expBonus.to_s + "%",  @x+d+90, @y+535, 1, 1.0, 1.0, Gosu::Color::BLACK)
-          @font.draw("Nom", @x+d+20, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
+          @font.draw(@players[n].name, @x+d+5, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
         d=d+420
         end
       when 2 # skills
@@ -121,7 +121,7 @@ class IHM < Gosu::Window
         dy=0
         @players.size.times do |n|
           dxa=dxp=0
-          @font.draw("Nom", @x-90, @y+dy+440, 1, 1.7,1.7 , Gosu::Color::BLUE)
+          @font.draw(@players[n].name, @x-90, @y+dy+440, 1, 1.7,1.7 , Gosu::Color::BLUE)
           @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE
