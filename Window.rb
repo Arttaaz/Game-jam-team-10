@@ -131,6 +131,7 @@ class Window < Gosu::Window
 
       if @enemies.size == 0                                             #fin de fight
         if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
+          Gosu::Sample.new("media/Sound effects/Triumphal_fanfare.wav").play()
           @splashWin.show
           puts "you win!"
           exit
@@ -165,7 +166,7 @@ class Window < Gosu::Window
     @players.each { |p|
       p.update()
       if p.health == 0
-        #Gosu::Sample.new("media/Sound effects/Wilhelm_scream.mp3").play(0.2)
+        Gosu::Sample.new("media/Sound effects/Wilhelm_scream.wav").play(0.2)
         @pToDelete << p
       end
     }

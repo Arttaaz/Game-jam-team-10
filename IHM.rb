@@ -58,6 +58,7 @@ class IHM < Gosu::Window
         @player.active = false
         @waitTarget = false
       elsif @pendingSkill[0] == Who::ENEMIES
+        Gosu::Sample.new("media/Sound effects/Punch.wav").play(0.2)
         @pendingSkill[1].target = @enemies.to_a
         @player.power -= @pendingSkill[1].activate(@player)
         @player.active = false
@@ -86,6 +87,7 @@ class IHM < Gosu::Window
         if e.isClicked?(x, y, @enemies[0].x)
           case @pendingSkill[0]
           when Who::ENEMY
+            Gosu::Sample.new("media/Sound effects/Punch.wav").play(0.2)
             @pendingSkill[1].target = e
             @player.power -= @pendingSkill[1].activate(@player)
             @player.active = false
