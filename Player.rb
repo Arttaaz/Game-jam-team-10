@@ -32,12 +32,17 @@ class Player
       index = rand(@@humanNames.size)
       @name = @@humanNames[index]
       @@humanNames.delete_at(index)
-      
+      image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
       @image = Gosu::Image.new(image, :tileable => true)
-    else
+    elsif @race == "Robot"
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
       @@robotNames.delete_at(index)
+      image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
+      @image = Gosu::Image.new(image, :tileable => true)
+    else
+      @name = ""
+      image = "assets/Characters/Infested/Infested.png"
       @image = Gosu::Image.new(image, :tileable => true)
     end
     @class = @classes[rand(0..2)]

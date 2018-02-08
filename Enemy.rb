@@ -6,12 +6,11 @@ class Enemy < Player
   attr_reader :x, :y, :race, :speed
   attr_accessor :active
 
-  def initialize(image, x, y, race)
-    super(image, x, y)
-    @speed = 42
-    @race = race
-    @maxHealth = @health = 100
-    @shield = @maxShield = 100
+  def initialize(x, y, race, boss = false)
+    super(x, y, race)
+    if boss
+      @image = @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true) 
+    end
   end
 
   def ai(targets)

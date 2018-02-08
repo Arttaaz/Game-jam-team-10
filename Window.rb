@@ -14,10 +14,6 @@ class Window < Gosu::Window
     @map = Map.new("assets/TileSet.png")
     @xStart = 100+8*1200
     @yStart = 250+ 4*600
-    @players = [Player.new("assets/testchar.png",@xStart,@yStart)]
-    @enemies = []
-    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
-    @currentPlayer = @players[0]
     @personnage = false
     @moveRight = @moveLeft = @moveUp = false
     @newTile = false
