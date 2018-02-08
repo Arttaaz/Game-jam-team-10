@@ -94,8 +94,10 @@ class IHM < Gosu::Window
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
             if @fighting
-              @pendingSkill = [s[1].who, s[1]]
-              @waitTarget = true
+              if @player.power > s[1].cost
+                @pendingSkill = [s[1].who, s[1]]
+                @waitTarget = true
+              end
             end
           end
         end

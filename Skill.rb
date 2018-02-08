@@ -20,7 +20,7 @@ end
 
 class Skill
 
-  attr_reader :name, :type, :target, :who
+  attr_reader :name, :type, :target, :who, :cost
   attr_accessor :target, :color
 
   def initialize(name, type, who, modifier, image, options = { cost: 0, duration: 0, temp: false, dmgType: nil, target: nil })

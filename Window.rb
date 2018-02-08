@@ -117,6 +117,7 @@ class Window < Gosu::Window
     if @fighting == false #if not in a fight
       if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
+          @players.each { |p| p.regenRoom }
           self.event
           @newTile = false
         end
@@ -151,7 +152,9 @@ class Window < Gosu::Window
       if @currentActor.active == false                  #actor did stuff
         if @turnOrder.rotate!.first == nil
           @currentTurn = @currentTurn + 1
-          @players.each { |p| p.skills.each { |s| s[1].update }}
+          @players.each { |p|
+            p.regen
+            p.skills.each { |s| s[1].update }}
           @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
         else
           @currentActor = @turnOrder.first[1]
