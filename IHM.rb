@@ -153,12 +153,16 @@ class IHM < Gosu::Window
         @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
         draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @player.items[0].draw(@x-90,@y+550)
-        @player.items[0].drawNameOB(@x-25, @y+565)
+        if @player.items.size > 0
+          @player.items[0].draw(@x-90,@y+550)
+          @player.items[0].drawNameOB(@x-25, @y+565)
+        end
 
         draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @player.items[1].draw(@x+190,@y+550)
-        @player.items[1].drawNameOB(@x+255, @y+565)
+        if @player.items.size > 1
+          @player.items[1].draw(@x+190,@y+550)
+          @player.items[1].drawNameOB(@x+255, @y+565)
+        end
 
         @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
       end

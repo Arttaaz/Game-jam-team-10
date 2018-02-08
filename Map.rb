@@ -117,6 +117,10 @@ class Map
     end
   end
 
+  def currentTile(x, y)
+    return @tilemap[x][y]
+  end
+
   def draw
     @HEIGHT.times do |y|
       @WIDTH.times do |x|

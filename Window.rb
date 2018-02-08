@@ -22,7 +22,7 @@ class Window < Gosu::Window
     @moveRight = @moveLeft = @moveUp = false
     @newTile = false
     @fighting = false
-    @hasKey = false
+    #@hasKey = false
     @pToDelete = @eToDelete = []
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
@@ -247,7 +247,7 @@ class Window < Gosu::Window
       elsif @moveUp && self.mouse_y >= 30 && self.mouse_y <= 70
         if self.mouse_x >= 433 && self.mouse_x <= 733
           @players.each { |p| p.vel_y = -10 }
-          @hasKey = false
+          #@hasKey = false
           @newTile = true
         end
       end
@@ -269,7 +269,7 @@ class Window < Gosu::Window
       if @moveUp
         @players.each { |p| p.vel_y = -10 }
         @newTile = true
-        @hasKey = false
+        #@hasKey = false
       end
     else
       super
@@ -296,7 +296,11 @@ class Window < Gosu::Window
 
     case(e)
     when "Encounter"
-      (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+      if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
+        @enemies << Enemy.new("assets/Boss.png", @players[0].x+500, @players[0].y-100, @enemyRace)
+      else
+        (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+      end
       self.fight
     when "Loot"
     when "Friendly"
