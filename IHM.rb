@@ -49,9 +49,11 @@ class IHM < Gosu::Window
         @player.power -= @pendingSkill[1].activate(@player)
         @player.active = false
         @waitTarget = false
+        @log.addLine(@player.name + " a utilisé " + @pendingSkill[1].name + " sur lui-même")
       elsif @pendingSkill[0] == Who::ALLIES
         @pendingSkill[1].target = @players
         @player.power -= @pendingSkill[1].activate(@player)
+        @log.addLine(@player.name + " a utilisé " + @pendingSkill[1].name + " sur tous les alliés")
         @player.active = false
         @waitTarget = false
       elsif @pendingSkill[0] == Who::ENEMIES
@@ -59,6 +61,7 @@ class IHM < Gosu::Window
         @player.power -= @pendingSkill[1].activate(@player)
         @player.active = false
         @waitTarget = false
+        @log.addLine(@player.name + " a utilisé " + @pendingSkill[1].name + " sur tous les ennemis")
       end
     end
   end
@@ -73,6 +76,7 @@ class IHM < Gosu::Window
             @player.power -= @pendingSkill[1].activate(@player)
             @player.active = false
             @waitTarget = false
+            @log.addLine(@player.name + " a utilisé " + @pendingSkill[1].name + " sur " + p.name)
           end
         end
       }
@@ -85,6 +89,7 @@ class IHM < Gosu::Window
             @player.power -= @pendingSkill[1].activate(@player)
             @player.active = false
             @waitTarget = false
+            @log.addLine(@player.name + " a attaqué avec " + @pendingSkill[1].name)
           end
         end
       }
@@ -99,6 +104,7 @@ class IHM < Gosu::Window
               if @player.power > s[1].cost
                 @pendingSkill = [s[1].who, s[1]]
                 @waitTarget = true
+                @log.addLine("Choisissez une cible")
               end
             end
           end
@@ -144,6 +150,7 @@ class IHM < Gosu::Window
         end
 
         writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
+        writeLvl(@player.level,@x+190, @y+615, 1.7,1.7)
 
         @log.dispLog
       else #@fighting==false
@@ -171,6 +178,7 @@ class IHM < Gosu::Window
         end
 
         writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
+        writeLvl(@player.level,@x+190, @y+615, 1.7,1.7)
 
         @log.dispLog
       end
@@ -190,6 +198,7 @@ class IHM < Gosu::Window
           @font.draw("Vitesse: " + @players[n].speed.to_s,  @x+d+90, @y+485, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Expérience: " + @players[n].exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Bonus exp: " + @players[n].expBonus.to_s + "%",  @x+d+90, @y+535, 1, 1.0, 1.0, Gosu::Color::BLACK)
+          @font.draw("Niveau " + @players[n].level.to_s, @x+d+90, @y+560, 1,1,1,Gosu::Color::BLACK)
           writeNameB(@players[n].name,@x+d+5, @y+590, 1.7,1.7,n)
         d=d+420
         end
@@ -234,6 +243,17 @@ class IHM < Gosu::Window
         @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_FFD500)) #gold
       end
     end
+
+    def writeLvl(lvl, x, y, sx, sy)
+      if @player.class=="Soldat"
+        @font.draw("Nv. " + lvl.to_s, x, y, 1, sx,sy , Gosu::Color.argb(0xff_22b14c)) #vert plus foncé
+      elsif @player.class=="Scientifique"
+        @font.draw("Nv. " + lvl.to_s, x, y, 1, sx,sy , Gosu::Color::BLUE)
+      else #@player.class=="Ingénieur" || @players[c].class=="Ingénieur"
+        @font.draw("Nv. " + lvl.to_s, x, y, 1, sx,sy , Gosu::Color.argb(0xff_FFD500)) #gold
+      end
+    end
+
 
 
 

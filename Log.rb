@@ -7,25 +7,10 @@ class Log < Gosu::Window
   def initialize(x,y)
     @x = x
     @y = y
-    @lignes = ["Salut toi dis-donc",
-      "Ce négro il attaque ce méchant ouille ouille il a mal",
-      "oooooooooooooooooooooooooooooooooooooooooooooooooo",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts",
-      "Jean Quille attaque Hervé Blanchon avec Nom du skill hoho et cause 33 dégâts"]
+    @lignes = ["Bienvenue dans l' Ascension-3 !",
+    "Le vaisseau est attaqué, vous devez en reprendre le contrôle !",
+    "Rendez vous au cockpit au sommet !",
+    " "]
     @font = Gosu::Font.new(20)
   end
 
