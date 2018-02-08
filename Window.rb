@@ -62,7 +62,7 @@ class Window < Gosu::Window
       [Type::ACTIVE, MaxHealthModif.new("Vitalite", Type::ACTIVE, Who::ALLY, 50, "assets/Skills/Classes/Ingenieur/06-1_Vitalite.png", 35, 8, true)],
       [Type::ACTIVE, ShieldModif.new("Restoration", Type::ACTIVE, Who::ALLY, 40, "assets/Skills/Classes/Ingenieur/06-2_Restoration.png", 22)],
       [Type::PASSIVE, MaxShieldModif.new("Redirection", Type::PASSIVE, Who::ALLIES, 20, "assets/Skills/Classes/Ingenieur/09-1_Redirection.png")],
-      [Type::PASSIVE, DmgModif.new("Augmentation", Type::PASSIVE, Who::ALLIES, 10, "assets/Skills/Classes/Ingenieur/09-2_Augmentation")],
+      [Type::PASSIVE, DmgModif.new("Augmentation", Type::PASSIVE, Who::ALLIES, 10, "assets/Skills/Classes/Ingenieur/09-2_Augmentation.png")],
       [Type::ACTIVE, Heal.new("Super regeneration", Type::ACTIVE, Who::SELF, 10, "assets/Skills/Classes/Ingenieur/12-1_Super_regeneration.png", 42, 5, true)],
       [Type::ACTIVE, SpeedModif.new("Acceleration", Type::ACTIVE, Who::ALLIES, 7, "assets/Skills/Classes/Ingenieur/12-2_Acceleration.png", 30, 3, true)],
       [Type::PASSIVE, SpeedModif.new("Contre", Type::PASSIVE, Who::ENEMIES, 4, "assets/Skills/Classes/Ingenieur/15-1_Contre.png")],
