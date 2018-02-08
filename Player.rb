@@ -85,7 +85,7 @@ class Player
       @name = @@humanNames[index]
       @@humanNames.delete_at(index)
       image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
-      @image1, @image2 = *Gosu::Image.load_tiles(image, 147, 300, :tileable => true)
+      @image1, @image2 = *Gosu::Image.load_tiles(image, 200, 300, :tileable => true)
       @image = @image1
       puts @image1, @image2
     elsif @race == "Robot"
@@ -93,7 +93,7 @@ class Player
       @name = @@robotNames[index]
       @@robotNames.delete_at(index)
       image = "assets/Characters/Robots/" + ["nicerobot.png"].shuffle!.first
-      @image1,@image2 = *Gosu::Image.load_tiles(image, 145, 300, :tileable => true)
+      @image1,@image2 = *Gosu::Image.load_tiles(image, 200, 300, :tileable => true)
       @image = @image1
     else
       @name = ""
@@ -277,7 +277,8 @@ class Player
     when "Soldat"
       case(@level)
       when 1
-        @skills << $SkillList[5+rand(2)]
+        @skills << $SkillList[5]
+        @skills << $SkillList[6]
       when 3
         @skills << $SkillList[7+rand(2)]
       when 6
@@ -294,7 +295,8 @@ class Player
     when "Ingénieur"
       case(@level)
       when 1
-        @skills << $SkillList[33+rand(2)]
+        @skills << $SkillList[33]
+        @skills << $SkillList[34]
       when 3
         @skills << $SkillList[35+rand(2)]
       when 6
@@ -311,7 +313,8 @@ class Player
     when "Scientifique"
       case(@level)
       when 1
-        @skills << $SkillList[19+rand(2)]
+        @skills << $SkillList[19]
+        @skills << $SkillList[20]
       when 3
         @skills << $SkillList[21+rand(2)]
       when 6
