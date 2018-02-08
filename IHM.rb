@@ -173,7 +173,6 @@ class IHM < Gosu::Window
         writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
 
         @log.dispLog
-        @log.addLine("héhéhéhéhéhéhéhéhéhéhéhéhéhéhéhé nouvelle ligneuh")
       end
       when 1 # stats
         d=0
