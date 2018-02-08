@@ -39,9 +39,11 @@ class Window < Gosu::Window
     @boutonQuitterClique=false
     @zBackground = 3000
 
-    @mainTheme = Gosu::Song.new("media/Soundtracks/My Little Adventure.mp3")
-    @mainTheme.play(true)
-    @mainTheme.volume = 0.25
+    @MainTheme = Gosu::Song.new("media/Soundtracks/My Little Adventure.mp3")
+    @MainTheme.volume = 0.25
+    @MainTheme.play(true)
+    @PlayingTheme = Gosu::Song.new("media/Soundtracks/Power Bots Loop.wav")
+    @PlayingTheme.volume = 0.25
 
     @@ItemList =[
       Item.new("Armure régenérante", "assets/Items/Armure_regenerante.png"),
@@ -74,7 +76,31 @@ class Window < Gosu::Window
 
   end
 
+  def reset
+    @map = Map.new("assets/TileSet.png")
+    @xStart = 100+8*1200
+    @yStart = 250+ 4*600
+    @personnage = false
+    @moveRight = @moveLeft = @moveUp = false
+    @newTile = false
+    @fighting = false
+    @hasKey = false
+    @pToDelete = @eToDelete = []
+    @log = Log.new(@xStart+580,@yStart+605)
+    @players = [Player.new(@xStart,@yStart)]
+    @enemies = []
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
+    @currentPlayer = @players[0]
+    @enemyRace = ["Robot", "Infested"].shuffle.first
+  end
+
   def update
+
+    if @boutonJouerClique
+      @PlayingTheme.play(true)
+    else
+      @MainTheme.play(true)
+    end
     @splashKey.update
     @splashFriend.update
     @splashLoose.update
@@ -143,7 +169,8 @@ class Window < Gosu::Window
           Gosu::Sample.new("media/Sound effects/Triumphal_fanfare.wav").play()
           @splashWin.show
           puts "you win!"
-          exit
+          reset
+          @boutonJouerClique = false
         end
         @fighting = false
         luck = rand(100)
@@ -187,9 +214,9 @@ class Window < Gosu::Window
       @turnOrder.delete(p)
       if @players.size == 0
         @splashLoose.show
-        sleep(2)
+        reset
         puts "u loose"
-        exit
+        @boutonJouerClique = false
       end
     }
     @enemies.each { |e|
@@ -203,9 +230,11 @@ class Window < Gosu::Window
       @turnOrder.delete(e)
     }
 
-    @enemies.size.times { |i|
-      @enemies[i].changePos(@players[0].x+500+i*200)
-    }
+    if @players.size != 0
+      @enemies.size.times { |i|
+        @enemies[i].changePos(@players[0].x+500+i*200)
+      }
+    end
 
     @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @players, @enemies, @fighting)
     @log.update(@players[0].x+480,@players[0].y+357)
