@@ -80,6 +80,8 @@ class Window < Gosu::Window
       p.skills[8] = @@SkillList[11]
       p.skills[9] = @@SkillList[14]
       p.skills[10] = @@SkillList[15]
+      p.items[0] = @@ItemList[2]
+      p.useItem(p.items[0].name)
     }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
@@ -94,6 +96,7 @@ class Window < Gosu::Window
   end
 
   def update
+    puts @hasKey
     if @fighting == false #if not in a fight
       if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
@@ -117,6 +120,8 @@ class Window < Gosu::Window
           else
             @moveUp = false
           end
+        else
+          @moveUp = false
         end
       else
         @moveLeft = @moveRight = @moveUp = false
@@ -124,13 +129,7 @@ class Window < Gosu::Window
     else                                    #########FIGHT#########
       @moveLeft = @moveRight = @moveUp = false                  # can't move
 
-      if @ennemies == []
-        @fighting = false
-        luck = rand(100)
-        if luck < 25
-          @hasKey = true
-        end
-      end
+
 
       if @currentActor.active == false                  #actor did stuff
         if @turnOrder.rotate!.first == nil
@@ -147,6 +146,14 @@ class Window < Gosu::Window
           @currentPlayer = @currentActor
         else                                            # else start enemy ai
           @currentActor.ai(@players)
+        end
+      end
+
+      if @enemies.size == 0
+        @fighting = false
+        luck = rand(100)
+        if luck < 25
+          @hasKey = true
         end
       end
 
@@ -171,6 +178,11 @@ class Window < Gosu::Window
       @enemies.delete(e)
       @turnOrder.delete(e)
     }
+
+    @enemies.size.times { |i|
+      @enemies[i].changePos(@players[0].x+500+i*200)
+    }
+
     @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @players, @enemies, @fighting)
 
   end
@@ -220,9 +232,9 @@ class Window < Gosu::Window
         end
       end
       @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
-      if @enemies != []
-        @enemies.each { |e| puts "yes" if e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
-      end
+      #if @enemies != []
+      #  @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
+      #end
     when Gosu::KB_LEFT
       if @moveLeft
         @players.each { |p| p.vel_x = -10 }
@@ -269,6 +281,8 @@ class Window < Gosu::Window
     when "Loot"
     when "Friendly"
       @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
+      @players.last.skills[0] = @@SkillList[5]
+      @players.last.skills[1] = @@SkillList[0]
     end
   end
 

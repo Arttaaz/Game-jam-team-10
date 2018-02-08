@@ -8,7 +8,7 @@ class Item
 
   def initialize(name, image)
     @name = name
-    @image = image
+    @image = Gosu::Image.new(image, :tileable => true)
     @color = 0xff_ffffff
   end
 
