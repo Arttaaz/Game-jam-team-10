@@ -270,10 +270,12 @@ TECHER Antoine Artiste
 Musique libre de droit provenant du site DL Sounds
 
 Effet sonore libre de droit provenant des sites
-GR Sites
-Free Sound
-Sound Bible
+- GR Sites
+- Free Sound
+- Sound Bible
 
-Icon libre de droit provenant du site Open Game Art
+Images libre de droit provenant des site
+- Open Game Art
+- Pexels
 
 =end
