@@ -21,6 +21,7 @@ class IHM < Gosu::Window
     @fighting = fighting
     @pendingSkill = []
     @waitTarget = false
+    @log = Log.new(@x+580,@y+605)
   end
 
   def draw
@@ -41,6 +42,7 @@ class IHM < Gosu::Window
     @stats.update(x+70, y+350)
     @skills.update(x+230, y+350)
     @fighting = fighting
+    @log.update(@x+480,@y+357)
     if @waitTarget
       if @pendingSkill[0] == Who::SELF
         @pendingSkill[1].target = @player
@@ -141,8 +143,10 @@ class IHM < Gosu::Window
           end
         end
 
-        @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
-      else
+        writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
+
+        @log.dispLog
+      else #@fighting==false
         draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
@@ -166,7 +170,10 @@ class IHM < Gosu::Window
           @player.items[1].drawNameOB(@x+255, @y+565)
         end
 
-        @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
+        writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
+
+        @log.dispLog
+        @log.addLine("héhéhéhéhéhéhéhéhéhéhéhéhéhéhéhé nouvelle ligneuh")
       end
       when 1 # stats
         d=0
@@ -184,7 +191,7 @@ class IHM < Gosu::Window
           @font.draw("Vitesse: " + @players[n].speed.to_s,  @x+d+90, @y+485, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Expérience: " + @players[n].exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Bonus exp: " + @players[n].expBonus.to_s + "%",  @x+d+90, @y+535, 1, 1.0, 1.0, Gosu::Color::BLACK)
-          @font.draw(@players[n].name, @x+d+5, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
+          writeNameB(@players[n].name,@x+d+5, @y+590, 1.7,1.7,n)
         d=d+420
         end
       when 2 # skills
@@ -193,16 +200,14 @@ class IHM < Gosu::Window
         dy=0
         @players.size.times { |n|
           dxa=dxp=0
-          @font.draw(@players[n].name, @x-90, @y+dy+445, 1, 1.3,1.3 , Gosu::Color::BLUE)
-          @players[n].skills.each { |skill|
+          writeNameB(@players[n].name,@x-90, @y+dy+445, 1.3,1.3,n)
+          @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE
               skill[1].draw(@x+dxa+120,@y+dy+430)
-              #draw_rect(@x+dxa+120,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxa=dxa+75
             when Type::PASSIVE
               skill[1].draw(@x+dxp+612,@y+dy+430)
-              #draw_rect(@x+dxp+612,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxp=dxp+75
             end
           }
@@ -210,4 +215,27 @@ class IHM < Gosu::Window
         }
       end
     end
+
+    def writeNameA(name, x, y, sx, sy)
+      if @player.class=="Soldat"
+        @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_22b14c)) #vert plus foncé
+      elsif @player.class=="Scientifique"
+        @font.draw(name, x, y, 1, sx,sy , Gosu::Color::BLUE)
+      else #@player.class=="Ingénieur" || @players[c].class=="Ingénieur"
+        @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_FFD500)) #gold
+      end
+    end
+
+    def writeNameB(name, x, y, sx, sy, c) #for arrays #character n°c
+      if @players[c].class=="Soldat"
+        @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_22b14c)) #vert plus foncé
+      elsif @players[c].class=="Scientifique"
+        @font.draw(name, x, y, 1, sx,sy , Gosu::Color::BLUE)
+      else #@players[c].class=="Ingénieur"
+        @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_FFD500)) #gold
+      end
+    end
+
+
+
 end
