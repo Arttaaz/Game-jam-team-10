@@ -10,8 +10,16 @@ class Enemy < Player
     super(x, y, race)
     if boss && race == "Infested"
       @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
+      @health = @maxHealth = @health*6
+      @phy_def = @phy_def *2
+      @eng_def = @eng_def *2
+      @damage += 10
     elsif boss && race == "Robot"
-      @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
+      @image = Gosu::Image.new("assets/Characters/Infested/boss.png", :tileable => true)
+      @health = @maxHealth = @health*6
+      @phy_def = @phy_def *2
+      @eng_def = @eng_def *2
+      @damage += 15
     elsif race == "Robot"
       @image = Gosu::Image.new("assets/Characters/Robots/" + ["notnicerobot.png"].shuffle!.first, :tileable => true)
     end
@@ -39,7 +47,11 @@ class Enemy < Player
     if @shield <= 0
       @shield = 0
     end
+    if @speed >= 9000
+      @speed -= 9000
+    end
   end
+  
   def changePos(x)
     @x = x
   end

@@ -130,6 +130,7 @@ class Player
       @shield = 0
       @power = 0
       @color = Gosu::Color::GRAY
+      @active = false
     end
     if @shield <= 0
       @shield = 0

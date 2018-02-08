@@ -7,7 +7,7 @@ class SplashScreen
 
   def initialize(image, message)
     @image = image
-    @message = Gosu::Image.from_text(message, 50, :width => 460, :align => :center)
+    @message = Gosu::Image.from_text(message, 30, :width => 460, :align => :center)
     @duree = 0
   end
 
