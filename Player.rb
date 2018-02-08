@@ -50,12 +50,12 @@ class Player
 
   def draw
     @image.draw(@x,@y,1, 1, 1, @color)
-    Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 0)
-    Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 0)
-    Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 0)
+    Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 4)
+    Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 4)
+    Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 4)
+    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 4)
+    Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 4)
+    Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 4)
   end
 
   def update

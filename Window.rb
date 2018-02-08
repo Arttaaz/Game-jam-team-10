@@ -96,10 +96,6 @@ class Window < Gosu::Window
       p.skills[8] = @@SkillList[11]
       p.skills[9] = @@SkillList[14]
       p.skills[10] = @@SkillList[15]
-      p.items[0] = @@ItemList[3]
-      p.items[1] = @@ItemList[6]
-      p.useItem(p.items[0].name)
-      p.useItem(p.items[1].name)
     }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
@@ -176,6 +172,14 @@ class Window < Gosu::Window
         if luck < 25
           @hasKey = true
         end
+        i = 0
+        while i < @players.size
+          if @players[i].items.size < 2
+            @players[i].items << @@ItemList[rand(20)]
+            i = @players.size
+          end
+          i += 1
+        end
       end
 
     end
@@ -227,6 +231,9 @@ class Window < Gosu::Window
       if @moveUp
         Gosu::Image.new("assets/Arrow2.png", :tileable => true).draw(@players[0].x+323, @players[0].y-180, 2, 1, -1)
       end
+
+      Gosu::Image.new("assets/selected.png", :tileable => true).draw(@currentPlayer.x-15, @currentPlayer.y+210, 3)
+
       if @fighting == true
         @enemies.each { |e| e.draw() }
       end
@@ -257,9 +264,6 @@ class Window < Gosu::Window
         end
       end
       @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
-      #if @enemies != []
-      #  @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
-      #end
     when Gosu::KB_LEFT
       if @moveLeft
         @players.each { |p| p.vel_x = -10 }
@@ -291,11 +295,9 @@ class Window < Gosu::Window
       else
         e = "Nothing"
       end
-    when 11..55
+    when 11..45
         e = "Encounter"
-    when 56..75
-      e = "Loot"
-    when 76..100
+    when 46..100
       e = "Nothing"
     end
 
@@ -307,7 +309,6 @@ class Window < Gosu::Window
         (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       end
       self.fight
-    when "Loot"
     when "Friendly"
       @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
       @players.last.skills[0] = @@SkillList[5]
