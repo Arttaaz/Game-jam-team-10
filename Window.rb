@@ -26,7 +26,7 @@ class Window < Gosu::Window
     @pToDelete = @eToDelete = []
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
-    @@SkillList = [
+  @@SkillList = [
       [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
       [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
       [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
@@ -84,19 +84,10 @@ class Window < Gosu::Window
       Item.new("Yeux de perception","assets/Items/Yeux_de_perception.png")
     ]
 
-    @players.each { |p|
-      p.skills[0] = @@SkillList[5]
-      p.skills[1] = @@SkillList[0]
-      p.skills[2] = @@SkillList[8]
-      p.skills[3] = @@SkillList[9]
-      p.skills[4] = @@SkillList[12]
-      p.skills[5] = @@SkillList[2]
-      p.skills[6] = @@SkillList[4]
-      p.skills[7] = @@SkillList[13]
-      p.skills[8] = @@SkillList[11]
-      p.skills[9] = @@SkillList[14]
-      p.skills[10] = @@SkillList[15]
-    }
+    @players = [Player.new(@xStart,@yStart)]
+    @enemies = []
+    @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
+    @currentPlayer = @players[0]
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
     case @enemyRace
@@ -176,6 +167,7 @@ class Window < Gosu::Window
         while i < @players.size
           if @players[i].items.size < 2
             @players[i].items << @@ItemList[rand(20)]
+            @players[i].useItem(@players[i].items.last.name)
             i = @players.size
           end
           i += 1

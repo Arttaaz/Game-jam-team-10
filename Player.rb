@@ -9,14 +9,13 @@ class Player
   attr_reader :name, :level, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
   attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
 
-  def initialize(image, x, y, race = "d")
+  def initialize(x, y, race = "d")
     @skills = [] #array is like [ [active/passive, skill object], [active/passive, skill object]]
     @items = []
     @races = ["Humain", "Robot"]
     @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung"]
     @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja"]
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
-    @image = Gosu::Image.new(image, :tileable => true)
     @active = false
     @level = 1
     @x = x
@@ -33,10 +32,13 @@ class Player
       index = rand(@@humanNames.size)
       @name = @@humanNames[index]
       @@humanNames.delete_at(index)
+      
+      @image = Gosu::Image.new(image, :tileable => true)
     else
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
       @@robotNames.delete_at(index)
+      @image = Gosu::Image.new(image, :tileable => true)
     end
     @class = @classes[rand(0..2)]
     redefStats(@race)

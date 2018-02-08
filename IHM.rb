@@ -201,7 +201,7 @@ class IHM < Gosu::Window
         @players.size.times { |n|
           dxa=dxp=0
           writeNameB(@players[n].name,@x-90, @y+dy+445, 1.3,1.3,n)
-          @players[n].skills.each do |skill|
+          @players[n].skills.each { |skill|
             case(skill[0])
             when Type::ACTIVE
               skill[1].draw(@x+dxa+120,@y+dy+430)
