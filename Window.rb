@@ -118,7 +118,7 @@ class Window < Gosu::Window
           @currentActor = @turnOrder.first[1]
         end
 
-        @currentActor.active = true if @currentActor.speed < 9000                    #actor can use skills
+        @currentActor.active = true if @currentActor.speed < 9000                    #actor can use skills ITS OVER NINE THOUSAAAAAANNNDS = stun
         if @currentActor.active == true
           if @currentActor.instance_of?(Player)           #if actor is player then set current player
             @currentPlayer = @currentActor
@@ -129,7 +129,7 @@ class Window < Gosu::Window
         end
       end
 
-      if @enemies.size == 0
+      if @enemies.size == 0                                             #fin de fight
         if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
           @splashWin.show
           puts "you win!"
@@ -165,6 +165,7 @@ class Window < Gosu::Window
     @players.each { |p|
       p.update()
       if p.health == 0
+        #Gosu::Sample.new("media/Sound effects/Wilhelm_scream.mp3").play(0.2)
         @pToDelete << p
       end
     }
@@ -218,12 +219,12 @@ class Window < Gosu::Window
       end
 
       Gosu::Image.new("assets/selected.png", :tileable => true).draw(@currentPlayer.x-15, @currentPlayer.y+210, 3)
-      @splashKey.draw(@players[0].x+200, @players[0].y-50)
       @splashItem.draw(@players[0].x+200, @players[0].y-50)
       @splashLoose.draw(@players[0].x+200, @players[0].y-50)
       @splashWin.draw(@players[0].x+200, @players[0].y-50)
       @splashFriend.draw(@players[0].x+200, @players[0].y-50)
       @splashLevelUp.draw(@players[0].x+200, @players[0].y-50)
+      @splashKey.draw(@players[0].x+200, @players[0].y-50)
       if @fighting == true
         @enemies.each { |e| e.draw() }
       end
@@ -290,18 +291,22 @@ class Window < Gosu::Window
     when 46..100
       e = "Nothing"
     end
-
-    case(e)
-    when "Encounter"
-      if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
-        @enemies << Enemy.new(@players[0].x+500, @players[0].y-100, @enemyRace)
-      else
-        (rand(3)+1).times { @enemies << Enemy.new(@players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
-      end
+    if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
+      @enemies << Enemy.new(@players[0].x+500, @players[0].y-100, @enemyRace, true)
       self.fight
-    when "Friendly"
-      @players << Player.new(@players[0].x+150*(@players.size), @players[0].y)
-      @splashFriend.show
+    else
+      case(e)
+      when "Encounter"
+        if(@players.size == 1)
+          @enemies << Enemy.new(@players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace)
+        else
+          (rand(3)+1).times { @enemies << Enemy.new(@players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+        end
+        self.fight
+      when "Friendly"
+        @players << Player.new(@players[0].x+150*(@players.size), @players[0].y)
+        @splashFriend.show
+      end
     end
   end
 
