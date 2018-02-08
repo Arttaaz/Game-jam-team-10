@@ -85,7 +85,8 @@ class Window < Gosu::Window
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
 
-    @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
+    @enemyRace = "Infested"
+    #["Human", "Robot", "Infested"].shuffle.first
     case @enemyRace
     when "Human"
     when "Robot"
@@ -292,13 +293,13 @@ class Window < Gosu::Window
     case(e)
     when "Encounter"
       if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
-        @enemies << Enemy.new("assets/Boss.png", @players[0].x+500, @players[0].y-100, @enemyRace)
+        @enemies << Enemy.new(@players[0].x+500, @players[0].y-100, @enemyRace)
       else
-        (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+        (rand(3)+1).times { @enemies << Enemy.new(@players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
       end
       self.fight
     when "Friendly"
-      @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
+      @players << Player.new(@players[0].x+150*(@players.size), @players[0].y)
       @players.last.skills[0] = @@SkillList[5]
       @players.last.skills[1] = @@SkillList[0]
     end
