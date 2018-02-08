@@ -27,8 +27,8 @@ class Item
     end
   end
 
-  def drawNameIB(x, y)
-    @font.draw(@name, x, y, 1, 1, 1, Gosu::Color::BLACK)
+  def drawNameIB(x, y) #IB stands for In Battle
+    @font.draw(@name, x, y, 1, 0.9, 0.9, Gosu::Color::BLACK)
   end
 
   def drawNameOB(x, y)
