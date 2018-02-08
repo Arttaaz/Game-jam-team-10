@@ -47,8 +47,11 @@ class Enemy < Player
     if @shield <= 0
       @shield = 0
     end
-    if @speed >= 9000 @speed -= 9000
+    if @speed >= 9000
+      @speed -= 9000
+    end
   end
+  
   def changePos(x)
     @x = x
   end
