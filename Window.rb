@@ -127,6 +127,12 @@ class Window < Gosu::Window
       end
 
       if @enemies.size == 0
+
+        if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
+          @splashWin.show
+          puts "you win!"
+          exit
+        end
         @fighting = false
         luck = rand(100)
         if luck < 25

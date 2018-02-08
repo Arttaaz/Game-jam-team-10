@@ -87,7 +87,6 @@ class Player
       image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
       @image1, @image2 = *Gosu::Image.load_tiles(image, 200, 300, :tileable => true)
       @image = @image1
-      puts @image1, @image2
     elsif @race == "Robot"
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
