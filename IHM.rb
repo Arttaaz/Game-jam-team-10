@@ -110,6 +110,12 @@ class IHM < Gosu::Window
               addSkillDesc(s[1].name)
             end
           end
+        else
+          if s[1].isClicked?(x, y, xx, yy)
+            if @box == 2
+              addSkillDesc(s[1].name)
+            end
+          end
         end
       }
     end
