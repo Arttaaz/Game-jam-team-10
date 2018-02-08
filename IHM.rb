@@ -245,6 +245,7 @@ class IHM < Gosu::Window
         @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_FFD500)) #gold
       end
     end
+end
 
     def writeLvl(lvl, x, y, sx, sy)
       if @player.class=="Soldat"
@@ -258,5 +259,23 @@ class IHM < Gosu::Window
 
 
 
+=begin
+Gosu::Image.from_text().draw()
 
-end
+Gamejam 2018 Groupe 10: Stardust CrusaderZ
+
+GOUZON Alexis programmateur systeme
+RAKOTOMALALA Gaetan programmateur IHM
+SHERMAN Nathaniel Concepteur
+TECHER Antoine Artiste
+
+Musique libre de droit provenant du site DL Sounds
+
+Effet sonore libre de droit provenant des sites
+GR Sites
+Free Sound
+Sound Bible
+
+Icon libre de droit provenant du site Open Game Art
+
+=end
