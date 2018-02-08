@@ -19,7 +19,7 @@ class Item
   def isClicked?(x, y, xx,yy)
     if (x >= @x+xx) && (y >= @y+yy)
       if (x <= @x+xx+@width) && (y <= @y+yy+@height)
-        return true
+        return true 
       else
         return false
       end
