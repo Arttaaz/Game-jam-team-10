@@ -65,7 +65,7 @@ class Player
     @races = ["Humain", "Robot"]
     @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly",
        "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung", "Jean Quille","Fujimaru",
-       "Alexpert","Ken", "Misaka Mikoto", "Ruby Kurosawa", "Ruby Rose", "Jacquie", "Hervé Blanchon", "Johnathan Joestar", "Joseph Joestar",
+       "Alexpert","Ken", "Jacquie", "Hervé Blanchon", "Johnathan Joestar", "Joseph Joestar",
        "Jotaro Kujo"]
     @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx",
        "Aja","Camzou38","DijTheWhite","Sweedix","Zorann","Azéris","Arxwell","Glubidi","Michel"]

@@ -17,6 +17,7 @@ class IHM < Gosu::Window
     @personnage = Button.new("Personnage", @x-100,@y+350,160,50,Gosu::Color::WHITE, @font)
     @stats = Button.new("Stats", @x+70,@y+350,150,50,Gosu::Color::WHITE, @font)
     @skills = Button.new("Capacités", @x+275,@y+350,150,50,Gosu::Color::WHITE, @font)
+
     @box = 0
     @fighting = fighting
     @pendingSkill = []
@@ -382,10 +383,12 @@ TECHER Antoine Artiste
 Musique libre de droit provenant du site DL Sounds
 
 Effet sonore libre de droit provenant des sites
-GR Sites
-Free Sound
-Sound Bible
+- GR Sites
+- Free Sound
+- Sound Bible
 
-Icon libre de droit provenant du site Open Game Art
+Images libre de droit provenant des site
+- Open Game Art
+- Pexels
 
 =end
