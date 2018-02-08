@@ -16,7 +16,14 @@ class Enemy < Player
 
   def ai(targets)
     target = rand(targets.size)
-    targets[target].health = targets[target].health - 1
+    targets[target].shield -= rand(16)+7*targets[target].level
+    if targets[target].shield < 0
+      if targets[target].shield + targets[target].phy_def > 0
+        targets[target].health -= 1
+      else
+        targets[target].health += targets[target].shield + targets[target].phy_def
+      end
+    end
     @active = false
   end
 
