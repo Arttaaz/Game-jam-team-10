@@ -62,9 +62,11 @@ class Window < Gosu::Window
 
   def update
     @splashKey.update
-    @splashKey.update
+    @splashFriend.update
     @splashLoose.update
     @splashWin.update
+    @splashItem.update
+    @splashLevelUp.update
     if @fighting == false #if not in a fight
       if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
@@ -127,7 +129,6 @@ class Window < Gosu::Window
         if luck < 25
           @hasKey = true
           @splashKey.show
-
         end
         i = 0
         while i < @players.size
@@ -135,13 +136,18 @@ class Window < Gosu::Window
             @players[i].items << @@ItemList[rand(20)]
             @players[i].useItem(@players[i].items.last.name)
             @splashItem.image = @players[i].items.last.image
-            @splashItem.message = Gosu::Image.from_text(@players[i].items.last.name, 80, :width => 460, :align => :center)
+            @splashItem.message = Gosu::Image.from_text(@players[i].items.last.name, 50, :width => 460, :align => :center)
             @splashItem.show
             i = @players.size
           end
           i += 1
         end
-        @players.each { |p| p.exp += 4+rand(3) }
+        @players.each { |p|
+          p.exp += 4+rand(3)
+          if p.exp > 10
+            @splashLevelUp.show
+          end
+         }
       end
 
     end
@@ -155,7 +161,7 @@ class Window < Gosu::Window
       @players.delete(p)
       @turnOrder.delete(p)
       if @players.size == 0
-        splashLoose.show
+        @splashLoose.show
         sleep(2)
         exit
       end
@@ -200,6 +206,8 @@ class Window < Gosu::Window
       @splashItem.draw(@players[0].x+200, @players[0].y-50)
       @splashLoose.draw(@players[0].x+200, @players[0].y-50)
       @splashWin.draw(@players[0].x+200, @players[0].y-50)
+      @splashFriend.draw(@players[0].x+200, @players[0].y-50)
+      @splashLevelUp.draw(@players[0].x+200, @players[0].y-50)
       if @fighting == true
         @enemies.each { |e| e.draw() }
       end

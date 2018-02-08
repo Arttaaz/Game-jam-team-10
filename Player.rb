@@ -68,11 +68,13 @@ class Player
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @active = false
     @level = 1
+    @image1, @image2 = nil
     @x = x
     @vel_x = 0
     @distance = 0 #distance moved
     @y = y
     @vel_y = 0
+    @z = 1
     @dmgReduc = 0 #%
     @exp = 0
     @expBonus = 0 #%
@@ -83,13 +85,16 @@ class Player
       @name = @@humanNames[index]
       @@humanNames.delete_at(index)
       image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
-      @image = Gosu::Image.load_tiles(image, 295, 300, :tileable => true)
+      @image1, @image2 = *Gosu::Image.load_tiles(image, 147, 300, :tileable => true)
+      @image = @image1
+      puts @image1, @image2
     elsif @race == "Robot"
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
       @@robotNames.delete_at(index)
       image = "assets/Characters/Robots/" + ["nicerobot.png"].shuffle!.first
-      @image = Gosu::Image.new(image, :tileable => true)
+      @image1,@image2 = *Gosu::Image.load_tiles(image, 145, 300, :tileable => true)
+      @image = @image1
     else
       @name = ""
       image = "assets/Characters/Infested/" + ["Infested.png", "var1.png", "var2.png", "var3.png"].shuffle!.first
@@ -107,7 +112,7 @@ class Player
   end
 
   def draw
-    @image.draw(@x,@y,1, 1, 1, @color)
+    @image.draw(@x,@y,@z, 1, 1, @color)
     Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 4)
     Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 4)
     Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 4)
@@ -147,16 +152,20 @@ class Player
     if @vel_x != 0
       self.move(@vel_x, 0)
       @distance = @distance + @vel_x
+      @image = (Gosu.milliseconds / 175 % 2 == 0) ? @image1 : @image2
       if @distance == 1200 || distance == -1200
         @distance = 0
         @vel_x = 0
+        @image = @image1
       end
     elsif @vel_y != 0
+      @z = -1
       self.move(0,@vel_y)
       @distance = @distance + @vel_y
       if @distance == 600 ||distance == -600
         @distance = 0
         @vel_y = 0
+        @z = 1
       end
     end
   end
