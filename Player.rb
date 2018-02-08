@@ -9,14 +9,13 @@ class Player
   attr_reader :name, :level, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
   attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
 
-  def initialize(image, x, y, race = "d")
+  def initialize(x, y, race = "d")
     @skills = [] #array is like [ [active/passive, skill object], [active/passive, skill object]]
     @items = []
     @races = ["Humain", "Robot"]
     @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung", "Jean Quille","Fujimaru","Alexpert","Ken"]
     @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja","Camzou38","DijTheWhite","Sweedix","Zorann","Azéris","Arxwell"]
     @classes = ["Soldat", "Scientifique", "Ingénieur","Glubidi"]
-    @image = Gosu::Image.new(image, :tileable => true)
     @active = false
     @level = 1
     @x = x
@@ -33,10 +32,18 @@ class Player
       index = rand(@@humanNames.size)
       @name = @@humanNames[index]
       @@humanNames.delete_at(index)
-    else
+      image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
+      @image = Gosu::Image.new(image, :tileable => true)
+    elsif @race == "Robot"
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
       @@robotNames.delete_at(index)
+      image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
+      @image = Gosu::Image.new(image, :tileable => true)
+    else
+      @name = ""
+      image = "assets/Characters/Infested/Infested.png"
+      @image = Gosu::Image.new(image, :tileable => true)
     end
     @class = @classes[rand(0..2)]
     redefStats(@race)
@@ -50,12 +57,12 @@ class Player
 
   def draw
     @image.draw(@x,@y,1, 1, 1, @color)
-    Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 0)
-    Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 0)
-    Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 0)
-    Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 0)
+    Gosu.draw_rect(x, y+300, 100, 10, Gosu::Color::BLACK, 4)
+    Gosu.draw_rect(x, y+300, (@shield *100)/@maxShield, 10, Gosu::Color::CYAN, 4)
+    Gosu.draw_rect(x, y+315, 100, 10, Gosu::Color::BLACK, 4)
+    Gosu.draw_rect(x, y+315, (@health *100)/@maxHealth, 10, Gosu::Color::GREEN, 4)
+    Gosu.draw_rect(x, y+330, 100, 10, Gosu::Color::BLACK, 4)
+    Gosu.draw_rect(x, y+330, (@power *100)/@maxPower, 10, Gosu::Color::FUCHSIA, 4)
   end
 
   def update
