@@ -80,7 +80,7 @@ class IHM < Gosu::Window
           end
         end
       }
-      @enemies.each { |e|
+      @enemies.each { |e|       #チキンナゲットが大好き
 
         if e.isClicked?(x, y, @enemies[0].x)
           case @pendingSkill[0]
@@ -100,7 +100,7 @@ class IHM < Gosu::Window
       @player.skills.each { |s|
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
-            if @fighting
+            if @fighting && @box == 0
               if @player.power > s[1].cost
                 @pendingSkill = [s[1].who, s[1]]
                 @waitTarget = true

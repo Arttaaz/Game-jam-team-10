@@ -8,8 +8,12 @@ class Enemy < Player
 
   def initialize(x, y, race, boss = false)
     super(x, y, race)
-    if boss
-      @image = @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
+    if boss && race == "Infested"
+      @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
+    elsif boss && race == "Robot"
+      @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
+    elsif race == "Robot"
+      @image = Gosu::Image.new("assets/Characters/Robots/" + ["notnicerobot.png"].shuffle!.first, :tileable => true)
     end
   end
 
