@@ -14,9 +14,9 @@ class IHM < Gosu::Window
     @enemies = enemies
     @players = players
     @player = player
-    @personnage = Button.new("Personnage", @x-100,@y+350,160,50,Gosu::Color::WHITE, @font)
-    @stats = Button.new("Stats", @x+70,@y+350,150,50,Gosu::Color::WHITE, @font)
-    @skills = Button.new("Capacités", @x+275,@y+350,150,50,Gosu::Color::WHITE, @font)
+    @personnage = Button.new("Personnage", @x-100,@y+350,160,50,2,Gosu::Color::WHITE, @font)
+    @stats = Button.new("Stats", @x+70,@y+350,150,50,2,Gosu::Color::WHITE, @font)
+    @skills = Button.new("Capacités", @x+275,@y+350,150,50,2,Gosu::Color::WHITE, @font)
 
     @box = 0
     @fighting = fighting
@@ -100,6 +100,15 @@ class IHM < Gosu::Window
       @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
       @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
       @box = 2 if @skills.isClicked?(x, y, xx, yy) == true
+      @players.each do |player|
+        player.skills.each do |skill|
+          if skill[1].isClicked?(x, y, xx, yy)
+            if @box == 2
+              addSkillDesc(skill[1].name)
+            end
+          end
+        end
+      end
       @player.skills.each { |s|
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
@@ -109,16 +118,21 @@ class IHM < Gosu::Window
                 @log.addLine("Choisissez une cible")
                 @waitTarget = true
               end
+=begin
             elsif @box == 2
               addSkillDesc(s[1].name)
+=end
             end
+
           end
+=begin
         else
           if s[1].isClicked?(x, y, xx, yy)
             if @box == 2
               addSkillDesc(s[1].name)
             end
           end
+=end
         end
       }
     end

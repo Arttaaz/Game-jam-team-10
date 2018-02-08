@@ -7,6 +7,7 @@ load 'Skill.rb'
 load 'Item.rb'
 load 'Log.rb'
 load 'SplashScreen.rb'
+load 'Button.rb'
 
 class Window < Gosu::Window
 
@@ -29,6 +30,14 @@ class Window < Gosu::Window
     @splashLevelUp = SplashScreen.new(Gosu::Image.new("assets/LevelUp.png", :tileable => true), "Un ou plusieurs personnages ont gagnés un niveau !")
     @splashWin = SplashScreen.new(nil, "Vous avez repris le contrôle d'Ascension-3 ! Bravo !")
     @splashLoose = SplashScreen.new(nil, "Vous avez perdu !")
+    @font = Gosu::Font.new(20)
+    @boutonJouer = Button.new("Jouer", 500,500,160,50,3000, Gosu::Color::BLUE, @font)
+    @boutonCredits = Button.new("Crédits", 500,550,160,50,3000, Gosu::Color::BLUE, @font)
+    @boutonQuitter = Button.new("Quitter", 500,600,160,50,3000, Gosu::Color::BLUE, @font)
+    @boutonJouerClique=false
+    @boutonCreditsClique=false
+    @boutonQuitterClique=false
+    @zBackground = 3000
 
     @mainTheme = Gosu::Song.new("media/Soundtracks/My Little Adventure.mp3")
     @mainTheme.play(true)
@@ -204,76 +213,110 @@ class Window < Gosu::Window
   end
 
   def draw
-    Gosu.translate(-@players[0].x+100, -@players[0].y+250) do
-      @map.draw()
-      @players.each { |p| p.draw() }
-      Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-250, 1200, 300, Gosu::Color::GRAY, 0)
-      @ihm.draw
-      if @moveLeft
-        Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x-30, @players[0].y, 2, -1)
+=begin
+def draw
+	bouton jouer pressé == false
+	if bouton jouer pressé == false
+		élément
+		élément
+		élément
+		boutonJouer
+		boutonJouer pressé = true
+	end
+
+  if true
+    dessiner reste
+=end
+      if @boutonJouerClique==false
+        draw_rect(0,0,3000,3000,Gosu::Color::WHITE, @zBackground, :default)
+        @boutonJouer.draw
+        @boutonCredits.draw
+        @boutonQuitter.draw
       end
-      if @moveRight
-        Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x+1000, @players[0].y, 2)
-      end
-      if @moveUp
-        Gosu::Image.new("assets/Arrow2.png", :tileable => true).draw(@players[0].x+323, @players[0].y-180, 2, 1, -1)
+      if @boutonJouerClique==true
+        Gosu.translate(-@players[0].x+100, -@players[0].y+250) do
+          @map.draw()
+          @players.each { |p| p.draw() }
+          Gosu.draw_rect(@players[0].x-100, 600+@players[0].y-250, 1200, 300, Gosu::Color::GRAY, 0)
+          @ihm.draw
+          if @moveLeft
+            Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x-30, @players[0].y, 2, -1)
+          end
+          if @moveRight
+            Gosu::Image.new("assets/Arrow.png", :tileable => true).draw(@players[0].x+1000, @players[0].y, 2)
+          end
+          if @moveUp
+            Gosu::Image.new("assets/Arrow2.png", :tileable => true).draw(@players[0].x+323, @players[0].y-180, 2, 1, -1)
+          end
+
+          Gosu::Image.new("assets/selected.png", :tileable => true).draw(@currentPlayer.x-15, @currentPlayer.y+210, 3)
+          @splashKey.draw(@players[0].x+200, @players[0].y-50)
+          @splashItem.draw(@players[0].x+200, @players[0].y-50)
+          @splashLoose.draw(@players[0].x+200, @players[0].y-50)
+          @splashWin.draw(@players[0].x+200, @players[0].y-50)
+          @splashFriend.draw(@players[0].x+200, @players[0].y-50)
+          @splashLevelUp.draw(@players[0].x+200, @players[0].y-50)
+          if @fighting == true
+            @enemies.each { |e| e.draw() }
+          end
       end
 
-      Gosu::Image.new("assets/selected.png", :tileable => true).draw(@currentPlayer.x-15, @currentPlayer.y+210, 3)
-      @splashItem.draw(@players[0].x+200, @players[0].y-50)
-      @splashLoose.draw(@players[0].x+200, @players[0].y-50)
-      @splashWin.draw(@players[0].x+200, @players[0].y-50)
-      @splashFriend.draw(@players[0].x+200, @players[0].y-50)
-      @splashLevelUp.draw(@players[0].x+200, @players[0].y-50)
-      @splashKey.draw(@players[0].x+200, @players[0].y-50)
-      if @fighting == true
-        @enemies.each { |e| e.draw() }
-      end
     end
-  end
 
-  def button_down(id)
-    case(id)
-    when Gosu::KB_ESCAPE
-      close
-    when Gosu::MS_LEFT
-      @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
-      if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
-        if self.mouse_y >= 250 && self.mouse_y <= 550
+    def button_down(id)
+      case(id)
+      when Gosu::KB_ESCAPE
+        close
+        when Gosu::MS_LEFT
+          if @boutonJouerClique==true
+            @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
+            if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
+              if self.mouse_y >= 250 && self.mouse_y <= 550
+                @players.each { |p| p.vel_x = -10 }
+                @newTile = true
+              end
+            elsif @moveRight && self.mouse_x >= 1100 && self.mouse_x <= 1150
+              if self.mouse_y >= 250 && self.mouse_y <= 550
+                @players.each { |p| p.vel_x = 10 }
+                @newTile = true
+              end
+            elsif @moveUp && self.mouse_y >= 30 && self.mouse_y <= 70
+              if self.mouse_x >= 433 && self.mouse_x <= 733
+                @players.each { |p| p.vel_y = -10 }
+                @hasKey = false
+                @newTile = true
+              end
+            end
+          else
+            if @boutonJouer.isClickedTS?(self.mouse_x,self.mouse_y)==true
+              @boutonJouerClique=true
+              @zBackground=0
+            elsif @boutonCredits.isClickedTS(self.mouse_x,self.mouse_y)==true
+              @boutonCreditsClique=true
+            elsif @boutonQuitter.isClickedTS(self.mouse_x,self.mouse_y)==true
+              @boutonQuitterClique=true
+            end
+          end
+        @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
+      when Gosu::KB_LEFT
+        if @moveLeft && @boutonJouerClique==true
           @players.each { |p| p.vel_x = -10 }
           @newTile = true
         end
-      elsif @moveRight && self.mouse_x >= 1100 && self.mouse_x <= 1150
-        if self.mouse_y >= 250 && self.mouse_y <= 550
+      when Gosu::KB_RIGHT
+        if @moveRight && @boutonJouerClique==true
           @players.each { |p| p.vel_x = 10 }
           @newTile = true
         end
-      elsif @moveUp && self.mouse_y >= 30 && self.mouse_y <= 70
-        if self.mouse_x >= 433 && self.mouse_x <= 733
+      when Gosu::KB_UP
+        if @moveUp && @boutonJouerClique==true
           @players.each { |p| p.vel_y = -10 }
-          @hasKey = false
           @newTile = true
+          @hasKey = false
         end
+      else
+        super
       end
-      @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
-    when Gosu::KB_LEFT
-      if @moveLeft
-        @players.each { |p| p.vel_x = -10 }
-        @newTile = true
-      end
-    when Gosu::KB_RIGHT
-      if @moveRight
-        @players.each { |p| p.vel_x = 10 }
-        @newTile = true
-      end
-    when Gosu::KB_UP
-      if @moveUp
-        @players.each { |p| p.vel_y = -10 }
-        @newTile = true
-        @hasKey = false
-      end
-    else
-      super
     end
   end
 
