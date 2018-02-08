@@ -307,7 +307,7 @@ class IHM < Gosu::Window
       when "Railgun"
         @log.addLine("Railgun: Inflige 350% de dégâts énergétique à un ennemi")
       when "Connaissance"
-        @log.addLine("Connaissance: Augmente la quantité d’expérience obtenu a la fin d’un combat de 10%")
+        @log.addLine("Connaissance: Augmente la quantité d’expérience obtenue a la fin d’un combat de 10%")
       when "Analyse"
         @log.addLine("Analyse: Réduit les résistances d’un ennemi de 15% pendant 3 tours")
       when "Placebo"
