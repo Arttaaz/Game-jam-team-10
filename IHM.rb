@@ -39,45 +39,50 @@ class IHM < Gosu::Window
     @stats.update(x+70, y+350)
     @skills.update(x+230, y+350)
     @fighting = fighting
+    if @waitTarget
+      if @pendingSkill[0] == Who::SELF
+        @pendingSkill[1].target = @player
+        @player.power -= @pendingSkill[1].activate(@player)
+        @player.active = false
+        @waitTarget = false
+      elsif @pendingSkill[0] == Who::ALLIES
+        @pendingSkill[1].target = @players
+        @player.power -= @pendingSkill[1].activate(@player)
+        @player.active = false
+        @waitTarget = false
+      elsif @pendingSkill[0] == Who::ENEMIES
+        @pendingSkill[1].target = @enemies
+        @player.power -= @pendingSkill[1].activate(@player)
+        @player.active = false
+        @waitTarget = false
+      end
+    end
   end
 
   def click(x, y, xx, yy)
     if @waitTarget
-      puts @pendingSkill[0]
-      if @pendingSkill[0] == Who::SELF
-        @pendingSkill[1].target = @player
-        @player.power -= @pendingSkill[1].activate
-        @waitTarget = false
-      elsif @pendingSkill[0] == Who::ALLIES
-        @pendingSkill[1].target = @players
-        @player.power -= @pendingSkill[1].activate
-        @waitTarget = false
-      elsif @pendingSkill[0] == Who::ENEMIES
-        @pendingSkill[1].target = @enemies
-        @player.power -= @pendingSkill[1].activate
-        @waitTarget = false
-      else
-        @players.each { |p|
-          if p.isClicked?(x, y, xx)
-            case @pendingSkill[0]
-            when Who::ALLY
-              @pendingSkill[1].target = p
-              @player.power -= @pendingSkill[1].activate
-              @waitTarget = false
-            end
+      @players.each { |p|
+        if p.isClicked?(x, y, xx)
+          case @pendingSkill[0]
+          when Who::ALLY
+            @pendingSkill[1].target = p
+            @player.power -= @pendingSkill[1].activate(@player)
+            @player.active = false
+            @waitTarget = false
           end
-        }
-        @enemies.each { |e|
-          if e.isClicked?(x, y, xx)
-            case @pendingSkill[0]
-            when Who::ENEMY
-              @pendingSkill[1].target = e
-              @player.power -= @pendingSkill[1].activate
-              @waitTarget = false
-            end
+        end
+      }
+      @enemies.each { |e|
+        if e.isClicked?(x, y, xx)
+          case @pendingSkill[0]
+          when Who::ENEMY
+            @pendingSkill[1].target = e
+            @player.power -= @pendingSkill[1].activate(@player)
+            @player.active = false
+            @waitTarget = false
           end
-        }
-      end
+        end
+      }
     else
       @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
       @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
@@ -85,7 +90,6 @@ class IHM < Gosu::Window
       @player.skills.each { |s|
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
-            puts s[1].who
             @pendingSkill = [s[1].who, s[1]]
             @waitTarget = true
           end

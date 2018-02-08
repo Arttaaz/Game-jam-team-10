@@ -47,11 +47,11 @@ class Skill
 
   def update
     if @duration != 0
-      self.activate
+      self.activate(@caster)
       @duration = @duration - 1
-    elsif temp == true && @activated == true
+    elsif @temp == true && @activated == true
       @modifier = -@modifier
-      self.activate
+      self.activate(@caster)
       @activated = false
     end
   end

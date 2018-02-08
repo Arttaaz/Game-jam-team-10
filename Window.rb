@@ -117,12 +117,15 @@ class Window < Gosu::Window
       end
 
       if @currentActor.active == false                  #actor did stuff
-        @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
-        if @currentActor == []                          #if actor is nil it's a new turn
+        if @turnOrder.rotate!.first == nil
           @currentTurn = @currentTurn + 1
-          @players.each { |p| p.skills.each { |s| s.update }}
-          @currentActor = @turnOrder.rotate!.first[1]
+          @players.each { |p| p.skills.each { |s| s[1].update }}
+          @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
+        else
+          @currentActor = @turnOrder.first[1]
         end
+
+        puts @currentActor
         @currentActor.active = true                     #actor can use skills
         if @currentActor.instance_of?(Player)           #if actor is player then set current player
           @currentPlayer = @currentActor
@@ -259,7 +262,7 @@ class Window < Gosu::Window
     @enemies.each { |e| @turnOrder << [e.speed, e]}
 
     @turnOrder.sort!{ |a, b| a[0] <=> b[0]}.reverse!
-    @turnOrder << []
+    @turnOrder << nil
 
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]
