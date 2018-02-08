@@ -66,9 +66,9 @@ class Window < Gosu::Window
       [Type::ACTIVE, Heal.new("Super regeneration", Type::ACTIVE, Who::SELF, 10, "assets/Skills/Classes/Ingenieur/12-1_Super_regeneration.png", 42, 5, true)],
       [Type::ACTIVE, SpeedModif.new("Acceleration", Type::ACTIVE, Who::ALLIES, 7, "assets/Skills/Classes/Ingenieur/12-2_Acceleration.png", 30, 3, true)],
       [Type::PASSIVE, SpeedModif.new("Contre", Type::PASSIVE, Who::ENEMIES, 4, "assets/Skills/Classes/Ingenieur/15-1_Contre.png")],
-      [Type::PASSIVE, ResModif.new("Armure renforcee", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Ingenieur/15-2_Armure_renforcee")],
+      [Type::PASSIVE, ResModif.new("Armure renforcee", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Ingenieur/15-2_Armure_renforcee.png")],
       [Type::ACTIVE, ResModif.new("Mastodonte", Type::ACTIVE, Who::SELF, 100, "assets/Skills/Classes/Ingenieur/18-1_Mastodonte.png", 50, 1, true)],
-      [Type::ACTIVE, ShieldModif.new("Barriere", Type::ACTIVE, Who::ALLIES, 70, "assets/Skills/Classes/Ingenieur/18-2_Barriere", 55)]
+      [Type::ACTIVE, ShieldModif.new("Barriere", Type::ACTIVE, Who::ALLIES, 70, "assets/Skills/Classes/Ingenieur/18-2_Barriere.png", 55)]
     ]
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
@@ -96,6 +96,7 @@ class Window < Gosu::Window
     ]
 
     @players = [Player.new(@xStart,@yStart)]
+    @players[0].skills << @@SkillList[17]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
