@@ -32,8 +32,8 @@ class Window < Gosu::Window
     @splashLoose = SplashScreen.new(nil, "Vous avez perdu !")
     @font = Gosu::Font.new(20)
     @boutonJouer = Button.new("Jouer", 500,500,160,50,3000, Gosu::Color::BLUE, @font)
-    @boutonCredits = Button.new("Crédits", 500,550,160,50,3000, Gosu::Color::BLUE, @font)
-    @boutonQuitter = Button.new("Quitter", 500,600,160,50,3000, Gosu::Color::BLUE, @font)
+    @boutonCredits = Button.new("Crédits", 500,570,160,50,3000, Gosu::Color::BLUE, @font)
+    @boutonQuitter = Button.new("Quitter", 500,640,160,50,3000, Gosu::Color::BLUE, @font)
     @boutonJouerClique=false
     @boutonCreditsClique=false
     @boutonQuitterClique=false
@@ -227,7 +227,8 @@ def draw
     dessiner reste
 =end
       if @boutonJouerClique==false
-        draw_rect(0,0,3000,3000,Gosu::Color::WHITE, @zBackground, :default)
+        Gosu::Image.new("assets/MainMenu.png").draw(0,0,@zBackground,0.2403846153846154,0.2467105263157895)
+        #draw_rect(0,0,3000,3000,Gosu::Color::WHITE, @zBackground, :default)
         @boutonJouer.draw
         @boutonCredits.draw
         @boutonQuitter.draw
