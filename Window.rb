@@ -289,6 +289,7 @@ class Window < Gosu::Window
       self.fight
     when "Friendly"
       @players << Player.new(@players[0].x+150*(@players.size), @players[0].y)
+      @splashFriend.show
     end
   end
 
