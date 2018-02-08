@@ -141,7 +141,6 @@ class Window < Gosu::Window
           @currentActor = @turnOrder.first[1]
         end
 
-        puts @currentActor
         @currentActor.active = true                     #actor can use skills
         if @currentActor.instance_of?(Player)           #if actor is player then set current player
           @currentPlayer = @currentActor
@@ -168,6 +167,10 @@ class Window < Gosu::Window
     @pToDelete.each { |p|
       @players.delete(p)
       @turnOrder.delete(p)
+      if @players.size == 0
+        puts "Game over!"
+        exit
+      end
     }
     @enemies.each { |e|
       e.update()

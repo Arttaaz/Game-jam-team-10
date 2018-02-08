@@ -16,7 +16,7 @@ class Enemy < Player
 
   def ai(targets)
     target = rand(targets.size)
-    targets[target].health = targets[target].health - 1
+    targets[target].health = targets[target].health - 50
     @active = false
   end
 

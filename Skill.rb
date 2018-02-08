@@ -46,7 +46,7 @@ class Skill
   end
 
   def update
-    if @duration != 0
+    if @duration != 0 && @activated == true
       self.activate(@caster)
       @duration = @duration - 1
     elsif @temp == true && @activated == true
@@ -63,10 +63,12 @@ class Skill
   end
 
   def isClicked?(x, y, xx, yy) #xx is x camera translation yy is y camera translation    if (x >= @x+xx) && (y >= @y+yy)
-    if (x <= @x+xx+60) && (y <= @y+yy+60)
-      return true
-    else
-      return false
+    if (x >= @x+xx) && (y >= @y+yy)
+      if (x <= @x+xx+60) && (y <= @y+yy+60)
+        return true
+      else
+        return false
+      end
     end
   end
 
@@ -79,13 +81,26 @@ class Heal < Skill
 
   def activate(caster)
     @caster = caster
-    healCheck = @target.health + (@caster.damage * @modifier)/100
-    if healCheck > @target.maxHealth
-      @target.health = @target.maxHealth
-    elsif healCheck < 0
-      @target.health = 0
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        healCheck = t.health + (@caster.damage * @modifier)/100
+        if healCheck > t.maxHealth
+          t.health = t.maxHealth
+        elsif healCheck < 0
+          t.health = 0
+        else
+          t.health = healCheck
+        end
+      }
     else
-      @target.health = healCheck
+      healCheck = @target.health + (@caster.damage * @modifier)/100
+      if healCheck > @target.maxHealth
+        @target.health = @target.maxHealth
+      elsif healCheck < 0
+        @target.health = 0
+      else
+        @target.health = healCheck
+      end
     end
     super
   end
@@ -98,19 +113,40 @@ class Dmg < Skill
 
   def activate(caster)
     @caster = caster
-    if (@target.shield == 0)
-      if (@dmgType == 0)
-        @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.phy_def))
-      else
-        @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.eng_def))
-      end
-    else
-      @target.shield = (@target.shield - ((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100))
-      if @target.shield < 0
-        if @dmgType == 0
-          @target.health += @target.shield - @target.phy_def
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        if (t.shield == 0)
+          if (@dmgType == 0)
+            t.health = (t.health - ((((@caster.damage * @modifier)/100) * ((100 - t.dmgReduc)/100)) - t.phy_def))
+          else
+            t.health = (t.health - ((((@caster.damage * @modifier)/100) * ((100 - t.dmgReduc)/100)) - t.eng_def))
+          end
         else
-          @target.health += @target.shield - @target.eng_def
+          t.shield = (t.shield - ((@caster.damage * @modifier)/100) * ((100 - t.dmgReduc)/100))
+          if t.shield < 0
+            if @dmgType == 0
+              t.health += t.shield - t.phy_def
+            else
+              t.health += t.shield - t.eng_def
+            end
+          end
+        end
+      }
+    else
+      if (@target.shield == 0)
+        if (@dmgType == 0)
+          @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.phy_def))
+        else
+          @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.eng_def))
+        end
+      else
+        @target.shield = (@target.shield - ((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100))
+        if @target.shield < 0
+          if @dmgType == 0
+            @target.health += @target.shield - @target.phy_def
+          else
+            @target.health += @target.shield - @target.eng_def
+          end
         end
       end
     end
@@ -126,11 +162,22 @@ class MaxHealthModif < Skill
 
   def activate(caster)
     @caster = caster
-    maxHealthCheck = @target.maxHealth + (@target.maxHealth * @modifier)/100
-    if maxHealthCheck < 0
-      @target.maxHealth = 0
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        maxHealthCheck = t.maxHealth + (t.maxHealth * @modifier)/100
+        if maxHealthCheck < 0
+          t.maxHealth = 0
+        else
+          t.maxHealth = maxHealthCheck
+        end
+      }
     else
-      @target.maxHealth = maxHealthCheck
+      maxHealthCheck = @target.maxHealth + (@target.maxHealth * @modifier)/100
+      if maxHealthCheck < 0
+        @target.maxHealth = 0
+      else
+        @target.maxHealth = maxHealthCheck
+      end
     end
     super
   end
@@ -143,13 +190,26 @@ class PowerModif< Skill
 
   def activate(caster)
     @caster = caster
-    powerCheck = @target.power + (@target.power * @modifier)/100
-    if powerCheck > @target.maxPower
-      @target.power = @target.maxPower
-    elsif powerCheck < 0
-      @target.power = 0
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        powerCheck = t.power + (t.power * @modifier)/100
+        if powerCheck > t.maxPower
+          t.power = t.maxPower
+        elsif powerCheck < 0
+          t.power = 0
+        else
+          t.power = powerCheck
+        end
+      }
     else
-      @target.power = powerCheck
+      powerCheck = @target.power + (@target.power * @modifier)/100
+      if powerCheck > @target.maxPower
+        @target.power = @target.maxPower
+      elsif powerCheck < 0
+        @target.power = 0
+      else
+        @target.power = powerCheck
+      end
     end
     super
   end
@@ -162,11 +222,22 @@ class MaxPowerModif < Skill
 
   def activite(caster)
     @caster = caster
-    maxPowerCheck = @target.maxPower + (@target.maxPower * @modifier)/100
-    if maxPowerCheck < 0
-      @target.maxPower = 0
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        maxPowerCheck = t.maxPower + (t.maxPower * @modifier)/100
+        if maxPowerCheck < 0
+          t.maxPower = 0
+        else
+          t.maxPower = maxPowerCheck
+        end
+      }
     else
-      @target.maxPower = maxPowerCheck
+      maxPowerCheck = @target.maxPower + (@target.maxPower * @modifier)/100
+      if maxPowerCheck < 0
+        @target.maxPower = 0
+      else
+        @target.maxPower = maxPowerCheck
+      end
     end
     super
   end
@@ -179,7 +250,13 @@ class DmgModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.damage = @target.damage + (@target.damage * @modifier)/100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+          t.damage = t.damage + (t.damage * @modifier)/100
+      }
+    else
+      @target.damage = @target.damage + (@target.damage * @modifier)/100
+    end
     super
   end
 end
@@ -191,11 +268,22 @@ class DmgReducModif < Skill
 
   def activate(caster)
     @caster = caster
-    dmgReducCheck = @target.dmgReduc + (@target.dmgReduc * @modifier)/100
-    if dmgReduc > 100
-      @target.dmgReduc = 100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        dmgReducCheck = t.dmgReduc + (t.dmgReduc * @modifier)/100
+        if dmgReduc > 100
+          t.dmgReduc = 100
+        else
+          t.dmgReduc = dmgReducCheck
+        end
+      }
     else
-      @target.dmgReduc = dmgReducCheck
+      dmgReducCheck = @target.dmgReduc + (@target.dmgReduc * @modifier)/100
+      if dmgReduc > 100
+        @target.dmgReduc = 100
+      else
+        @target.dmgReduc = dmgReducCheck
+      end
     end
     super
   end
@@ -208,7 +296,13 @@ class PowerRegenModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.powRegen = @target.powRegen + (@target.powerRegen * @modifier)/100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        t.powRegen = t.powRegen + (t.powerRegen * @modifier)/100
+      }
+    else
+      @target.powRegen = @target.powRegen + (@target.powerRegen * @modifier)/100
+    end
     super
   end
 end
@@ -220,8 +314,15 @@ class ResModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.phy_def = @target.phy_def + (@target.phy_def * @modifier)/100
-    @target.eng_def = @target.eng_def + (@target.eng_def * @modifier)/100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        t.phy_def = t.phy_def + (t.phy_def * @modifier)/100
+        t.eng_def = t.eng_def + (t.eng_def * @modifier)/100
+      }
+    else
+      @target.phy_def = @target.phy_def + (@target.phy_def * @modifier)/100
+      @target.eng_def = @target.eng_def + (@target.eng_def * @modifier)/100
+    end
     super
   end
 end
@@ -233,7 +334,13 @@ class PhysDefModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.phy_def = @target.phy_def + (@target.phy_def * @modifier)/100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        t.phy_def = t.phy_def + (t.phy_def * @modifier)/100
+      }
+    else
+      @target.phy_def = @target.phy_def + (@target.phy_def * @modifier)/100
+    end
     super
   end
 end
@@ -245,7 +352,13 @@ class EngDefModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.eng_def = @target.eng_def + (@target.eng_def * @modifier)/100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        t.eng_def = t.eng_def + (t.eng_def * @modifier)/100
+      }
+    else
+      @target.eng_def = @target.eng_def + (@target.eng_def * @modifier)/100
+    end
     super
   end
 end
@@ -257,7 +370,13 @@ class ExpModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.expBonus = @target.expBonus + (@target.expBonus * @modifier)/100
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        t.expBonus = t.expBonus + (t.expBonus * @modifier)/100
+      }
+    else
+      @target.expBonus = @target.expBonus + (@target.expBonus * @modifier)/100
+    end
     super
   end
 end
@@ -269,7 +388,13 @@ class SpeedModif < Skill
 
   def activate(caster)
     @caster = caster
-    @target.speed = @target.speed + @modifier
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        t.speed = t.speed + @modifier
+      }
+    else
+      @target.speed = @target.speed + @modifier
+    end
     super
   end
 end
@@ -281,13 +406,26 @@ class ShieldModif < Skill
 
   def activate(caster)
     @caster = caster
-    shieldCheck = @target.shield + (@target.shield * @modifier)/100
-    if shieldCheck > @target.maxShield
-      @target.shield = @target.maxShield
-    elsif shield < 0
-      @target.shield = 0
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        shieldCheck = t.shield + (t.shield * @modifier)/100
+        if shieldCheck > t.maxShield
+          t.shield = t.maxShield
+        elsif shield < 0
+          t.shield = 0
+        else
+          t.shield = shieldCheck
+        end
+      }
     else
-      @target.shield = shieldCheck
+      shieldCheck = @target.shield + (@target.shield * @modifier)/100
+      if shieldCheck > @target.maxShield
+        @target.shield = @target.maxShield
+      elsif shield < 0
+        @target.shield = 0
+      else
+        @target.shield = shieldCheck
+      end
     end
     super
   end
@@ -300,11 +438,22 @@ class MaxShieldModif < Skill
 
   def activiate(caster)
     @caster = caster
-    maxShieldCheck = @target.maxShield + (@target.maxShield * @modifier)/100
-    if maxShieldCheck < 0
-      @target.maxShield = 0
+    if @who == Who::ALLIES || @who == Who::ENEMIES
+      @target.each { |t|
+        maxShieldCheck = t.maxShield + (t.maxShield * @modifier)/100
+        if maxShieldCheck < 0
+          t.maxShield = 0
+        else
+          t.maxShield = maxShieldCheck
+        end
+      }
     else
-      @target.maxShield = maxShieldCheck
+      maxShieldCheck = @target.maxShield + (@target.maxShield * @modifier)/100
+      if maxShieldCheck < 0
+        @target.maxShield = 0
+      else
+        @target.maxShield = maxShieldCheck
+      end
     end
     super
   end
