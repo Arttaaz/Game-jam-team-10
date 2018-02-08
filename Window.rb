@@ -87,7 +87,6 @@ class Window < Gosu::Window
   end
 
   def update
-    puts @hasKey
     if @fighting == false #if not in a fight
       if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
