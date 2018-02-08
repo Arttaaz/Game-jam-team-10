@@ -56,6 +56,7 @@ class Window < Gosu::Window
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
+    @enemyRace = ["Robot", "Infested"].shuffle.first
 
   end
 

@@ -83,7 +83,7 @@ class Player
       @name = @@humanNames[index]
       @@humanNames.delete_at(index)
       image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
-      @image = Gosu::Image.new(image, :tileable => true)
+      @image = Gosu::Image.load_tiles(image, 295, 300, :tileable => true)
     elsif @race == "Robot"
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
