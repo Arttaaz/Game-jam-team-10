@@ -30,10 +30,6 @@ class Item
 end
 
 =begin
-methode useItem(nom)
-
-nom image use chomp separator "_"
-
-mettre méthode dans player pour faire genre @player.useItem(nomItem)
+quand obtient objet l'ajouter aux objets du négro
 
 =end
