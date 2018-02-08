@@ -2,6 +2,7 @@ require 'gosu'
 load 'Player.rb'
 load 'Button.rb'
 load 'Skill.rb'
+load 'Log.rb'
 
 
 class IHM < Gosu::Window
@@ -128,7 +129,6 @@ class IHM < Gosu::Window
         dx=0
         @player.skills.each do |skill|
           if skill[0]==Type::ACTIVE
-            draw_rect(@x+dx-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
             skill[1].draw(@x+dx-90, @y+550)
             dx=dx+75
           end
@@ -175,7 +175,7 @@ class IHM < Gosu::Window
         end
       when 2 # skills
         @font.draw("Actives",  @x+258, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
-        @font.draw("Passives",  @x+750, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
+        @font.draw("Passives",  @x+780, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
         dy=0
         @players.size.times do |n|
           dxa=dxp=0
@@ -183,10 +183,12 @@ class IHM < Gosu::Window
           @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE
-              draw_rect(@x+dxa+120,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
+              skill[1].draw(@x+dxa+120,@y+dy+430)
+              #draw_rect(@x+dxa+120,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxa=dxa+75
             when Type::PASSIVE
-              draw_rect(@x+dxp+612,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
+              skill[1].draw(@x+dxp+612,@y+dy+430)
+              #draw_rect(@x+dxp+612,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxp=dxp+75
             end
           end

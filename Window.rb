@@ -71,6 +71,15 @@ class Window < Gosu::Window
     @players.each { |p|
       p.skills[0] = @@SkillList[5]
       p.skills[1] = @@SkillList[0]
+      p.skills[2] = @@SkillList[8]
+      p.skills[3] = @@SkillList[9]
+      p.skills[4] = @@SkillList[12]
+      p.skills[5] = @@SkillList[2]
+      p.skills[6] = @@SkillList[4]
+      p.skills[7] = @@SkillList[13]
+      p.skills[8] = @@SkillList[11]
+      p.skills[9] = @@SkillList[14]
+      p.skills[10] = @@SkillList[15]
     }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
