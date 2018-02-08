@@ -160,11 +160,13 @@ class Window < Gosu::Window
           @currentActor = @turnOrder.first[1]
         end
 
-        @currentActor.active = true                     #actor can use skills
-        if @currentActor.instance_of?(Player)           #if actor is player then set current player
-          @currentPlayer = @currentActor
-        else                                            # else start enemy ai
-          @currentActor.ai(@players)
+        @currentActor.active = true if @currentActor.speed < 9000                    #actor can use skills
+        if @currentActor.active == true
+          if @currentActor.instance_of?(Player)           #if actor is player then set current player
+            @currentPlayer = @currentActor
+          else                                            # else start enemy ai
+            @currentActor.ai(@players)
+          end
         end
       end
 
