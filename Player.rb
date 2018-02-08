@@ -178,7 +178,7 @@ class Player
 
   def useItem(name)
     case(name)
-    when "Armure regenerante"
+    when "Armure régenérante"
       @maxHealth+=10
       @speed+=5
       @maxPower+=8
@@ -194,7 +194,7 @@ class Player
       @damage+=16
       @phy_def-=2
       @eng_def-=2
-    when "Bouclier energetique"
+    when "Bouclier énergétique"
       @eng_def+=16
       @phy_def+=6
       @speed-=1
@@ -238,7 +238,7 @@ class Player
       @maxPower+=15
       @powRegen+=5
       @eng_def+=5
-    when "Epee plasmique"
+    when "Epée plasmique"
       @damage+=20
       if @maxPower-10 < @power
         @maxPower-=10

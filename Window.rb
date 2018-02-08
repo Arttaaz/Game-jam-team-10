@@ -46,16 +46,16 @@ class Window < Gosu::Window
     ]
 
     @@ItemList =[
-      Item.new("Armure regenerante", "assets/Items/Armure_regenerante.png"),
+      Item.new("Armure régenérante", "assets/Items/Armure_regenerante.png"),
       Item.new("Armure vivante", "assets/Items/Armure_vivante.png"),
       Item.new("BFK","assets/Items/BFK.png"),
-      Item.new("Bouclier energetique","assets/Items/Bouclier_energetique.png"),
+      Item.new("Bouclier énergétique","assets/Items/Bouclier_energetique.png"),
       Item.new("Chalumeau","assets/Items/Chalumeau.png"),
       Item.new("Cheveu divin","assets/Items/Cheveu_divin.png"),
       Item.new("Combinaison spatiale","assets/Items/Combinaison_spatiale.png"),
       Item.new("Couteau mortel","assets/Items/Couteau_mortel.png"),
       Item.new("Cyber-cerveau","assets/Items/Cyber-cerveau.png"),
-      Item.new("Epee plasmique","assets/Items/Epee_plasmique.png"),
+      Item.new("Epée plasmique","assets/Items/Epee_plasmique.png"),
       Item.new("Gilet pare-balle","assets/Items/Gilet_pare-balle.png"),
       Item.new("Katana","assets/Items/Katana.png"),
       Item.new("Lampe blue","assets/Items/Lampe_bleue.png"),
