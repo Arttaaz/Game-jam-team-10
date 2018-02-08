@@ -70,7 +70,7 @@ class IHM < Gosu::Window
   def click(x, y, xx, yy)
     if @waitTarget
       @players.each { |p|
-        if p.isClicked?(x, y, xx)
+        if p.isClicked?(x, y, @players[0].x)
           case @pendingSkill[0]
           when Who::ALLY
             @pendingSkill[1].target = p

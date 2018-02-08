@@ -11,7 +11,7 @@ class Enemy < Player
     if boss && race == "Infested"
       @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
     elsif boss && race == "Robot"
-      @image = Gosu::Image.new("assets/Characters/Infested/Boss.png", :tileable => true)
+      @image = Gosu::Image.new("assets/Characters/Infested/boss.png", :tileable => true)
     elsif race == "Robot"
       @image = Gosu::Image.new("assets/Characters/Robots/" + ["notnicerobot.png"].shuffle!.first, :tileable => true)
     end
