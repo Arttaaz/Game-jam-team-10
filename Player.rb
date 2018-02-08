@@ -6,7 +6,7 @@ class Player
 
 
 
-  attr_reader :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
+  attr_reader :name, :level, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
   attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
 
   def initialize(image, x, y, race = "d")
@@ -18,6 +18,7 @@ class Player
     @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @image = Gosu::Image.new(image, :tileable => true)
     @active = false
+    @level = 1
     @x = x
     @vel_x = 0
     @distance = 0 #distance moved
@@ -72,6 +73,14 @@ class Player
       @power = 0
     end
 
+    @skills.each { |s|
+      if @power < s[1].cost
+        s[1].color = Gosu::Color::GRAY
+      else
+        s[1].color = 0xff_ffffff
+      end
+    }
+
     if @exp == 10
       self.levelup
       @exp = 0
@@ -91,6 +100,29 @@ class Player
         @distance = 0
         @vel_y = 0
       end
+    end
+  end
+
+  def regen
+    if @power+@powRegen < @maxPower
+      @power += @powRegen
+    else
+      @power = @maxPower
+    end
+  end
+
+  def regenRoom
+
+    if @shield + 15 < @maxShield
+      @shield += 15
+    else
+      @shield = @maxShield
+    end
+
+    if @power+2*@powRegen < @maxPower
+      @power += 2*@powRegen
+    else
+      @power = @maxPower
     end
   end
 
@@ -126,6 +158,7 @@ class Player
   end
 
   def levelup
+    @level += 1
     case(@race)
     when "Humain"
       @health += 20

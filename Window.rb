@@ -22,7 +22,7 @@ class Window < Gosu::Window
     @moveRight = @moveLeft = @moveUp = false
     @newTile = false
     @fighting = false
-    @hasKey = false
+    #@hasKey = false
     @pToDelete = @eToDelete = []
 #name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
@@ -41,8 +41,24 @@ class Window < Gosu::Window
       [Type::PASSIVE, PowerRegenModif.new("Determination", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Classes/Soldat/09-2_Determination.png")],
       [Type::ACTIVE, Dmg.new("Coutean militaire", Type::ACTIVE, Who::ENEMY, 40, "assets/Skills/Classes/Soldat/12-1_Couteau_militaire.png", 17, 3, true, DmgType::PHYS)],
       [Type::ACTIVE, Dmg.new("Lame plasmique", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/12-2_Lame_plasmique.png", 17, 0, false, DmgType::ENG)],
-      [Type::PASSIVE, PhysDefModif.new("Vulnerabilite physique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-1_Vulnerabilitee_physique.png")],
-      [Type::PASSIVE, EngDefModif.new("Vulnerabilite energetique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-2_Vulnerabilitee_energetique.png")]
+      [Type::PASSIVE, PhysDefModif.new("Vulnerabilite physique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-1_Vulnerabilite_physique.png")],
+      [Type::PASSIVE, EngDefModif.new("Vulnerabilite energetique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-2_Vulnerabilite_energetique.png")],
+      [Type::ACTIVE, Dmg.new("Shotgun", Type::ACTIVE, Who::ENEMIES, 150, "assets/Skills/Classes/Soldat/18-1_Shotgun.png", 40, 0, false, DmgType::PHYS)],
+      [Type::ACTIVE, Dmg.new("Railgun", Type::ACTIVE, Who::ENEMY, 350, "assets/Skills/Classes/Soldat/18-2_Railgun.png", 40, 0, false, DmgType::ENG)],
+      [Type::PASSIVE, ExpModif.new("Connaissance", Type::PASSIVE, Who::ALLIES, 10, "assets/Skills/Classes/Scientifique/01-1_Connaissance.png")],
+      [Type::ACTIVE, ResModif.new("Analyse", Type::ACTIVE, Who::ENEMY, -15, "assets/Skills/Classes/Scientifique/01-2_Analyse.png", 10, 3, true)],
+      [Type::PASSIVE, Heal.new("Placebo", Type::PASSIVE, Who::ALLIES, 5, "assets/Skills/Classes/Scientifique/03-1_Placebo.png")],
+      [Type::PASSIVE, ResModif.new("Vapeur nefaste", Type::PASSIVE, Who::ENEMIES, -10, "assets/Skills/Classes/Scientifique/03-2_Vapeur_nefaste.png")],
+      [Type::ACTIVE, Heal.new("Soin", Type::ACTIVE, Who::ALLY, 80, "assets/Skills/Classes/Scientifique/06-1_Soin.png", 30)],
+      [Type::ACTIVE, Dmg.new("Coctel chimique", Type::ACTIVE, Who::ENEMIES, 20, "assets/Skills/Classes/Scientifique/06-2_Coctel_chimique.png", 20, 3, true, DmgType::ENG)],
+      [Type::PASSIVE, SpeedModif.new("Vitesse", Type::PASSIVE, Who::ALLIES, 3, "assets/Skills/Classes/Scientifique/09-1_Vitesse.png")],
+      [Type::PASSIVE, DmgModif.new("Prevoyance", Type::PASSIVE, Who::ENEMIES, -15, "assets/Skills/Classes/Scientifique/09-2_Prevoyance.png")],
+      [Type::ACTIVE, Heal.new("Medicament", Type::ACTIVE, Who::ALLY, 15, "assets/Skills/Classes/Scientifique/12-1_Medicament.png", 32, 5, true)],
+      [Type::ACTIVE, ResModif.new("Faiblesse", Type::ACTIVE, Who::ENEMY, -50, "assets/Skills/Classes/Scientifique/12-2_Faiblesse.png", 28, 1, true)],
+      [Type::PASSIVE, ResModif.new("Resistance", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Scientifique/15-1_Resistance.png")],
+      [Type::PASSIVE, SpeedModif.new("Ralentissement", Type::PASSIVE, Who::ENEMIES, 5, "assets/Skills/Classes/Scientifique/15-2_ralentissement.png")],
+      [Type::ACTIVE, Heal.new("Soin de masse", Type::ACTIVE, Who::ALLIES, 200, "assets/Skills/Classes/Scientifique/18-1_Soin_de_masse.png", 50)],
+      [Type::ACTIVE, SpeedModif.new("Grenade flash", Type::ACTIVE, Who::ENEMIES, 9000, "assets/Skills/Classes/Scientifique/18-2_Grenade_flash.png", 45, 1, true)]
     ]
 
     @@ItemList =[
@@ -101,6 +117,7 @@ class Window < Gosu::Window
     if @fighting == false #if not in a fight
       if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
+          @players.each { |p| p.regenRoom }
           self.event
           @newTile = false
         end
@@ -135,18 +152,21 @@ class Window < Gosu::Window
       if @currentActor.active == false                  #actor did stuff
         if @turnOrder.rotate!.first == nil
           @currentTurn = @currentTurn + 1
-          @players.each { |p| p.skills.each { |s| s[1].update }}
+          @players.each { |p|
+            p.regen
+            p.skills.each { |s| s[1].update }}
           @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
         else
           @currentActor = @turnOrder.first[1]
         end
 
-        puts @currentActor
-        @currentActor.active = true                     #actor can use skills
-        if @currentActor.instance_of?(Player)           #if actor is player then set current player
-          @currentPlayer = @currentActor
-        else                                            # else start enemy ai
-          @currentActor.ai(@players)
+        @currentActor.active = true if @currentActor.speed < 9000                    #actor can use skills
+        if @currentActor.active == true
+          if @currentActor.instance_of?(Player)           #if actor is player then set current player
+            @currentPlayer = @currentActor
+          else                                            # else start enemy ai
+            @currentActor.ai(@players)
+          end
         end
       end
 
@@ -168,6 +188,10 @@ class Window < Gosu::Window
     @pToDelete.each { |p|
       @players.delete(p)
       @turnOrder.delete(p)
+      if @players.size == 0
+        puts "Game over!"
+        exit
+      end
     }
     @enemies.each { |e|
       e.update()
@@ -228,7 +252,7 @@ class Window < Gosu::Window
       elsif @moveUp && self.mouse_y >= 30 && self.mouse_y <= 70
         if self.mouse_x >= 433 && self.mouse_x <= 733
           @players.each { |p| p.vel_y = -10 }
-          @hasKey = false
+          #@hasKey = false
           @newTile = true
         end
       end
@@ -250,7 +274,7 @@ class Window < Gosu::Window
       if @moveUp
         @players.each { |p| p.vel_y = -10 }
         @newTile = true
-        @hasKey = false
+        #@hasKey = false
       end
     else
       super
@@ -277,7 +301,11 @@ class Window < Gosu::Window
 
     case(e)
     when "Encounter"
-      (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+      if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
+        @enemies << Enemy.new("assets/Boss.png", @players[0].x+500, @players[0].y-100, @enemyRace)
+      else
+        (rand(3)+1).times { @enemies << Enemy.new(@enemiesImages.shuffle.first, @players[0].x+500+@enemies.size*200, @players[0].y, @enemyRace) }
+      end
       self.fight
     when "Loot"
     when "Friendly"

@@ -19,6 +19,7 @@ class IHM < Gosu::Window
     @skills = Button.new("Capacités", @x+275,@y+350,150,50,Gosu::Color::WHITE, @font)
     @box = 0
     @fighting = fighting
+    @pendingSkill = []
     @waitTarget = false
     @log = Log.new(@x+580,@y+605)
   end
@@ -54,7 +55,7 @@ class IHM < Gosu::Window
         @player.active = false
         @waitTarget = false
       elsif @pendingSkill[0] == Who::ENEMIES
-        @pendingSkill[1].target = @enemies
+        @pendingSkill[1].target = @enemies.to_a
         @player.power -= @pendingSkill[1].activate(@player)
         @player.active = false
         @waitTarget = false
@@ -78,7 +79,6 @@ class IHM < Gosu::Window
       @enemies.each { |e|
 
         if e.isClicked?(x, y, @enemies[0].x)
-          puts "hey"
           case @pendingSkill[0]
           when Who::ENEMY
             @pendingSkill[1].target = e
@@ -95,8 +95,12 @@ class IHM < Gosu::Window
       @player.skills.each { |s|
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
-            @pendingSkill = [s[1].who, s[1]]
-            @waitTarget = true
+            if @fighting
+              if @player.power > s[1].cost
+                @pendingSkill = [s[1].who, s[1]]
+                @waitTarget = true
+              end
+            end
           end
         end
       }
@@ -120,12 +124,16 @@ class IHM < Gosu::Window
         @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
         draw_rect(@x+230,@y+410,60,60,Gosu::Color::WHITE, z=0, :default)
-        @player.items[0].draw(@x+230,@y+410)
-        @player.items[0].drawNameIB(@x+295, @y+430)
+        if @player.items.size > 0
+          @player.items[0].draw(@x+230,@y+410)
+          @player.items[0].drawNameIB(@x+295, @y+430)
+        end
 
         draw_rect(@x+230,@y+480,60,60,Gosu::Color::WHITE, z=0, :default)
-        @player.items[1].draw(@x+230,@y+480)
-        @player.items[1].drawNameIB(@x+295, @y+500)
+        if @player.items.size > 1
+          @player.items[1].draw(@x+230,@y+480)
+          @player.items[1].drawNameIB(@x+295, @y+500)
+        end
 
         dx=0
         @player.skills.each do |skill|
@@ -136,7 +144,6 @@ class IHM < Gosu::Window
         end
 
         writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
-        #@font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
 
         @log.dispLog
       else #@fighting==false
@@ -152,15 +159,18 @@ class IHM < Gosu::Window
         @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
         draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @player.items[0].draw(@x-90,@y+550)
-        @player.items[0].drawNameOB(@x-25, @y+565)
+        if @player.items.size > 0
+          @player.items[0].draw(@x-90,@y+550)
+          @player.items[0].drawNameOB(@x-25, @y+565)
+        end
 
         draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @player.items[1].draw(@x+190,@y+550)
-        @player.items[1].drawNameOB(@x+255, @y+565)
+        if @player.items.size > 1
+          @player.items[1].draw(@x+190,@y+550)
+          @player.items[1].drawNameOB(@x+255, @y+565)
+        end
 
         writeNameA(@player.name,@x-90, @y+615, 1.7,1.7)
-        #@font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
 
         @log.dispLog
         @log.addLine("héhéhéhéhéhéhéhéhéhéhéhéhéhéhéhé nouvelle ligneuh")
@@ -182,31 +192,27 @@ class IHM < Gosu::Window
           @font.draw("Expérience: " + @players[n].exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Bonus exp: " + @players[n].expBonus.to_s + "%",  @x+d+90, @y+535, 1, 1.0, 1.0, Gosu::Color::BLACK)
           writeNameB(@players[n].name,@x+d+5, @y+590, 1.7,1.7,n)
-          #@font.draw(@players[n].name, @x+d+5, @y+590, 1, 1.7,1.7 , Gosu::Color::BLUE)
         d=d+420
         end
       when 2 # skills
         @font.draw("Actives",  @x+258, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
         @font.draw("Passives",  @x+780, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
         dy=0
-        @players.size.times do |n|
+        @players.size.times { |n|
           dxa=dxp=0
           writeNameB(@players[n].name,@x-90, @y+dy+445, 1.3,1.3,n)
-          #@font.draw(@players[n].name, @x-90, @y+dy+445, 1, 1.3,1.3 , Gosu::Color::BLUE)
           @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE
               skill[1].draw(@x+dxa+120,@y+dy+430)
-              #draw_rect(@x+dxa+120,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxa=dxa+75
             when Type::PASSIVE
               skill[1].draw(@x+dxp+612,@y+dy+430)
-              #draw_rect(@x+dxp+612,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxp=dxp+75
             end
-          end
+          }
           dy=dy+75
-        end
+        }
       end
     end
 
