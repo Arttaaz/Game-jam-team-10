@@ -80,7 +80,7 @@ class IHM < Gosu::Window
           end
         end
       }
-      @enemies.each { |e|
+      @enemies.each { |e|       #チキンナゲットが大好き
 
         if e.isClicked?(x, y, @enemies[0].x)
           case @pendingSkill[0]

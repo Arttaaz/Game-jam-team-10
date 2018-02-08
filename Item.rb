@@ -4,7 +4,7 @@ load 'Player.rb'
 
 class Item
 
-  attr_reader :name
+  attr_reader :name, :image
 
   def initialize(name, image)
     @name = name
