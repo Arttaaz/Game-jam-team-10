@@ -29,9 +29,9 @@ class Window < Gosu::Window
     @@SkillList = [
       [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
       [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
-      [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-reparateur.png")],
+      [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
       [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/2_Taser.png", 17, 1, true)],
-      [Type::PASSIVE, DmgModif.new("Volonte de fer", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Classes/Soldat/01-1_Volonte_de_fer.png")],
+      [Type::PASSIVE, DmgModif.new("Volonte de fer", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Classes/Soldat/01-1_Volontee_de_fer.png")],
       [Type::ACTIVE, Dmg.new("Tire puissant", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/01-2_Tire_puissant.png", 17, 0, false, DmgType::PHYS)],
       [Type::PASSIVE, DmgModif.new("Munition lourde", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-1_Munition_lourde.png")],
       [Type::PASSIVE, PowerRegenModif.new("Vigeur", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-2_Vigeur.png")],
@@ -85,8 +85,21 @@ class Window < Gosu::Window
     ]
 
     @players.each { |p|
-      p.skills[0] = @@SkillList[1]
+      p.skills[0] = @@SkillList[5]
       p.skills[1] = @@SkillList[0]
+      p.skills[2] = @@SkillList[8]
+      p.skills[3] = @@SkillList[9]
+      p.skills[4] = @@SkillList[12]
+      p.skills[5] = @@SkillList[2]
+      p.skills[6] = @@SkillList[4]
+      p.skills[7] = @@SkillList[13]
+      p.skills[8] = @@SkillList[11]
+      p.skills[9] = @@SkillList[14]
+      p.skills[10] = @@SkillList[15]
+      p.items[0] = @@ItemList[3]
+      p.items[1] = @@ItemList[6]
+      p.useItem(p.items[0].name)
+      p.useItem(p.items[1].name)
     }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first
@@ -124,6 +137,8 @@ class Window < Gosu::Window
           else
             @moveUp = false
           end
+        else
+          @moveUp = false
         end
       else
         @moveLeft = @moveRight = @moveUp = false
@@ -131,26 +146,31 @@ class Window < Gosu::Window
     else                                    #########FIGHT#########
       @moveLeft = @moveRight = @moveUp = false                  # can't move
 
-      if @ennemies == []
-        @fighting = false
-        luck = rand(100)
-        if luck < 25
-          @hasKey = true
-        end
-      end
+
 
       if @currentActor.active == false                  #actor did stuff
-        @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
-        if @currentActor == []                          #if actor is nil it's a new turn
+        if @turnOrder.rotate!.first == nil
           @currentTurn = @currentTurn + 1
-          @players.each { |p| p.skills.each { |s| s.update }}
-          @currentActor = @turnOrder.rotate!.first[1]
+          @players.each { |p| p.skills.each { |s| s[1].update }}
+          @currentActor = @turnOrder.rotate!.first[1]     #rotate to next actor
+        else
+          @currentActor = @turnOrder.first[1]
         end
+
+        puts @currentActor
         @currentActor.active = true                     #actor can use skills
         if @currentActor.instance_of?(Player)           #if actor is player then set current player
           @currentPlayer = @currentActor
         else                                            # else start enemy ai
           @currentActor.ai(@players)
+        end
+      end
+
+      if @enemies.size == 0
+        @fighting = false
+        luck = rand(100)
+        if luck < 25
+          @hasKey = true
         end
       end
 
@@ -175,6 +195,11 @@ class Window < Gosu::Window
       @enemies.delete(e)
       @turnOrder.delete(e)
     }
+
+    @enemies.size.times { |i|
+      @enemies[i].changePos(@players[0].x+500+i*200)
+    }
+
     @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @players, @enemies, @fighting)
 
   end
@@ -224,9 +249,9 @@ class Window < Gosu::Window
         end
       end
       @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
-      if @enemies != []
-        @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
-      end
+      #if @enemies != []
+      #  @enemies.each { |e| e.isClicked?(self.mouse_x, self.mouse_y, @enemies[0].x)}
+      #end
     when Gosu::KB_LEFT
       if @moveLeft
         @players.each { |p| p.vel_x = -10 }
@@ -273,6 +298,8 @@ class Window < Gosu::Window
     when "Loot"
     when "Friendly"
       @players << Player.new("assets/testchar.png", @players[0].x+150*(@players.size), @players[0].y)
+      @players.last.skills[0] = @@SkillList[5]
+      @players.last.skills[1] = @@SkillList[0]
     end
   end
 
@@ -282,7 +309,7 @@ class Window < Gosu::Window
     @enemies.each { |e| @turnOrder << [e.speed, e]}
 
     @turnOrder.sort!{ |a, b| a[0] <=> b[0]}.reverse!
-    @turnOrder << []
+    @turnOrder << nil
 
     @currentTurn = 0
     @currentActor = @turnOrder.first[1]

@@ -6,11 +6,12 @@ class Player
 
 
 
-  attr_reader :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
-  attr_accessor :active, :vel_x, :vel_y, :health, :skills
+  attr_reader :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
+  attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
 
   def initialize(image, x, y, race = "d")
     @skills = [] #array is like [ [active/passive, skill object], [active/passive, skill object]]
+    @items = []
     @races = ["Humain", "Robot"]
     @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung"]
     @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja"]
@@ -62,6 +63,13 @@ class Player
       @shield = 0
       @power = 0
       @color = Gosu::Color::GRAY
+    end
+    if @shield <= 0
+      @shield = 0
+    end
+
+    if @power <= 0
+      @power = 0
     end
 
     if @exp == 10
@@ -171,13 +179,13 @@ class Player
   def useItem(name)
     case(name)
     when "Armure regenerante"
-      @health+=10
+      @maxHealth+=10
       @speed+=5
-      @power+=8
+      @maxPower+=8
       @phy_def+=3
       @eng_def+=3
     when "Armure vivante"
-      @health+=15
+      @maxHealth+=15
       @phy_def+=15
       @eng_def-=5
       @speed+=2
@@ -190,34 +198,54 @@ class Player
       @eng_def+=16
       @phy_def+=6
       @speed-=1
-      @shield+=5
+      @maxShield+=5
     when "Chalumeau"
       @damage+=6
-      @power+=10
+      @maxPower+=10
     when "Cheveu divin"
-      @power+=15
+      @maxPower+=15
       @powRegen+=3
       @damage+=5
       @speed+=2
-      @shield+=5
+      @maxShield+=5
     when "Combinaison spatiale"
-      @health+=30
+      @maxHealth+=30
       @speed-=5
-      @power+=15
+      @maxPower+=15
     when "Couteau mortel"
       @damage+=15
       @speed+=5
       @powRegen+=3
-      @power-=10
-      @health-=10
-      @shield-=5
+      if @maxPower-10 < @power
+        @maxPower-=10
+        @power=@maxPower
+      else
+        @maxPower-=10
+      end
+      if @maxHealth-10 < @health
+        @maxHealth-=10
+        @health=@maxHealth
+      else
+        @maxHealth-=10
+      end
+      if @maxShield-5 < @shield
+        @maxShield-=5
+        @shield=@maxShield
+      else
+        @maxShield-=5
+      end
     when "Cyber-cerveau"
-      @power+=15
+      @maxPower+=15
       @powRegen+=5
       @eng_def+=5
     when "Epee plasmique"
       @damage+=20
-      @power-10
+      if @maxPower-10 < @power
+        @maxPower-=10
+        @power=@maxPower
+      else
+        @maxPower-=10
+      end
       @powRegen-=2
     when "Gilet pare-balle"
       @phy_def+=15
@@ -226,10 +254,10 @@ class Player
     when "Katana"
       @damage+=12
       @powRegen+=4
-      @shield+=10
+      @maxShield+=10
       @speed-=2
     when "Lampe bleue"
-      @health+=25
+      @maxHealth+=25
       @powRegen+=5
       @damage+=3
     when "Magnum 50mm"
@@ -239,27 +267,27 @@ class Player
     when "Pistolet laser"
       @damage+=4
       @powRegen+=3
-      @power+=5
+      @maxPower+=5
     when "Pistolet sonique"
       @damage+=4
       @speed+=4
     when "Tablier de cuisine"
       @phy_def+=2
       @eng_def-=2
-      @power+=20
+      @maxPower+=20
       @powRegen+=2
     when "Tournevis sonique"
-      @power+=8
+      @maxPower+=8
       @powRegen+=3
       @eng_def+=6
       @phy_def-=5
     when "Uniforme de pilote"
-      @health+=15
+      @maxHealth+=15
       @phy_def+=5
       @eng_def-=1
       @speed+=3
     when "Yeux de perception"
-      @power+=12
+      @maxPower+=12
       @speed+=5
       @damage+=2
       @phy_def-=3

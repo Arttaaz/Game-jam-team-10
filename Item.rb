@@ -8,8 +8,9 @@ class Item
 
   def initialize(name, image)
     @name = name
-    @image = image
+    @image = Gosu::Image.new(image, :tileable => true)
     @color = 0xff_ffffff
+    @font = Gosu::Font.new(20)
   end
 
   def draw(x, y)
@@ -26,14 +27,17 @@ class Item
     end
   end
 
+  def drawNameIB(x, y)
+    @font.draw(@name, x, y, 1, 1, 1, Gosu::Color::BLACK)
+  end
+
+  def drawNameOB(x, y)
+    @font.draw(@name, x, y, 1, 1.25, 1.25, Gosu::Color::BLACK)
+  end
 
 end
 
 =begin
-methode useItem(nom)
-
-nom image use chomp separator "_"
-
-mettre méthode dans player pour faire genre @player.useItem(nomItem)
+quand obtient objet l'ajouter aux objets du négro
 
 =end

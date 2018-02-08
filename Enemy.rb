@@ -7,28 +7,31 @@ class Enemy < Player
   attr_accessor :active
 
   def initialize(image, x, y, race)
-    @image = Gosu::Image.new(image, :tileable => true)
-    @x = x
-    @y = y
+    super(image, x, y)
     @speed = 42
-    @active = false
     @race = race
     @maxHealth = @health = 100
     @shield = @maxShield = 100
-    @color = 0xff_ffffff
   end
 
   def ai(targets)
     target = rand(targets.size)
-    targets[target].health = targets[target].health - 10
+    targets[target].health = targets[target].health - 1
     @active = false
   end
 
   def update
-    if @health == 0
+    if @health <= 0
+      @health = 0
       @shield = 0
       @color = Gosu::Color::GRAY
     end
+    if @shield <= 0
+      @shield = 0
+    end
+  end
+  def changePos(x)
+    @x = x
   end
 
   def draw
@@ -40,8 +43,8 @@ class Enemy < Player
   end
 
   def isClicked?(x, y, xx)
-    if (x >= @x-xx+600) && (y >= 150)
-      if (x <= @x-xx+790) && (y <= 450)
+    if (x >= @x-xx+600) && (y >= 230)
+      if (x <= @x-xx+790) && (y <= 530)
         return true
       else
         return false

@@ -2,6 +2,7 @@ require 'gosu'
 load 'Player.rb'
 load 'Button.rb'
 load 'Skill.rb'
+load 'Log.rb'
 
 
 class IHM < Gosu::Window
@@ -39,45 +40,52 @@ class IHM < Gosu::Window
     @stats.update(x+70, y+350)
     @skills.update(x+230, y+350)
     @fighting = fighting
+    if @waitTarget
+      if @pendingSkill[0] == Who::SELF
+        @pendingSkill[1].target = @player
+        @player.power -= @pendingSkill[1].activate(@player)
+        @player.active = false
+        @waitTarget = false
+      elsif @pendingSkill[0] == Who::ALLIES
+        @pendingSkill[1].target = @players
+        @player.power -= @pendingSkill[1].activate(@player)
+        @player.active = false
+        @waitTarget = false
+      elsif @pendingSkill[0] == Who::ENEMIES
+        @pendingSkill[1].target = @enemies
+        @player.power -= @pendingSkill[1].activate(@player)
+        @player.active = false
+        @waitTarget = false
+      end
+    end
   end
 
   def click(x, y, xx, yy)
     if @waitTarget
-      puts @pendingSkill[0]
-      if @pendingSkill[0] == Who::SELF
-        @pendingSkill[1].target = @player
-        @player.power -= @pendingSkill[1].activate
-        @waitTarget = false
-      elsif @pendingSkill[0] == Who::ALLIES
-        @pendingSkill[1].target = @players
-        @player.power -= @pendingSkill[1].activate
-        @waitTarget = false
-      elsif @pendingSkill[0] == Who::ENEMIES
-        @pendingSkill[1].target = @enemies
-        @player.power -= @pendingSkill[1].activate
-        @waitTarget = false
-      else
-        @players.each { |p|
-          if p.isClicked?(x, y, xx)
-            case @pendingSkill[0]
-            when Who::ALLY
-              @pendingSkill[1].target = p
-              @player.power -= @pendingSkill[1].activate
-              @waitTarget = false
-            end
+      @players.each { |p|
+        if p.isClicked?(x, y, xx)
+          case @pendingSkill[0]
+          when Who::ALLY
+            @pendingSkill[1].target = p
+            @player.power -= @pendingSkill[1].activate(@player)
+            @player.active = false
+            @waitTarget = false
           end
-        }
-        @enemies.each { |e|
-          if e.isClicked?(x, y, xx)
-            case @pendingSkill[0]
-            when Who::ENEMY
-              @pendingSkill[1].target = e
-              @player.power -= @pendingSkill[1].activate
-              @waitTarget = false
-            end
+        end
+      }
+      @enemies.each { |e|
+
+        if e.isClicked?(x, y, @enemies[0].x)
+          puts "hey"
+          case @pendingSkill[0]
+          when Who::ENEMY
+            @pendingSkill[1].target = e
+            @player.power -= @pendingSkill[1].activate(@player)
+            @player.active = false
+            @waitTarget = false
           end
-        }
-      end
+        end
+      }
     else
       @box = 0 if @personnage.isClicked?(x, y, xx, yy) == true
       @box = 1 if @stats.isClicked?(x, y, xx, yy) == true
@@ -85,7 +93,6 @@ class IHM < Gosu::Window
       @player.skills.each { |s|
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
-            puts s[1].who
             @pendingSkill = [s[1].who, s[1]]
             @waitTarget = true
           end
@@ -103,26 +110,28 @@ class IHM < Gosu::Window
     case(@box)
       when 0 #personnage
       if @fighting==true
-        draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
+        draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
         @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
         @font.draw("Power: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 
-        @font.draw("Dégâts: " + @player.damage.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+100, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Vitesse: " + @player.speed.to_s,  @x+100, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Dégâts: " + @player.damage.to_s,  @x+80, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+80, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+80, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
-        draw_rect(@x+250,@y+410,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 1", @x+330, @y+425, 1, 1.5,1.5 , Gosu::Color::BLACK)
-        draw_rect(@x+250,@y+480,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 2", @x+330, @y+495, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        draw_rect(@x+230,@y+410,60,60,Gosu::Color::WHITE, z=0, :default)
+        @player.items[0].draw(@x+230,@y+410)
+        @player.items[0].drawNameIB(@x+295, @y+430)
+
+        draw_rect(@x+230,@y+480,60,60,Gosu::Color::WHITE, z=0, :default)
+        @player.items[1].draw(@x+230,@y+480)
+        @player.items[1].drawNameIB(@x+295, @y+500)
 
         dx=0
         @player.skills.each do |skill|
           if skill[0]==Type::ACTIVE
-            draw_rect(@x+dx-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
             skill[1].draw(@x+dx-90, @y+550)
             dx=dx+75
           end
@@ -130,21 +139,24 @@ class IHM < Gosu::Window
 
         @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
       else
-        draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
+        draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
         @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
         @font.draw("Power: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 
-        @font.draw("Dégâts: " + @player.damage.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+100, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Vitesse: " + @player.speed.to_s,  @x+100, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Dégâts: " + @player.damage.to_s,  @x+80, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+80, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+80, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
         draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 1", @x+20, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        @player.items[0].draw(@x-90,@y+550)
+        @player.items[0].drawNameOB(@x-25, @y+565)
+
         draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 2", @x+290, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        @player.items[1].draw(@x+190,@y+550)
+        @player.items[1].drawNameOB(@x+255, @y+565)
 
         @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
       end
@@ -169,7 +181,7 @@ class IHM < Gosu::Window
         end
       when 2 # skills
         @font.draw("Actives",  @x+258, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
-        @font.draw("Passives",  @x+750, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
+        @font.draw("Passives",  @x+780, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
         dy=0
         @players.size.times do |n|
           dxa=dxp=0
@@ -177,10 +189,12 @@ class IHM < Gosu::Window
           @players[n].skills.each do |skill|
             case(skill[0])
             when Type::ACTIVE
-              draw_rect(@x+dxa+120,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
+              skill[1].draw(@x+dxa+120,@y+dy+430)
+              #draw_rect(@x+dxa+120,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxa=dxa+75
             when Type::PASSIVE
-              draw_rect(@x+dxp+612,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
+              skill[1].draw(@x+dxp+612,@y+dy+430)
+              #draw_rect(@x+dxp+612,@y+dy+430,60,60,Gosu::Color::WHITE, z=0, :default)
               dxp=dxp+75
             end
           end

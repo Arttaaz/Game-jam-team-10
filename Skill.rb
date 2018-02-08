@@ -47,11 +47,11 @@ class Skill
 
   def update
     if @duration != 0
-      self.activate
+      self.activate(@caster)
       @duration = @duration - 1
-    elsif temp == true && @activated == true
+    elsif @temp == true && @activated == true
       @modifier = -@modifier
-      self.activate
+      self.activate(@caster)
       @activated = false
     end
   end
@@ -99,13 +99,20 @@ class Dmg < Skill
   def activate(caster)
     @caster = caster
     if (@target.shield == 0)
-      if (dmgType == 0)
+      if (@dmgType == 0)
         @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.phy_def))
       else
         @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.eng_def))
       end
     else
       @target.shield = (@target.shield - ((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100))
+      if @target.shield < 0
+        if @dmgType == 0
+          @target.health += @target.shield - @target.phy_def
+        else
+          @target.health += @target.shield - @target.eng_def
+        end
+      end
     end
     super
   end
