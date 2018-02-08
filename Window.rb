@@ -46,7 +46,7 @@ class Window < Gosu::Window
       [Type::PASSIVE, Heal.new("Placebo", Type::PASSIVE, Who::ALLIES, 5, "assets/Skills/Classes/Scientifique/03-1_Placebo.png")],
       [Type::PASSIVE, ResModif.new("Vapeur nefaste", Type::PASSIVE, Who::ENEMIES, -10, "assets/Skills/Classes/Scientifique/03-2_Vapeur_nefaste.png")],
       [Type::ACTIVE, Heal.new("Soin", Type::ACTIVE, Who::ALLY, 80, "assets/Skills/Classes/Scientifique/06-1_Soin.png", 30)],
-      [Type::ACTIVE, Dmg.new("Coctel chimique", Type::ACTIVE, Who::ENEMIES, 20, "assets/Skills/Classes/Scientifique/06-2_Coctel_chimique.png", 20, 3, true, DmgType::ENG)],
+      [Type::ACTIVE, Dmg.new("Cocktail chimique", Type::ACTIVE, Who::ENEMIES, 20, "assets/Skills/Classes/Scientifique/06-2_Cocktail_chimique.png", 20, 3, true, DmgType::ENG)],
       [Type::PASSIVE, SpeedModif.new("Vitesse", Type::PASSIVE, Who::ALLIES, 3, "assets/Skills/Classes/Scientifique/09-1_Vitesse.png")],
       [Type::PASSIVE, DmgModif.new("Prevoyance", Type::PASSIVE, Who::ENEMIES, -15, "assets/Skills/Classes/Scientifique/09-2_Prevoyance.png")],
       [Type::ACTIVE, Heal.new("Medicament", Type::ACTIVE, Who::ALLY, 15, "assets/Skills/Classes/Scientifique/12-1_Medicament.png", 32, 5, true)],
