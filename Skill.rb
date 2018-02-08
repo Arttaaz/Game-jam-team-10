@@ -23,7 +23,7 @@ class Skill
   attr_reader :name, :type, :target, :who
   attr_accessor :target, :color
 
-  def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
+  def initialize(name, type, who, modifier, image, duration = 0, temp = false, cost = 0, dmgType = nil, target = nil)
     @name = name
     @image = Gosu::Image.new(image, :tileable => true)
     @type = type
@@ -47,11 +47,11 @@ class Skill
 
   def update
     if @duration != 0
-      self.activate
+      self.activate(@caster)
       @duration = @duration - 1
-    elsif temp == true && @activated == true
+    elsif @temp == true && @activated == true
       @modifier = -@modifier
-      self.activate
+      self.activate(@caster)
       @activated = false
     end
   end
@@ -74,7 +74,7 @@ end
 
 class Heal < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, cost)
+    super(name, type, who, modifier, image, duration, cost, target)
   end
 
   def activate(caster)
@@ -93,25 +93,28 @@ end
 
 class Dmg < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, cost)
+    super(name, type, who, modifier, image, duration, cost, target)
   end
 
   def activate(caster)
     @caster = caster
     if (@target.shield == 0)
       if (dmgType == 0)
-        @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.phy_def)
+        @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.phy_def))
       else
-        @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.eng_def)
+        @target.health = (@target.health - ((((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100)) - @target.eng_def))
       end
     else
       @target.shield = (@target.shield - ((@caster.damage * @modifier)/100) * ((100 - @target.dmgReduc)/100))
     end
+    super
+  end
+end
 
 
 class MaxHealthModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -128,7 +131,7 @@ end
 
 class PowerModif< Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, cost)
+    super(name, type, who, modifier, image, duration, cost, target)
   end
 
   def activate(caster)
@@ -147,7 +150,7 @@ end
 
 class MaxPowerModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activite(caster)
@@ -164,7 +167,7 @@ end
 
 class DmgModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -176,7 +179,7 @@ end
 
 class DmgReducModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -193,7 +196,7 @@ end
 
 class PowerRegenModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -205,7 +208,7 @@ end
 
 class ResModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -218,7 +221,7 @@ end
 
 class PhysDefModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -230,7 +233,7 @@ end
 
 class EngDefModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -242,7 +245,7 @@ end
 
 class ExpModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -254,7 +257,7 @@ end
 
 class SpeedModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -266,7 +269,7 @@ end
 
 class ShieldModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activate(caster)
@@ -285,7 +288,7 @@ end
 
 class MaxShieldModif < Skill
   def initialize(name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil, target = nil)
-    super(name, type, target, modifier, duration, temp, cost)
+    super(name, type, who, modifier, image, duration, temp, cost, target)
   end
 
   def activiate(caster)

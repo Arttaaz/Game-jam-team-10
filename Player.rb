@@ -7,7 +7,7 @@ class Player
 
 
   attr_reader :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
-  attr_accessor :active, :vel_x, :vel_y, :health, :skills
+  attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :class, :race, :exp, :expBonus
 
   def initialize(image, x, y, race = "d")
     @skills = [] #array is like [ [active/passive, skill object], [active/passive, skill object]]
