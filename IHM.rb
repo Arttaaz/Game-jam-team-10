@@ -73,7 +73,9 @@ class IHM < Gosu::Window
         end
       }
       @enemies.each { |e|
-        if e.isClicked?(x, y, xx)
+
+        if e.isClicked?(x, y, e.x)
+          puts "hey"
           case @pendingSkill[0]
           when Who::ENEMY
             @pendingSkill[1].target = e

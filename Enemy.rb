@@ -25,7 +25,7 @@ class Enemy < Player
   end
 
   def update
-    if @health == 0
+    if @health <= 0
       @shield = 0
       @color = Gosu::Color::GRAY
     end
@@ -40,8 +40,8 @@ class Enemy < Player
   end
 
   def isClicked?(x, y, xx)
-    if (x >= @x-xx+600) && (y >= 150)
-      if (x <= @x-xx+790) && (y <= 450)
+    if (x >= @x-xx+600) && (y >= 230)
+      if (x <= @x-xx+790) && (y <= 530)
         return true
       else
         return false
