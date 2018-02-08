@@ -14,8 +14,8 @@ class Player
     @items = []
     @races = ["Humain", "Robot"]
     @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung", "Jean Quille","Fujimaru","Alexpert","Ken", "Misaka Mikoto"]
-    @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja","Camzou38","DijTheWhite","Sweedix","Zorann","Azéris","Arxwell"]
-    @classes = ["Soldat", "Scientifique", "Ingénieur","Glubidi"]
+    @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja","Camzou38","DijTheWhite","Sweedix","Zorann","Azéris","Arxwell","Glubidi"]
+    @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @active = false
     @level = 1
     @x = x

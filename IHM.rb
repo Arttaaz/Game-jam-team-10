@@ -103,8 +103,9 @@ class IHM < Gosu::Window
             if @fighting
               if @player.power > s[1].cost
                 @pendingSkill = [s[1].who, s[1]]
-                @waitTarget = true
                 @log.addLine("Choisissez une cible")
+                @waitTarget = true
+
               end
             end
           end
@@ -203,6 +204,7 @@ class IHM < Gosu::Window
         d=d+420
         end
       when 2 # skills
+        @font.draw("Cliquez sur une capacité pour avoir sa description dans le log !", @x+405, @y+360, 1, 1.3,1.3, Gosu::Color::BLACK)
         @font.draw("Actives",  @x+258, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
         @font.draw("Passives",  @x+780, @y+403, 1, 1.3, 1.3, Gosu::Color::BLACK)
         dy=0

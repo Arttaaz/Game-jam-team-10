@@ -8,8 +8,9 @@ class Log < Gosu::Window
     @x = x
     @y = y
     @lignes = ["Bienvenue dans l' Ascension-3 !",
-    "Le vaisseau est attaqué, vous devez en reprendre le contrôle !",
-    "Rendez vous au cockpit au sommet !",
+    "Le vaisseau est envahi, vous devez en reprendre le contrôle !",
+    "Rendez vous au cockpit au sommet et bloquez l'accès aux étages au fur et à mesure !",
+    "Constituez une équipe composée de résistants rencontrés au fil de l'aventure !",
     " "]
     @font = Gosu::Font.new(20)
   end
