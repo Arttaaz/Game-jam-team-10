@@ -100,13 +100,14 @@ class IHM < Gosu::Window
       @player.skills.each { |s|
         if s[0] == Type::ACTIVE
           if s[1].isClicked?(x, y, xx, yy)
-            if @fighting
+            if @fighting && @box == 0
               if @player.power > s[1].cost
                 @pendingSkill = [s[1].who, s[1]]
                 @log.addLine("Choisissez une cible")
                 @waitTarget = true
-
               end
+            elsif @box == 2
+              addSkillDesc(s[1].name)
             end
           end
         end
@@ -155,7 +156,7 @@ class IHM < Gosu::Window
 
         @log.dispLog
       else #@fighting==false
-        draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
+        draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=1, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
         @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
@@ -245,7 +246,7 @@ class IHM < Gosu::Window
         @font.draw(name, x, y, 1, sx,sy , Gosu::Color.argb(0xff_FFD500)) #gold
       end
     end
-end
+
 
     def writeLvl(lvl, x, y, sx, sy)
       if @player.class=="Soldat"
@@ -257,6 +258,109 @@ end
       end
     end
 
+    def addSkillDesc(skillName)
+      case(skillName)
+      when "Volonte de fer"
+        @log.addLine("Volonté de fer: Augmente la réduction de dégâts de l’utilisateur de 10%")
+      when "Tire puissant"
+        @log.addLine("Tir puissant: Inflige 120% de dégâts physiques  une cible enemie")
+      when "Munition lourde"
+        @log.addLine("Munition lourde: Augmente les dégâts de l’utilisateur de 15%")
+      when "Vigeur"
+        @log.addLine("Vigeur: Augmente la régénération de power de 15%")
+      when "Grenade militaire"
+        @log.addLine("Grenade militaire: Inflige 70% de dégâts physiques a tous les ennemis")
+      when "Attaque"
+        @log.addLine("Attaque: simple attaque")
+      when "Grenade militaire"
+        @log.addLine("Grenade militaire: Inflige 70% de dégâts physiques à tous les ennemis")
+      when "Grenade photonique"
+        @log.addLine("Grenade photonique: Inflige 70% de dégâts énergétique a tous les ennemis")
+      when "Determination"
+        @log.addLine("Determination: Augmente la régénération de power de 25%")
+      when "Coutean militaire"
+        @log.addLine("Couteau militaire: Inflige 40% de dégâts physiques à un ennemi pendant 3 tours")
+      when "Libre arbitre"
+        @log.addLine("Libre arbitre: Augmente le power maximum de 25%")
+      when "Concentration"
+        @log.addLine("Concentration: Augmente les dégâts de l’utilisateur de 25% pendant 2 tours")
+      when "Auto-reparateur"
+        @log.addLine("Auto-réparateur: Permet de régénérer 25% de vie supplémentaire chaque tour")
+      when "Taser"
+        @log.addLine("Taser: Paralyse l’ennemi pendant 1 tour")
+      when "Expert d'arme"
+        @log.addLine("(p) Expert d’arme: Augmente les dégâts de l’utilisateur de 20%")
+      when "Lame plasmique"
+        @log.addLine("Lame plasmique: Inflige 120% de dégâts énergétique a un ennemi")
+      when "Vulnerabilite physique"
+        @log.addLine("Vulnérabilité physique: Réduit la résistance physique de tous les ennemis de 20%")
+      when "Vulnerabilite energetique"
+        @log.addLine("Vulnérabilité énergétique: Réduit la résistance énergétique de tous les ennemis de 20%")
+      when "Shotgun"
+        @log.addLine("Shotgun: Inflige 150% de dégâts physique à tous les ennemis")
+      when "Railgun"
+        @log.addLine("Railgun: Inflige 350% de dégâts énergétique à un ennemi")
+      when "Connaissance"
+        @log.addLine("Connaissance: Augmente la quantité d’expérience obtenu a la fin d’un combat de 10%")
+      when "Analyse"
+        @log.addLine("Analyse: Réduit les résistances d’un ennemi de 15% pendant 3 tours")
+      when "Placebo"
+        @log.addLine("Placebo: Soigne tous les membres de l’équipe de 5% a la fin d’un tour")
+      when "Vapeur nefaste"
+        @log.addLine("Vapeur néfaste: Réduit les résistances de tous les ennemis de 10%")
+      when "Soin"
+        @log.addLine("Soin: Soigne un allié de 80% des dégâts de l’utilisateur")
+      when "Cocktail chimique"
+        @log.addLine("Cocktail chimique: Inflige 20% de dégâts énergétique a tous les ennemis pendant 2 tours")
+      when "Vitesse"
+        @log.addLine("Vitesse: Augmente la vitesse de toute l’equipe de 3")
+      when "Prevoyance"
+        @log.addLine("Prévoyance: Réduit les dégâts que les ennemis font de 15%")
+      when "Medicament"
+        @log.addLine("Médicament: Permet à un allié de se soigne 15% des dégâts de l’utilisateur pendant 5 tours")
+      when "Faiblesse"
+        @log.addLine("Faiblesse: Réduit les résistances d’un ennemi de 50% pendant 1 tour")
+      when "Resistance"
+        @log.addLine("Résistance: Augmente la réduction de dégâts de toute l’equipe de 15%")
+      when "Ralentissement"
+        @log.addLine("Ralentissement: Réduit la vitesse des ennemis de 5")
+      when "Soin de masse"
+        @log.addLine("Soin de masse: Soigne toute l’equipe de 200% des dégâts de l’utilisateur")
+      when "Grenade flash"
+        @log.addLine("Grenade flash: Etourdit tous les ennemis pendant 1 tour")
+      when "Endurance"
+        @log.addLine("Endurance: Augmente la régénération de power de toute l’equipe de 35%")
+      when "Assistance"
+        @log.addLine("Assistance: Augmente les résistances d’un allié de 35% pendant 1 tour")
+      when "Adaptation"
+        @log.addLine("Adaptation: Augmente les résistances de l’utilisateur de 15%")
+      when "Reparation"
+        @log.addLine("Réparation: Donne a toute l’equipe 20% de régénération de bouclier par tour")
+      when "Vitalite"
+        @log.addLine("Vitalité: Donne à l’utilisateur un bonus de 50% de sa vie maximale")
+      when "Restoration"
+        @log.addLine("Restoration: Redonne a un allie 40% de ses boucliers")
+      when "Redirection"
+        @log.addLine("Redirection: Augmente la capacité maximale des boucliers de toute l’equipe de 20%")
+      when "Augmentation"
+        @log.addLine("Augmentation: Augmente les dégâts de l’equipe de 10%")
+      when "Super regeneration"
+        @log.addLine("Super regeneration: Donne à l’utilisateur un soin de 10% de ses dégâts pendant 5 tours")
+      when "Acceleration"
+        @log.addLine("Accélération: Augmente la vitesse de l’equipe de 7 pendant 3 tours")
+      when "Contre"
+        @log.addLine("Contre: Réduit la vitesse des ennemis de 4")
+      when "Armure renforcee"
+        @log.addLine("Armure renforcée: Augmente les résistances de toute l’equipe de 15%")
+      when "Mastodonte"
+        @log.addLine("Mastodonte: Augmente les résistances de l’utilisateur de 100% pendant 1 tour")
+      when "Barriere"
+        @log.addLine("Barrière: Redonne à tous les membres de l’équipe 70% de leur bouclier")
+      end
+    end
+
+
+end
 
 
 =begin

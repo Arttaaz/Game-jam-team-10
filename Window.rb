@@ -5,6 +5,7 @@ load 'Enemy.rb'
 load 'IHM.rb'
 load 'Skill.rb'
 load 'Item.rb'
+load 'Log.rb'
 
 class Window < Gosu::Window
 
@@ -20,6 +21,7 @@ class Window < Gosu::Window
     @fighting = false
     #@hasKey = false
     @pToDelete = @eToDelete = []
+    @log = Log.new(@xStart+580,@yStart+605)
 
     @@SkillList = [
       [Type::ACTIVE, Dmg.new("Attaque", Type::ACTIVE, Who::ENEMY, 100, "assets/Skills/Attaque.png")],
@@ -166,6 +168,7 @@ class Window < Gosu::Window
             @currentPlayer = @currentActor
           else                                            # else start enemy ai
             @currentActor.ai(@players)
+            @log.addLine("L'ennemi a attaqué " + @currentPlayer.name)
           end
         end
       end
@@ -218,6 +221,7 @@ class Window < Gosu::Window
     }
 
     @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @players, @enemies, @fighting)
+    @log.update(@players[0].x+480,@players[0].y+357)
 
   end
 
@@ -338,6 +342,7 @@ class Window < Gosu::Window
       @currentPlayer = @currentActor
     else                                            # else start enemy ai
       @currentActor.ai(@players)
+      @log.addLine("L'ennemi a attaqué " + @currentPlayer.name)
     end
   end
 
