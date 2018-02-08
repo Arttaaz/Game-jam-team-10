@@ -1,10 +1,60 @@
 require 'gosu'
 load 'Skill.rb'
 
+$SkillList = [
+  [Type::ACTIVE, Dmg.new("Attaque", Type::ACTIVE, Who::ENEMY, 100, "assets/Skills/Attaque.png")],
+  [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
+  [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
+  [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
+  [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/2_Taser.png", 17, 1, true)],
+  [Type::PASSIVE, DmgModif.new("Volonte de fer", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Classes/Soldat/01-1_Volontee_de_fer.png")],
+  [Type::ACTIVE, Dmg.new("Tire puissant", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/01-2_Tire_puissant.png", 17, 0, false, DmgType::PHYS)],
+  [Type::PASSIVE, DmgModif.new("Munition lourde", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-1_Munition_lourde.png")],
+  [Type::PASSIVE, PowerRegenModif.new("Vigeur", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Soldat/03-2_Vigeur.png")],
+  [Type::ACTIVE, Dmg.new("Grenade militaire", Type::ACTIVE, Who::ENEMIES, 70, "assets/Skills/Classes/Soldat/06-1_Grenade_militaire.png", 22, 0, false, DmgType::PHYS)],
+  [Type::ACTIVE, Dmg.new("Grenade photonique", Type::ACTIVE, Who::ENEMIES, 70, "assets/Skills/Classes/Soldat/06-2_Grenade_photonique.png", 22, 0, false, DmgType::ENG)],
+  [Type::PASSIVE, DmgModif.new("Expert d'arme", Type::PASSIVE, Who::SELF, 20, "assets/Skills/Classes/Soldat/09-1_Expert_d'arme.png")],
+  [Type::PASSIVE, PowerRegenModif.new("Determination", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Classes/Soldat/09-2_Determination.png")],
+  [Type::ACTIVE, Dmg.new("Coutean militaire", Type::ACTIVE, Who::ENEMY, 40, "assets/Skills/Classes/Soldat/12-1_Couteau_militaire.png", 17, 3, true, DmgType::PHYS)],
+  [Type::ACTIVE, Dmg.new("Lame plasmique", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/12-2_Lame_plasmique.png", 17, 0, false, DmgType::ENG)],
+  [Type::PASSIVE, PhysDefModif.new("Vulnerabilite physique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-1_Vulnerabilite_physique.png")],
+  [Type::PASSIVE, EngDefModif.new("Vulnerabilite energetique", Type::PASSIVE, Who::ENEMIES, -20, "assets/Skills/Classes/Soldat/15-2_Vulnerabilite_energetique.png")],
+  [Type::ACTIVE, Dmg.new("Shotgun", Type::ACTIVE, Who::ENEMIES, 150, "assets/Skills/Classes/Soldat/18-1_Shotgun.png", 40, 0, false, DmgType::PHYS)],
+  [Type::ACTIVE, Dmg.new("Railgun", Type::ACTIVE, Who::ENEMY, 350, "assets/Skills/Classes/Soldat/18-2_Railgun.png", 40, 0, false, DmgType::ENG)],
+  [Type::PASSIVE, ExpModif.new("Connaissance", Type::PASSIVE, Who::ALLIES, 10, "assets/Skills/Classes/Scientifique/01-1_Connaissance.png")],
+  [Type::ACTIVE, ResModif.new("Analyse", Type::ACTIVE, Who::ENEMY, -15, "assets/Skills/Classes/Scientifique/01-2_Analyse.png", 10, 3, true)],
+  [Type::PASSIVE, Heal.new("Placebo", Type::PASSIVE, Who::ALLIES, 5, "assets/Skills/Classes/Scientifique/03-1_Placebo.png")],
+  [Type::PASSIVE, ResModif.new("Vapeur nefaste", Type::PASSIVE, Who::ENEMIES, -10, "assets/Skills/Classes/Scientifique/03-2_Vapeur_nefaste.png")],
+  [Type::ACTIVE, Heal.new("Soin", Type::ACTIVE, Who::ALLY, 80, "assets/Skills/Classes/Scientifique/06-1_Soin.png", 30)],
+  [Type::ACTIVE, Dmg.new("Cocktail chimique", Type::ACTIVE, Who::ENEMIES, 20, "assets/Skills/Classes/Scientifique/06-2_Cocktail_chimique.png", 20, 3, true, DmgType::ENG)],
+  [Type::PASSIVE, SpeedModif.new("Vitesse", Type::PASSIVE, Who::ALLIES, 3, "assets/Skills/Classes/Scientifique/09-1_Vitesse.png")],
+  [Type::PASSIVE, DmgModif.new("Prevoyance", Type::PASSIVE, Who::ENEMIES, -15, "assets/Skills/Classes/Scientifique/09-2_Prevoyance.png")],
+  [Type::ACTIVE, Heal.new("Medicament", Type::ACTIVE, Who::ALLY, 15, "assets/Skills/Classes/Scientifique/12-1_Medicament.png", 32, 5, true)],
+  [Type::ACTIVE, ResModif.new("Faiblesse", Type::ACTIVE, Who::ENEMY, -50, "assets/Skills/Classes/Scientifique/12-2_Faiblesse.png", 28, 1, true)],
+  [Type::PASSIVE, ResModif.new("Resistance", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Scientifique/15-1_Resistance.png")],
+  [Type::PASSIVE, SpeedModif.new("Ralentissement", Type::PASSIVE, Who::ENEMIES, 5, "assets/Skills/Classes/Scientifique/15-2_ralentissement.png")],
+  [Type::ACTIVE, Heal.new("Soin de masse", Type::ACTIVE, Who::ALLIES, 200, "assets/Skills/Classes/Scientifique/18-1_Soin_de_masse.png", 50)],
+  [Type::ACTIVE, SpeedModif.new("Grenade flash", Type::ACTIVE, Who::ENEMIES, 9000, "assets/Skills/Classes/Scientifique/18-2_Grenade_flash.png", 45, 1, true)],
+  [Type::PASSIVE, PowerRegenModif.new("Endurance", Type::PASSIVE, Who::ALLIES, 35, "assets/Skills/Classes/Ingenieur/01-1_Endurance.png")],
+  [Type::ACTIVE, ResModif.new("Assistance", Type::ACTIVE, Who::ALLY, 35, "assets/Skills/Classes/Ingenieur/01-2_Assistance.png", 26, 2, true)],
+  [Type::PASSIVE, ResModif.new("Adaptation", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Ingenieur/03-1_Adaptation.png")],
+  [Type::PASSIVE, PowerRegenModif.new("Reparation", Type::PASSIVE, Who::ALLIES, 20, "assets/Skills/Classes/Ingenieur/03-2_Reparation.png")],
+  [Type::ACTIVE, MaxHealthModif.new("Vitalite", Type::ACTIVE, Who::ALLY, 50, "assets/Skills/Classes/Ingenieur/06-1_Vitalite.png", 35, 8, true)],
+  [Type::ACTIVE, ShieldModif.new("Restoration", Type::ACTIVE, Who::ALLY, 40, "assets/Skills/Classes/Ingenieur/06-2_Restoration.png", 22)],
+  [Type::PASSIVE, MaxShieldModif.new("Redirection", Type::PASSIVE, Who::ALLIES, 20, "assets/Skills/Classes/Ingenieur/09-1_Redirection.png")],
+  [Type::PASSIVE, DmgModif.new("Augmentation", Type::PASSIVE, Who::ALLIES, 10, "assets/Skills/Classes/Ingenieur/09-2_Augmentation.png")],
+  [Type::ACTIVE, Heal.new("Super regeneration", Type::ACTIVE, Who::SELF, 10, "assets/Skills/Classes/Ingenieur/12-1_Super_regeneration.png", 42, 5, true)],
+  [Type::ACTIVE, SpeedModif.new("Acceleration", Type::ACTIVE, Who::ALLIES, 7, "assets/Skills/Classes/Ingenieur/12-2_Acceleration.png", 30, 3, true)],
+  [Type::PASSIVE, SpeedModif.new("Contre", Type::PASSIVE, Who::ENEMIES, 4, "assets/Skills/Classes/Ingenieur/15-1_Contre.png")],
+  [Type::PASSIVE, ResModif.new("Armure renforcee", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Ingenieur/15-2_Armure_renforcee.png")],
+  [Type::ACTIVE, ResModif.new("Mastodonte", Type::ACTIVE, Who::SELF, 100, "assets/Skills/Classes/Ingenieur/18-1_Mastodonte.png", 50, 1, true)],
+  [Type::ACTIVE, ShieldModif.new("Barriere", Type::ACTIVE, Who::ALLIES, 70, "assets/Skills/Classes/Ingenieur/18-2_Barriere.png", 55)]
+]
+#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
+
+
 
 class Player
-
-
 
   attr_reader :name, :level, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
   attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
@@ -15,7 +65,7 @@ class Player
     @races = ["Humain", "Robot"]
     @@humanNames = ["Jony Phelley", "Patry Garcia", "Jesse Patte", "Randy Scotte", "Effreyne Johnson", "Joshua Hayeson", "Raymy Colly", "Wayne Hezal", "Mase Carte", "Willie Warte", "Romain Fecher", "Arttaaz", "AoRailgun", "Gathzen", "Elvung", "Jean Quille","Fujimaru","Alexpert","Ken", "Misaka Mikoto"]
     @@robotNames = ["Ash", "Shrimp", "Cylinder", "Andy Roid", "Onproid", "Otid", "Bit", "Screwie", "Rubber", "Corius", "Ulx", "Aja","Camzou38","DijTheWhite","Sweedix","Zorann","Azéris","Arxwell"]
-    @classes = ["Soldat", "Scientifique", "Ingénieur","Glubidi"]
+    @classes = ["Soldat", "Scientifique", "Ingénieur"]
     @active = false
     @level = 1
     @x = x
@@ -38,15 +88,16 @@ class Player
       index = rand(@@robotNames.size)
       @name = @@robotNames[index]
       @@robotNames.delete_at(index)
-      image = "assets/Characters/Humans/" + ["char.png", "var1.png", "var2.png", "var3.png", "var4.png"].shuffle!.first
+      image = "assets/Characters/Robots/" + ["nicerobot.png"].shuffle!.first
       @image = Gosu::Image.new(image, :tileable => true)
     else
       @name = ""
-      image = "assets/Characters/Infested/Infested.png"
+      image = "assets/Characters/Infested/" + ["Infested.png", "var1.png", "var2.png", "var3.png"].shuffle!.first
       @image = Gosu::Image.new(image, :tileable => true)
     end
     @class = @classes[rand(0..2)]
     redefStats(@race)
+    gainSkill
     @color = 0xff_ffffff
   end
 
@@ -88,9 +139,9 @@ class Player
       end
     }
 
-    if @exp == 10
+    if @exp >= 10
       self.levelup
-      @exp = 0
+      @exp = -10
     end
 
     if @vel_x != 0
@@ -143,6 +194,9 @@ class Player
       @phy_def = rand(8..12)
       @eng_def = rand(8..12)
       @speed = rand(12..18)
+      @skills << $SkillList[0]
+      @skills << $SkillList[1]
+      @skills << $SkillList[2]
     elsif @race == @races[1] #robot
       @maxHealth = @health = rand(70..90)
       @maxShield = @shield = rand(70..90)
@@ -152,6 +206,9 @@ class Player
       @phy_def = rand(4..8)
       @eng_def = rand(6..12)
       @speed = rand(14..20)
+      @skills << $SkillList[0]
+      @skills << $SkillList[3]
+      @skills << $SkillList[4]
     else #@race == @races[2]   infested
       @maxHealth = @health = rand(140..180)
       @maxShield = @shield = 0 #lààààààà c'est 000000
@@ -166,6 +223,7 @@ class Player
 
   def levelup
     @level += 1
+    gainSkill
     case(@race)
     when "Humain"
       @health += 20
@@ -179,6 +237,7 @@ class Player
       @phy_def += 2
       @eng_def += 2
       @speed += 1
+
     when "Robot"
       @health += 5
       @maxHealth += 5
@@ -191,18 +250,6 @@ class Player
       @phy_def += 1
       @eng_def += 2
       @speed += 2
-    else
-      @health += 25
-      @maxHealth += 25
-      @shield += 0
-      @maxShield += 0
-      @power += 5
-      @maxPower += 5
-      @powRegen += 3
-      @damage += 4
-      @phy_def += 5
-      @eng_def += 3
-      @speed += 1
     end
   end
 
@@ -212,6 +259,62 @@ class Player
         return true
       else
         return false
+      end
+    end
+  end
+
+  def gainSkill
+    case(@class)
+    when "Soldat"
+      case(@level)
+      when 1
+        @skills << $SkillList[5+rand(2)]
+      when 3
+        @skills << $SkillList[7+rand(2)]
+      when 6
+        @skills << $SkillList[9+rand(2)]
+      when 9
+        @skills << $SkillList[11+rand(2)]
+      when 12
+        @skills << $SkillList[13+rand(2)]
+      when 15
+        @skills << $SkillList[15+rand(2)]
+      when 18
+        @skills << $SkillList[17+rand(2)]
+      end
+    when "Ingénieur"
+      case(@level)
+      when 1
+        @skills << $SkillList[33+rand(2)]
+      when 3
+        @skills << $SkillList[35+rand(2)]
+      when 6
+        @skills << $SkillList[37+rand(2)]
+      when 9
+        @skills << $SkillList[39+rand(2)]
+      when 12
+        @skills << $SkillList[41+rand(2)]
+      when 15
+        @skills << $SkillList[43+rand(2)]
+      when 18
+        @skills << $SkillList[45+rand(2)]
+      end
+    when "Scientifique"
+      case(@level)
+      when 1
+        @skills << $SkillList[19+rand(2)]
+      when 3
+        @skills << $SkillList[21+rand(2)]
+      when 6
+        @skills << $SkillList[23+rand(2)]
+      when 9
+        @skills << $SkillList[25+rand(2)]
+      when 12
+        @skills << $SkillList[27+rand(2)]
+      when 15
+        @skills << $SkillList[29+rand(2)]
+      when 18
+        @skills << $SkillList[31+rand(2)]
       end
     end
   end
