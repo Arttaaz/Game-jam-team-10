@@ -80,8 +80,10 @@ class Window < Gosu::Window
       p.skills[8] = @@SkillList[11]
       p.skills[9] = @@SkillList[14]
       p.skills[10] = @@SkillList[15]
-      p.items[0] = @@ItemList[2]
+      p.items[0] = @@ItemList[3]
+      p.items[1] = @@ItemList[6]
       p.useItem(p.items[0].name)
+      p.useItem(p.items[1].name)
     }
 
     @enemyRace = ["Human", "Robot", "Infested"].shuffle.first

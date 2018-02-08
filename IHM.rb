@@ -110,21 +110,24 @@ class IHM < Gosu::Window
     case(@box)
       when 0 #personnage
       if @fighting==true
-        draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
+        draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
         @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
         @font.draw("Power: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 
-        @font.draw("Dégâts: " + @player.damage.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+100, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Vitesse: " + @player.speed.to_s,  @x+100, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Dégâts: " + @player.damage.to_s,  @x+80, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+80, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+80, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
-        draw_rect(@x+250,@y+410,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 1", @x+330, @y+425, 1, 1.5,1.5 , Gosu::Color::BLACK)
-        draw_rect(@x+250,@y+480,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 2", @x+330, @y+495, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        draw_rect(@x+230,@y+410,60,60,Gosu::Color::WHITE, z=0, :default)
+        @player.items[0].draw(@x+230,@y+410)
+        @player.items[0].drawNameIB(@x+295, @y+430)
+
+        draw_rect(@x+230,@y+480,60,60,Gosu::Color::WHITE, z=0, :default)
+        @player.items[1].draw(@x+230,@y+480)
+        @player.items[1].drawNameIB(@x+295, @y+500)
 
         dx=0
         @player.skills.each do |skill|
@@ -136,21 +139,24 @@ class IHM < Gosu::Window
 
         @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
       else
-        draw_rect(@x+465,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
+        draw_rect(@x+475,@y+355,610,290,Gosu::Color::BLACK, z=0, :default) #mini map
 
         @font.draw("Santé: " + @player.health.to_s + "/" + @player.maxHealth.to_s,  @x-90, @y+410, 1, 1.0, 1.0, Gosu::Color::GREEN)
         @font.draw("Bouclier: " + @player.shield.to_s + "/" + @player.maxShield.to_s,  @x-90, @y+440, 1, 1.0, 1.0, Gosu::Color::CYAN)
         @font.draw("Power: " + @player.power.to_s + "/" + @player.maxPower.to_s,  @x-90, @y+470, 1, 1.0, 1.0, Gosu::Color::FUCHSIA)
 
-        @font.draw("Dégâts: " + @player.damage.to_s,  @x+100, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+100, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+100, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
-        @font.draw("Vitesse: " + @player.speed.to_s,  @x+100, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Dégâts: " + @player.damage.to_s,  @x+80, @y+410, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. physique: " + @player.phy_def.to_s,  @x+80, @y+440, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Déf. énergie: " + @player.eng_def.to_s,  @x+80, @y+470, 1, 1.0, 1.0, Gosu::Color::BLACK)
+        @font.draw("Vitesse: " + @player.speed.to_s,  @x+80, @y+500, 1, 1.0, 1.0, Gosu::Color::BLACK)
 
         draw_rect(@x-90,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 1", @x+20, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        @player.items[0].draw(@x-90,@y+550)
+        @player.items[0].drawNameOB(@x-25, @y+565)
+
         draw_rect(@x+190,@y+550,60,60,Gosu::Color::WHITE, z=0, :default)
-        @font.draw("Objet 2", @x+290, @y+565, 1, 1.5,1.5 , Gosu::Color::BLACK)
+        @player.items[1].draw(@x+190,@y+550)
+        @player.items[1].drawNameOB(@x+255, @y+565)
 
         @font.draw(@player.name, @x-90, @y+615, 1, 1.7,1.7 , Gosu::Color::BLUE)
       end
