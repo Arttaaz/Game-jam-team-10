@@ -207,8 +207,8 @@ class Player
       @eng_def = rand(6..12)
       @speed = rand(14..20)
       @skills << $SkillList[0]
-      @skills << $SkillList[2]
       @skills << $SkillList[3]
+      @skills << $SkillList[4]
     else #@race == @races[2]   infested
       @maxHealth = @health = rand(140..180)
       @maxShield = @shield = 0 #lààààààà c'est 000000

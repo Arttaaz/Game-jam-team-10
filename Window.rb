@@ -5,6 +5,7 @@ load 'Enemy.rb'
 load 'IHM.rb'
 load 'Skill.rb'
 load 'Item.rb'
+load 'SplashScreen.rb'
 
 class Window < Gosu::Window
 
@@ -20,6 +21,9 @@ class Window < Gosu::Window
     @fighting = false
     @hasKey = false
     @pToDelete = @eToDelete = []
+    @splashKey = SplashScreen.new(Gosu::Image.new("assets/Items/Keycard.png", :tileable => true), "Vous récupérez la clé de l'étage !")
+    @splashItem = SplashScreen.new(nil, "")
+    #@splashFriend = SplashScreen.new()
 
     @@ItemList =[
       Item.new("Armure régenérante", "assets/Items/Armure_regenerante.png"),
@@ -45,7 +49,6 @@ class Window < Gosu::Window
     ]
 
     @players = [Player.new(@xStart,@yStart)]
-    @players[0].skills << @@SkillList[17]
     @enemies = []
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
@@ -123,6 +126,8 @@ class Window < Gosu::Window
         luck = rand(100)
         if luck < 25
           @hasKey = true
+          @splashKey.show
+
         end
         i = 0
         while i < @players.size
@@ -187,7 +192,7 @@ class Window < Gosu::Window
       end
 
       Gosu::Image.new("assets/selected.png", :tileable => true).draw(@currentPlayer.x-15, @currentPlayer.y+210, 3)
-
+      @splashKey.draw(@players[0].x+400, @players[0].y-50)
       if @fighting == true
         @enemies.each { |e| e.draw() }
       end
