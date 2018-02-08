@@ -20,12 +20,12 @@ class Window < Gosu::Window
     @fighting = false
     #@hasKey = false
     @pToDelete = @eToDelete = []
-#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
-  @@SkillList = [
+    @@SkillList = [
+      [Type::ACTIVE, Dmg.new("Attaque", Type::ACTIVE, Who::ENEMY, 100, "assets/Skills/Attaque.png")],
       [Type::PASSIVE, MaxPowerModif.new("Libre arbitre", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Humain/1_Libre_arbitre.png")],
       [Type::ACTIVE, DmgModif.new("Concentration", Type::ACTIVE, Who::SELF, 25, "assets/Skills/Races/Humain/2_Concentration.png", 15, 2, true)],
-      [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
+      [Type::PASSIVE, Heal.new("Auto-reparateur", Type::PASSIVE, Who::SELF, 25, "assets/Skills/Races/Robot/1_Auto-repaire.png")],
       [Type::ACTIVE, SpeedModif.new("Taser", Type::ACTIVE, Who::ENEMY, 9000, "assets/Skills/Races/Robot/2_Taser.png", 17, 1, true)],
       [Type::PASSIVE, DmgModif.new("Volonte de fer", Type::PASSIVE, Who::SELF, 10, "assets/Skills/Classes/Soldat/01-1_Volontee_de_fer.png")],
       [Type::ACTIVE, Dmg.new("Tire puissant", Type::ACTIVE, Who::ENEMY, 120, "assets/Skills/Classes/Soldat/01-2_Tire_puissant.png", 17, 0, false, DmgType::PHYS)],
@@ -54,8 +54,23 @@ class Window < Gosu::Window
       [Type::PASSIVE, ResModif.new("Resistance", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Scientifique/15-1_Resistance.png")],
       [Type::PASSIVE, SpeedModif.new("Ralentissement", Type::PASSIVE, Who::ENEMIES, 5, "assets/Skills/Classes/Scientifique/15-2_ralentissement.png")],
       [Type::ACTIVE, Heal.new("Soin de masse", Type::ACTIVE, Who::ALLIES, 200, "assets/Skills/Classes/Scientifique/18-1_Soin_de_masse.png", 50)],
-      [Type::ACTIVE, SpeedModif.new("Grenade flash", Type::ACTIVE, Who::ENEMIES, 9000, "assets/Skills/Classes/Scientifique/18-2_Grenade_flash.png", 45, 1, true)]
+      [Type::ACTIVE, SpeedModif.new("Grenade flash", Type::ACTIVE, Who::ENEMIES, 9000, "assets/Skills/Classes/Scientifique/18-2_Grenade_flash.png", 45, 1, true)],
+      [Type::PASSIVE, PowerRegenModif.new("Endurance", Type::PASSIVE, Who::ALLIES, 35, "assets/Skills/Classes/Ingenieur/01-1_Endurance.png")],
+      [Type::ACTIVE, ResModif.new("Assistance", Type::ACTIVE, Who::ALLY, 35, "assets/Skills/Classes/Ingenieur/01-2_Assistance.png", 26, 2, true)],
+      [Type::PASSIVE, ResModif.new("Adaptation", Type::PASSIVE, Who::SELF, 15, "assets/Skills/Classes/Ingenieur/03-1_Adaptation.png")],
+      [Type::PASSIVE, PowerRegenModif.new("Reparation", Type::PASSIVE, Who::ALLIES, 20, "assets/Skills/Classes/Ingenieur/03-2_Reparation.png")],
+      [Type::ACTIVE, MaxHealthModif.new("Vitalite", Type::ACTIVE, Who::ALLY, 50, "assets/Skills/Classes/Ingenieur/06-1_Vitalite.png", 35, 8, true)],
+      [Type::ACTIVE, ShieldModif.new("Restoration", Type::ACTIVE, Who::ALLY, 40, "assets/Skills/Classes/Ingenieur/06-2_Restoration.png", 22)],
+      [Type::PASSIVE, MaxShieldModif.new("Redirection", Type::PASSIVE, Who::ALLIES, 20, "assets/Skills/Classes/Ingenieur/09-1_Redirection.png")],
+      [Type::PASSIVE, DmgModif.new("Augmentation", Type::PASSIVE, Who::ALLIES, 10, "assets/Skills/Classes/Ingenieur/09-2_Augmentation.png")],
+      [Type::ACTIVE, Heal.new("Super regeneration", Type::ACTIVE, Who::SELF, 10, "assets/Skills/Classes/Ingenieur/12-1_Super_regeneration.png", 42, 5, true)],
+      [Type::ACTIVE, SpeedModif.new("Acceleration", Type::ACTIVE, Who::ALLIES, 7, "assets/Skills/Classes/Ingenieur/12-2_Acceleration.png", 30, 3, true)],
+      [Type::PASSIVE, SpeedModif.new("Contre", Type::PASSIVE, Who::ENEMIES, 4, "assets/Skills/Classes/Ingenieur/15-1_Contre.png")],
+      [Type::PASSIVE, ResModif.new("Armure renforcee", Type::PASSIVE, Who::ALLIES, 15, "assets/Skills/Classes/Ingenieur/15-2_Armure_renforcee.png")],
+      [Type::ACTIVE, ResModif.new("Mastodonte", Type::ACTIVE, Who::SELF, 100, "assets/Skills/Classes/Ingenieur/18-1_Mastodonte.png", 50, 1, true)],
+      [Type::ACTIVE, ShieldModif.new("Barriere", Type::ACTIVE, Who::ALLIES, 70, "assets/Skills/Classes/Ingenieur/18-2_Barriere.png", 55)]
     ]
+#name, type, who, modifier, image, cost = 0, duration = 0, temp = false, dmgType = nil target = nil
 
     @@ItemList =[
       Item.new("Armure régenérante", "assets/Items/Armure_regenerante.png"),
