@@ -321,9 +321,9 @@ def draw
             if @boutonJouer.isClickedTS?(self.mouse_x,self.mouse_y)==true
               @boutonJouerClique=true
               @zBackground=0
-            elsif @boutonCredits.isClickedTS(self.mouse_x,self.mouse_y)==true
+            elsif @boutonCredits.isClickedTS?(self.mouse_x,self.mouse_y)==true
               @boutonCreditsClique=true
-            elsif @boutonQuitter.isClickedTS(self.mouse_x,self.mouse_y)==true
+            elsif @boutonQuitter.isClickedTS?(self.mouse_x,self.mouse_y)==true
               @boutonQuitterClique=true
             end
           end
