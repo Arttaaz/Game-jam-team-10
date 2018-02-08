@@ -25,11 +25,14 @@ class Window < Gosu::Window
     @log = Log.new(@xStart+580,@yStart+605)
     @splashKey = SplashScreen.new(Gosu::Image.new("assets/Items/Keycard.png", :tileable => true), "Vous récupérez la clé de l'étage !")
     @splashItem = SplashScreen.new(nil, "")
-    @splashSkill = SplashScreen.new(nil, "")
     @splashFriend = SplashScreen.new(Gosu::Image.new("assets/Friend.png", :tileable => true), "Vous avez trouvé un équipier !")
     @splashLevelUp = SplashScreen.new(Gosu::Image.new("assets/LevelUp.png", :tileable => true), "Un ou plusieurs personnages ont gagnés un niveau !")
     @splashWin = SplashScreen.new(nil, "Vous avez repris le contrôle d'Ascension-3 ! Bravo !")
     @splashLoose = SplashScreen.new(nil, "Vous avez perdu !")
+
+    @mainTheme = Gosu::Song.new("media/Soundtracks/My Little Adventure.mp3")
+    @mainTheme.play(true)
+    @mainTheme.volume = 0.25
 
     @@ItemList =[
       Item.new("Armure régenérante", "assets/Items/Armure_regenerante.png"),
@@ -127,7 +130,6 @@ class Window < Gosu::Window
       end
 
       if @enemies.size == 0
-
         if @map.currentTile(@players[0].x/1200.0, @players[0].y/600.0) == 10
           @splashWin.show
           puts "you win!"
@@ -167,11 +169,15 @@ class Window < Gosu::Window
       end
     }
     @pToDelete.each { |p|
+      if @players.index(p) == 0
+        @players.each { |p2| p2.x -= 150 }
+      end
       @players.delete(p)
       @turnOrder.delete(p)
       if @players.size == 0
         @splashLoose.show
         sleep(2)
+        puts "u loose"
         exit
       end
     }
