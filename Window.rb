@@ -23,7 +23,11 @@ class Window < Gosu::Window
     @pToDelete = @eToDelete = []
     @splashKey = SplashScreen.new(Gosu::Image.new("assets/Items/Keycard.png", :tileable => true), "Vous récupérez la clé de l'étage !")
     @splashItem = SplashScreen.new(nil, "")
-    #@splashFriend = SplashScreen.new()
+    @splashSkill = SplashScreen.new(nil, "")
+    @splashFriend = SplashScreen.new(Gosu::Image.new("assets/Friend.png", :tileable => true), "Vous avez trouvé un équipier !")
+    @splashLevelUp = SplashScreen.new(Gosu::Image.new("assets/LevelUp.png", :tileable => true), "Un ou plusieurs personnages ont gagnés un niveau !")
+    @splashWin = SplashScreen.new(nil, "Vous avez repris le contrôle d'Ascension-3 ! Bravo !")
+    @splashLoose = SplashScreen.new(nil, "Vous avez perdu !")
 
     @@ItemList =[
       Item.new("Armure régenérante", "assets/Items/Armure_regenerante.png"),
@@ -53,18 +57,13 @@ class Window < Gosu::Window
     @ihm = IHM.new(@players[0].x-100,@players[0].y-250, @players, @enemies, @players[0], @fighting)
     @currentPlayer = @players[0]
 
-    @enemyRace = ["Robot", "Infested"].shuffle.first
-    case @enemyRace
-    when "Human"
-    when "Robot"
-    when "Infested"
-    end
-
-    @enemiesImages = [ "assets/autreAlien.png" ]
-
   end
 
   def update
+    @splashKey.update
+    @splashKey.update
+    @splashLoose.update
+    @splashWin.update
     if @fighting == false #if not in a fight
       if @players[0].vel_x == 0 && @players[0].vel_y == 0 #if not moving
         if @newTile == true
@@ -134,6 +133,9 @@ class Window < Gosu::Window
           if @players[i].items.size < 2
             @players[i].items << @@ItemList[rand(20)]
             @players[i].useItem(@players[i].items.last.name)
+            @splashItem.image = @players[i].items.last.image
+            @splashItem.message = Gosu::Image.from_text(@players[i].items.last.name, 80, :width => 460, :align => :center)
+            @splashItem.show
             i = @players.size
           end
           i += 1
@@ -152,7 +154,8 @@ class Window < Gosu::Window
       @players.delete(p)
       @turnOrder.delete(p)
       if @players.size == 0
-        puts "Game over!"
+        splashLoose.show
+        sleep(2)
         exit
       end
     }
@@ -192,7 +195,10 @@ class Window < Gosu::Window
       end
 
       Gosu::Image.new("assets/selected.png", :tileable => true).draw(@currentPlayer.x-15, @currentPlayer.y+210, 3)
-      @splashKey.draw(@players[0].x+400, @players[0].y-50)
+      @splashKey.draw(@players[0].x+200, @players[0].y-50)
+      @splashItem.draw(@players[0].x+200, @players[0].y-50)
+      @splashLoose.draw(@players[0].x+200, @players[0].y-50)
+      @splashWin.draw(@players[0].x+200, @players[0].y-50)
       if @fighting == true
         @enemies.each { |e| e.draw() }
       end
