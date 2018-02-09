@@ -24,6 +24,10 @@ class Window < Gosu::Window
     @hasKey = false
     @pToDelete = @eToDelete = []
     @log = Log.new(@xStart+580,@yStart+605)
+    @bg = Gosu::Image.new("assets/MainMenu.png")
+    @tab1 = Gosu::Image.new("assets/tab.png")
+    @tab2 = Gosu::Image.new("assets/tab.png")
+    @tab3 = Gosu::Image.new("assets/tab.png")
     @splashKey = SplashScreen.new(Gosu::Image.new("assets/Items/Keycard.png", :tileable => true), "Vous récupérez la clé de l'étage !")
     @splashItem = SplashScreen.new(nil, "")
     @splashFriend = SplashScreen.new(Gosu::Image.new("assets/Friend.png", :tileable => true), "Vous avez trouvé un équipier !")
@@ -242,12 +246,11 @@ class Window < Gosu::Window
   end
 
   def draw
-
       if @boutonJouerClique==false
-        Gosu::Image.new("assets/MainMenu.png").draw(0,0,@zBackground,1,1.027397260273973)
-        Gosu::Image.new("assets/tab.png").draw(500,530,2999,1,1)
-        Gosu::Image.new("assets/tab.png").draw(500,600,2999,1,1)
-        Gosu::Image.new("assets/tab.png").draw(500,670,2999,1,1)
+        @bg.draw(0,0,@zBackground,1,1.02)
+        @tab1.draw(500,530,2999,1,1)
+        @tab2.draw(500,600,2999,1,1)
+        @tab3.draw(500,670,2999,1,1)
         #draw_rect(0,0,3000,3000,Gosu::Color::WHITE, @zBackground, :default)
         @boutonJouer.draw
         @boutonCredits.draw

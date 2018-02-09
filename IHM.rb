@@ -395,16 +395,6 @@ Gosu::Image.from_text().draw()
 
 Gamejam 2018 Groupe 10: Stardust CrusaderZ
 
-<<<<<<< HEAD
-GOUZON Alexis programmeur systeme
-RAKOTOMALALA Gaetan programmeur IHM
-SHERMAN Nathaniel Concepteur
-TECHER Antoine Artiste
-
-Musiques libres de droits provenant du site DL Sounds
-
-Effets sonore libres de droits provenant des sites
-=======
 GOUZON Alexis - programmeur systeme
 RAKOTOMALALA Gaetan - programmeur IHM
 SHERMAN Nathaniel - Concepteur
@@ -415,16 +405,11 @@ Musiques libres de droits provenant du site
 
 Effets sonores libres de droits
 provenant des sites
->>>>>>> 60ccd8222f9e6922f07714fc1310b41b42eb4bc3
 - GR Sites
 - Free Sound
 - Sound Bible
 
-<<<<<<< HEAD
-Images libres de droit provenant des site
-=======
 Images libres de droits provenant des sites
->>>>>>> 60ccd8222f9e6922f07714fc1310b41b42eb4bc3
 - Open Game Art
 - Pexels
 
