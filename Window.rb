@@ -31,13 +31,13 @@ class Window < Gosu::Window
     @splashWin = SplashScreen.new(nil, "Vous avez repris le contrôle d'Ascension-3 ! Bravo !")
     @splashLoose = SplashScreen.new(nil, "Vous avez perdu !")
     @font = Gosu::Font.new(20)
-    @boutonJouer = Button.new("Jouer", 500,500,160,50,3000, Gosu::Color::BLUE, @font)
-    @boutonCredits = Button.new("Crédits", 500,570,160,50,3000, Gosu::Color::BLUE, @font)
-    @boutonQuitter = Button.new("Quitter", 500,640,160,50,3000, Gosu::Color::BLUE, @font)
+    @boutonJouer = Button.new("Jouer", 500,530,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
+    @boutonCredits = Button.new("Crédits", 500,600,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
+    @boutonQuitter = Button.new("Quitter", 500,670,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
     @boutonJouerClique=false
     @boutonCreditsClique=false
     @boutonQuitterClique=false
-    @zBackground = 3000
+    @zBackground = 2998
 
     @MainTheme = Gosu::Song.new("media/Soundtracks/My Little Adventure.mp3")
     @MainTheme.volume = 0.25
@@ -235,25 +235,19 @@ class Window < Gosu::Window
     @ihm.update(@players[0].x,@players[0].y, @currentPlayer, @players, @enemies, @fighting)
     @log.update(@players[0].x+480,@players[0].y+357)
 
+    if @boutonQuitterClique==true
+      exit
+    end
+
   end
 
   def draw
-=begin
-def draw
-	bouton jouer pressé == false
-	if bouton jouer pressé == false
-		élément
-		élément
-		élément
-		boutonJouer
-		boutonJouer pressé = true
-	end
 
-  if true
-    dessiner reste
-=end
       if @boutonJouerClique==false
-        Gosu::Image.new("assets/MainMenu.png").draw(0,0,@zBackground,0.2403846153846154,0.2467105263157895)
+        Gosu::Image.new("assets/MainMenu.png").draw(0,0,@zBackground,1,1.027397260273973)
+        Gosu::Image.new("assets/tab.png").draw(500,530,2999,1,1)
+        Gosu::Image.new("assets/tab.png").draw(500,600,2999,1,1)
+        Gosu::Image.new("assets/tab.png").draw(500,670,2999,1,1)
         #draw_rect(0,0,3000,3000,Gosu::Color::WHITE, @zBackground, :default)
         @boutonJouer.draw
         @boutonCredits.draw
@@ -285,7 +279,9 @@ def draw
           if @fighting == true
             @enemies.each { |e| e.draw() }
           end
+
       end
+
 
     end
 
@@ -294,6 +290,9 @@ def draw
       when Gosu::KB_ESCAPE
         close
         when Gosu::MS_LEFT
+          if @boutonCreditsClique == true
+            @boutonCreditsClique = false
+          end
           if @boutonJouerClique==true
             @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
             if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
