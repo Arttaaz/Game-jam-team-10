@@ -95,12 +95,6 @@ class Window < Gosu::Window
   end
 
   def update
-
-    if @boutonJouerClique
-      @PlayingTheme.play(true)
-    else
-      @MainTheme.play(true)
-    end
     @splashKey.update
     @splashFriend.update
     @splashLoose.update
@@ -171,6 +165,7 @@ class Window < Gosu::Window
           puts "you win!"
           reset
           @boutonJouerClique = false
+          @MainTheme.play(true)
         end
         @fighting = false
         luck = rand(100)
@@ -217,6 +212,7 @@ class Window < Gosu::Window
         reset
         puts "u loose"
         @boutonJouerClique = false
+        @MainTheme.play(true)
       end
     }
     @enemies.each { |e|
@@ -320,6 +316,7 @@ def draw
           else
             if @boutonJouer.isClickedTS?(self.mouse_x,self.mouse_y)==true
               @boutonJouerClique=true
+              @PlayingTheme.play(true)
               @zBackground=0
             elsif @boutonCredits.isClickedTS?(self.mouse_x,self.mouse_y)==true
               @boutonCreditsClique=true
