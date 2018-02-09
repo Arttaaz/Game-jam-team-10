@@ -24,6 +24,7 @@ class Window < Gosu::Window
     @hasKey = false
     @pToDelete = @eToDelete = []
     @log = Log.new(@xStart+580,@yStart+605)
+    @crd = Gosu::Image.new("assets/Credits.png")
     @bg = Gosu::Image.new("assets/MainMenu.png")
     @tab1 = Gosu::Image.new("assets/tab.png")
     @tab2 = Gosu::Image.new("assets/tab.png")
@@ -255,8 +256,7 @@ class Window < Gosu::Window
         @boutonJouer.draw
         @boutonCredits.draw
         @boutonQuitter.draw
-      end
-      if @boutonJouerClique==true
+      else
         Gosu.translate(-@players[0].x+100, -@players[0].y+250) do
           @map.draw()
           @players.each { |p| p.draw() }
@@ -282,11 +282,10 @@ class Window < Gosu::Window
           if @fighting == true
             @enemies.each { |e| e.draw() }
           end
-        if @boutonCreditsClique==true
-          Gosu::Image.new("assets/Credits.png").draw(0,0,9001,1,1)                               #IT'S OVER 9000 !!!!!
+        end
       end
-
-
+      if @boutonCreditsClique==true
+        @crd.draw(0,0,9001,1,1)                               #IT'S OVER 9000 !!!!!
     end
 
     def button_down(id)
@@ -296,7 +295,7 @@ class Window < Gosu::Window
         when Gosu::MS_LEFT
           if @boutonCreditsClique == true
             @boutonCreditsClique = false
-          end
+          else
           if @boutonJouerClique==true
             @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
             if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
@@ -328,6 +327,7 @@ class Window < Gosu::Window
             end
           end
         @players.each { |p| @currentPlayer = p if p.isClicked?(self.mouse_x, self.mouse_y, @players[0].x) && @fighting == false}
+        end
       when Gosu::KB_LEFT
         if @moveLeft && @boutonJouerClique==true
           @players.each { |p| p.vel_x = -10 }
@@ -408,5 +408,4 @@ class Window < Gosu::Window
   def needs_cursor?
     true
   end
-end
 end
