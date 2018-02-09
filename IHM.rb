@@ -14,9 +14,9 @@ class IHM < Gosu::Window
     @enemies = enemies
     @players = players
     @player = player
-    @personnage = Button.new("Personnage", @x-100,@y+350,160,50,2,Gosu::Color::WHITE, @font)
-    @stats = Button.new("Stats", @x+70,@y+350,150,50,2,Gosu::Color::WHITE, @font)
-    @skills = Button.new("Capacités", @x+275,@y+350,150,50,2,Gosu::Color::WHITE, @font)
+    @personnage = Button.new("Personnage", @x-100,@y+350,160,50,2,Gosu::Color.argb(0x00_000000), @font)
+    @stats = Button.new("Stats", @x+65,@y+350,150,50,2,Gosu::Color.argb(0x00_000000), @font)
+    @skills = Button.new("Capacités", @x+280,@y+350,150,50,2,Gosu::Color.argb(0x00_000000), @font)
 
     @box = 0
     @fighting = fighting
@@ -30,6 +30,10 @@ class IHM < Gosu::Window
     @stats.draw
     @skills.draw
 
+    Gosu::Image.new("assets/tab.png").draw(@x-100,@y+350,0,1,1)
+    Gosu::Image.new("assets/tab.png").draw(@x+65,@y+350,0,1,1)
+    Gosu::Image.new("assets/tab.png").draw(@x+235,@y+350,0,1,1)
+
     self.box
   end
 
@@ -40,7 +44,7 @@ class IHM < Gosu::Window
     @players = players
     @enemies = enemies
     @personnage.update(x-100, y+350)
-    @stats.update(x+70, y+350)
+    @stats.update(x+65, y+350)
     @skills.update(x+230, y+350)
     @fighting = fighting
     @log.update(@x+480,@y+357)
@@ -391,20 +395,21 @@ Gosu::Image.from_text().draw()
 
 Gamejam 2018 Groupe 10: Stardust CrusaderZ
 
-GOUZON Alexis programmeur systeme
-RAKOTOMALALA Gaetan programmeur IHM
-SHERMAN Nathaniel Concepteur
-TECHER Antoine Artiste
+GOUZON Alexis - programmeur systeme
+RAKOTOMALALA Gaetan - programmeur IHM
+SHERMAN Nathaniel - Concepteur
+TECHER Antoine - Artiste
 
-Musiques libre de droit provenant du site
+Musiques libres de droits provenant du site
 - DL Sounds
 
-Effets sonores libres de droits provenant des sites
+Effets sonores libres de droits
+provenant des sites
 - GR Sites
 - Free Sound
 - Sound Bible
 
-Images libre de droit provenant des site
+Images libres de droits provenant des sites
 - Open Game Art
 - Pexels
 
