@@ -294,6 +294,9 @@ class Window < Gosu::Window
       when Gosu::KB_ESCAPE
         close
         when Gosu::MS_LEFT
+          if @boutonCreditsClique == true
+            @boutonCreditsClique = false
+          end
           if @boutonJouerClique==true
             @ihm.click(self.mouse_x, self.mouse_y, -@players[0].x+100, -@players[0].y+250)
             if @moveLeft && self.mouse_x >= 30 && self.mouse_x <= 80
