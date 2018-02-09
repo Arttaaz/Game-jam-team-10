@@ -283,7 +283,8 @@ class Window < Gosu::Window
           if @fighting == true
             @enemies.each { |e| e.draw() }
           end
-
+        if @boutonCreditsClique==true
+          Gosu::Image.new("assets/Credits.png").draw(0,0,9001,1,1)                               #IT'S OVER 9000 !!!!!
       end
 
 
@@ -407,4 +408,5 @@ class Window < Gosu::Window
   def needs_cursor?
     true
   end
+end
 end
