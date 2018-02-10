@@ -99,6 +99,16 @@ class Window < Gosu::Window
     @enemyRace = ["Robot", "Infested"].shuffle.first
   end
 
+  def pause
+    #transparent grey screen with hight priority
+    #elements below have a slightly hier priority to make them appear above the grey screen
+    #write big pause word
+    #continue button
+    #restart button
+    #quit button
+    #make everything disappear when continue or restart are clicked on
+  end
+
   def update
     @splashKey.update
     @splashFriend.update
@@ -291,7 +301,7 @@ class Window < Gosu::Window
     def button_down(id)
       case(id)
       when Gosu::KB_ESCAPE
-        reset #was close
+        close
         when Gosu::MS_LEFT
           if @boutonCreditsClique == true
             @boutonCreditsClique = false
