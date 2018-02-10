@@ -56,8 +56,8 @@ $SkillList = [
 
 class Player
 
-  attr_reader :name, :level, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
-  attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus
+  attr_reader :name, :level, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus, :reqExp
+  attr_accessor :name, :active, :x, :vel_x, :vel_y, :distance, :y, :health, :maxHealth, :maxPower, :power, :powRegen, :dmgReduc, :maxShield, :shield, :speed, :phy_def, :eng_def, :damage, :skills, :items, :class, :race, :exp, :expBonus, :reqExp
 
   def initialize(x, y, race = "d")
     @skills = [] #array is like [ [active/passive, skill object], [active/passive, skill object]]
@@ -107,6 +107,7 @@ class Player
     redefStats(@race)
     gainSkill
     @color = 0xff_ffffff
+    @reqExp = 15
   end
 
   def move(x,y)
@@ -148,9 +149,9 @@ class Player
       end
     }
 
-    if @exp >= 10
+    if @exp >= @reqExp
       self.levelup
-      @exp = -10
+      @reqExp=2*@reqExp# + @level
     end
 
     if @vel_x != 0
@@ -415,7 +416,7 @@ class Player
       @powRegen+=4
       @maxShield+=10
       @speed-=2
-    when "Lampe bleue"
+    when "Lampe blue" #Lampe bleue
       @maxHealth+=25
       @powRegen+=5
       @damage+=3

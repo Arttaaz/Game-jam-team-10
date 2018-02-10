@@ -36,9 +36,9 @@ class Window < Gosu::Window
     @splashWin = SplashScreen.new(nil, "Vous avez repris le contrôle d'Ascension-3 ! Bravo !")
     @splashLoose = SplashScreen.new(nil, "Vous avez perdu !")
     @font = Gosu::Font.new(20)
-    @boutonJouer = Button.new("Jouer", 500,530,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
-    @boutonCredits = Button.new("Crédits", 500,600,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
-    @boutonQuitter = Button.new("Quitter", 500,670,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
+    @boutonJouer = Button.new("     Jouer", 500,530,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
+    @boutonCredits = Button.new("    Crédits", 500,600,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
+    @boutonQuitter = Button.new("     Quitter", 500,670,160,50,3000, Gosu::Color.argb(0x00_000000), @font)
     @boutonJouerClique=false
     @boutonCreditsClique=false
     @boutonQuitterClique=false
@@ -192,7 +192,7 @@ class Window < Gosu::Window
         end
         @players.each { |p|
           p.exp += 4+rand(3)
-          if p.exp > 10
+          if p.exp > p.reqExp
             @splashLevelUp.show
           end
          }
@@ -291,7 +291,7 @@ class Window < Gosu::Window
     def button_down(id)
       case(id)
       when Gosu::KB_ESCAPE
-        close
+        reset #was close
         when Gosu::MS_LEFT
           if @boutonCreditsClique == true
             @boutonCreditsClique = false

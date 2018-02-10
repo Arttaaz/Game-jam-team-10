@@ -15,8 +15,8 @@ class IHM < Gosu::Window
     @players = players
     @player = player
     @personnage = Button.new("Personnage", @x-100,@y+350,160,50,2,Gosu::Color.argb(0x00_000000), @font)
-    @stats = Button.new("Stats", @x+65,@y+350,150,50,2,Gosu::Color.argb(0x00_000000), @font)
-    @skills = Button.new("Capacités", @x+280,@y+350,150,50,2,Gosu::Color.argb(0x00_000000), @font)
+    @stats = Button.new("      Stats", @x+65,@y+350,150,50,2,Gosu::Color.argb(0x00_000000), @font)
+    @skills = Button.new("   Capacités", @x+280,@y+350,150,50,2,Gosu::Color.argb(0x00_000000), @font)
 
     @box = 0
     @fighting = fighting
@@ -225,7 +225,7 @@ class IHM < Gosu::Window
           @font.draw("Race: " + @players[n].race,  @x+d+90, @y+435, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Régén. power: " + @players[n].powRegen.to_s,  @x+d+90, @y+460, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Vitesse: " + @players[n].speed.to_s,  @x+d+90, @y+485, 1, 1.0, 1.0, Gosu::Color::BLACK)
-          @font.draw("Expérience: " + @players[n].exp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
+          @font.draw("Expérience: " + @players[n].exp.to_s + "/" + @players[n].reqExp.to_s,  @x+d+90, @y+510, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Bonus exp: " + @players[n].expBonus.to_s + "%",  @x+d+90, @y+535, 1, 1.0, 1.0, Gosu::Color::BLACK)
           @font.draw("Niveau " + @players[n].level.to_s, @x+d+90, @y+560, 1,1,1,Gosu::Color::BLACK)
           writeNameB(@players[n].name,@x+d+5, @y+590, 1.7,1.7,n)
