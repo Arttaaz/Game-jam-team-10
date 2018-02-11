@@ -100,7 +100,7 @@ class Window < Gosu::Window
   end
 
   def pause
-    #transparent grey screen with hight priority
+    #transparent grey screen with high priority
     #elements below have a slightly hier priority to make them appear above the grey screen
     #write big pause word
     #continue button
@@ -343,12 +343,39 @@ class Window < Gosu::Window
           @players.each { |p| p.vel_x = -10 }
           @newTile = true
         end
+      when Gosu::KB_Q
+        if @moveLeft && @boutonJouerClique==true
+          @players.each { |p| p.vel_x = -10 }
+          @newTile = true
+        end
+      when Gosu::KB_A
+        if @moveLeft && @boutonJouerClique==true
+          @players.each { |p| p.vel_x = -10 }
+          @newTile = true
+        end
       when Gosu::KB_RIGHT
         if @moveRight && @boutonJouerClique==true
           @players.each { |p| p.vel_x = 10 }
           @newTile = true
         end
+      when Gosu::KB_D
+        if @moveRight && @boutonJouerClique==true
+          @players.each { |p| p.vel_x = 10 }
+          @newTile = true
+        end
       when Gosu::KB_UP
+        if @moveUp && @boutonJouerClique==true
+          @players.each { |p| p.vel_y = -10 }
+          @newTile = true
+          @hasKey = false
+        end
+      when Gosu::KB_Z
+        if @moveUp && @boutonJouerClique==true
+          @players.each { |p| p.vel_y = -10 }
+          @newTile = true
+          @hasKey = false
+        end
+      when Gosu::KB_W
         if @moveUp && @boutonJouerClique==true
           @players.each { |p| p.vel_y = -10 }
           @newTile = true

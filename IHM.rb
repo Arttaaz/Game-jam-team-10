@@ -171,10 +171,14 @@ class IHM < Gosu::Window
         end
 
         dx=0
+        i=1
         @player.skills.each do |skill|
           if skill[0]==Type::ACTIVE
             skill[1].draw(@x+dx-90, @y+550)
+            draw_rect(@x+dx-47,@y+593,15,15,Gosu::Color::BLACK,5,:default)
+            @font.draw(i.to_s,@x+dx-43, @y+593,6,0.8,0.8,Gosu::Color.argb(0xff_ffffff))
             dx=dx+75
+            i+=1
           end
         end
 
@@ -298,7 +302,7 @@ class IHM < Gosu::Window
       when "Grenade militaire"
         @log.addLine("Grenade militaire: Inflige 70% de dégâts physiques a tous les ennemis")
       when "Attaque"
-        @log.addLine("Attaque: simple attaque")
+        @log.addLine("Attaque: simple attaque ne puisant pas dans la jauge de power")
       when "Grenade militaire"
         @log.addLine("Grenade militaire: Inflige 70% de dégâts physiques à tous les ennemis")
       when "Grenade photonique"
@@ -366,7 +370,7 @@ class IHM < Gosu::Window
       when "Vitalite"
         @log.addLine("Vitalité: Donne à l’utilisateur un bonus de 50% de sa vie maximale")
       when "Restoration"
-        @log.addLine("Restoration: Redonne a un allie 40% de ses boucliers")
+        @log.addLine("Restoration: Redonne à un allié 40% de ses boucliers")
       when "Redirection"
         @log.addLine("Redirection: Augmente la capacité maximale des boucliers de toute l’equipe de 20%")
       when "Augmentation"

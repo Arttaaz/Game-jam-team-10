@@ -151,7 +151,7 @@ class Player
 
     if @exp >= @reqExp
       self.levelup
-      @reqExp=2*@reqExp# + @level
+      @reqExp+=15
     end
 
     if @vel_x != 0
